@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy · Visora</title>
+  <meta name="description" content="Visora privacy policy." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="legal">
+    <h1>Privacy Policy</h1>
+    <p class="meta"><strong>Effective:</strong> [DATE BEFORE SUBMISSION] · <strong>Last updated:</strong> [DATE]</p>
+
+    <p>Visora is a daily ritual and vision board app made by Essea Labs Pty Ltd ("we", "us"). This policy explains what we collect, why, and the choices you have. It's written to be readable. If anything is unclear, email <a href="mailto:privacy@tryvisora.com">privacy@tryvisora.com</a>.</p>
+
+    <h2>What we collect and where it lives</h2>
+
+    <h3>On your device (never leaves)</h3>
+    <p>The following are stored locally on your device and <strong>never transmitted to our servers</strong>:</p>
+    <ul>
+      <li><strong>Vision photos</strong>: images you pick from your camera roll for your vision board.</li>
+      <li><strong>Win photos</strong>: images you attach when capturing a win.</li>
+      <li><strong>Vision text</strong>: names, identity statements, customisation of vision areas.</li>
+      <li><strong>Win text</strong>: what you type when capturing a win.</li>
+      <li><strong>Daily intention text</strong>: what you write at the end of the ritual.</li>
+      <li><strong>Ritual completion timestamps</strong>: used to show progress and roll the daily intention.</li>
+    </ul>
+    <p>These are stored using your device's local storage (AsyncStorage on iOS). Uninstalling the app deletes them.</p>
+
+    <h3>On our servers (only when authenticated)</h3>
+    <p>Once you sign in with Apple (planned feature, not active at MVP launch):</p>
+    <ul>
+      <li><strong>Your Apple user identifier</strong> (a stable opaque ID, not your Apple email).</li>
+      <li><strong>A sync copy of your visions, wins, and ritual sessions</strong> so you can use Visora on a new device.</li>
+    </ul>
+    <p>Server side data lives in <strong>Supabase</strong> (hosted in [REGION TO CONFIRM]) and is encrypted in transit (TLS) and at rest.</p>
+
+    <h3>From your subscription</h3>
+    <p>If you subscribe via the App Store, <strong>Apple</strong> processes payment. We do not see your credit card. We receive a subscription status (active / cancelled / lapsed) via <strong>RevenueCat</strong> so we can grant or revoke premium features.</p>
+
+    <h3>Crash &amp; performance data</h3>
+    <p>We use <strong>Sentry</strong> to collect crash reports and basic performance traces. Reports include app version, OS version, device model, the line of code that crashed, and a short trail of actions leading to the crash (no text content from your visions / wins / intentions). Opt out at the OS level: <em>Settings → Privacy &amp; Security → Analytics &amp; Improvements</em>.</p>
+
+    <h3>What we do NOT collect</h3>
+    <ul>
+      <li>Your location.</li>
+      <li>Your contacts.</li>
+      <li>Your microphone (we play audio; we don't record).</li>
+      <li>Your camera roll beyond the photos you explicitly pick.</li>
+      <li>Behavioural tracking for advertising.</li>
+      <li>Identifiers for tracking across other apps.</li>
+    </ul>
+
+    <hr />
+
+    <h2>Why we collect what we collect</h2>
+    <ul>
+      <li><strong>To make the app work.</strong> Your visions, wins, and intentions are the app.</li>
+      <li><strong>To sync across devices</strong> (when you sign in).</li>
+      <li><strong>To verify your subscription</strong> (Apple gives us a yes/no, nothing more).</li>
+      <li><strong>To fix crashes</strong> so we can improve the app for everyone.</li>
+    </ul>
+    <p>We do not sell your data. We do not run ads. We do not share data with brokers.</p>
+
+    <hr />
+
+    <h2>Permissions we request</h2>
+    <table>
+      <thead><tr><th>Permission</th><th>When</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Photos library (read)</strong></td><td>When you tap "Pick photos" on a vision or win</td><td>To let you choose which photos go on your vision board / accompany a win. We access only the photos you pick.</td></tr>
+        <tr><td><strong>Photos library (write)</strong> (optional)</td><td>If we ever offer "Save this win as a photo"</td><td>Currently unused.</td></tr>
+        <tr><td><strong>Notifications</strong> (planned)</td><td>When you opt in to morning ritual reminders</td><td>To remind you to do your daily ritual.</td></tr>
+        <tr><td><strong>Background audio</strong></td><td>While the ritual is playing</td><td>To let the ritual audio keep playing if you lock your phone or switch apps.</td></tr>
+      </tbody>
+    </table>
+    <p>You can revoke any of these at any time in your device's Settings.</p>
+
+    <hr />
+
+    <h2>Children</h2>
+    <p>Visora is rated 4+ but is designed for adults practising self reflection. We do not knowingly collect data from children under 13. If you believe a child has provided data to us, email <a href="mailto:privacy@tryvisora.com">privacy@tryvisora.com</a> and we will delete it.</p>
+
+    <hr />
+
+    <h2>Your rights</h2>
+    <p>You can:</p>
+    <ul>
+      <li><strong>Delete your account and all server data</strong>: once auth is live, via Settings → Delete account (or email us).</li>
+      <li><strong>Export your data</strong>: once auth is live, your data will be exportable as JSON.</li>
+      <li><strong>Stop crash reporting</strong>: iOS Settings → Privacy &amp; Security → Analytics &amp; Improvements → toggle off Share with App Developers.</li>
+      <li><strong>Withdraw photo access</strong>: iOS Settings → Visora → Photos.</li>
+    </ul>
+    <p>Residents of the EU/UK/California: you have additional rights under GDPR/CCPA (access, rectification, erasure, portability, objection). Email us to exercise them.</p>
+
+    <hr />
+
+    <h2>Data retention</h2>
+    <ul>
+      <li><strong>Local data</strong>: until you delete the app.</li>
+      <li><strong>Server data</strong>: until you delete your account.</li>
+      <li><strong>Crash reports</strong>: 90 days, then auto purged by Sentry.</li>
+    </ul>
+
+    <hr />
+
+    <h2>Third party services we use</h2>
+    <table>
+      <thead><tr><th>Service</th><th>Purpose</th><th>Data sent</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Apple App Store</strong></td><td>Distribution + payment</td><td>Your Apple ID (not visible to us), payment details (not visible to us)</td></tr>
+        <tr><td><strong>Supabase</strong></td><td>Sync + auth backend</td><td>Apple user ID, visions, wins, ritual sessions (after auth ships)</td></tr>
+        <tr><td><strong>RevenueCat</strong></td><td>Subscription management</td><td>Anonymous subscriber ID, App Store receipt</td></tr>
+        <tr><td><strong>Sentry</strong></td><td>Crash &amp; performance reporting</td><td>App version, OS, device, stack traces</td></tr>
+        <tr><td><strong>PostHog</strong></td><td>Anonymous product analytics (which features get used)</td><td>Anonymous session ID, screen views, app version, OS, device, with no text content from your visions / wins / intentions</td></tr>
+        <tr><td><strong>ElevenLabs</strong></td><td>Generates the ritual voice (one off, at build time)</td><td>Not used at runtime. No personal data sent.</td></tr>
+      </tbody>
+    </table>
+    <p>Each has its own privacy policy. We've chosen them because they have strong privacy track records.</p>
+
+    <hr />
+
+    <h2>Changes to this policy</h2>
+    <p>If we make material changes, we'll update the "Effective" date and notify you in app. Continued use after an update means you accept the changes.</p>
+
+    <hr />
+
+    <h2>Contact</h2>
+    <p>
+      <strong>Essea Labs Pty Ltd</strong><br />
+      [REGISTERED ADDRESS HERE]<br />
+      Email: <a href="mailto:privacy@tryvisora.com">privacy@tryvisora.com</a><br />
+      Data protection enquiries (GDPR/CCPA): <a href="mailto:dpo@tryvisora.com">dpo@tryvisora.com</a>
+    </p>
+
+    <footer>
+      <p class="footer-tagline">Practice becoming. Daily.</p>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/terms">Terms</a>
+        <a href="mailto:support@tryvisora.com">Support</a>
+      </nav>
+      <p class="copyright">© 2026 Essea Labs Pty Ltd</p>
+    </footer>
+  </main>
+</body>
+</html>

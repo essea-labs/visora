@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>v9 — Home · Wins · Vision · Win detail</title>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF6EF;
+    --bg-soft: #F4EEE2;
+    --surface: #FFFFFF;
+    --hairline: rgba(62,47,34,0.08);
+    --hairline-soft: rgba(62,47,34,0.04);
+
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --terra-pale: #F5DBC9;
+
+    --sage: #7A9470;
+    --sage-deep: #556B4F;
+    --sage-pale: #D8E4D2;
+
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --amber-pale: #F5E4CF;
+
+    --ink: #3E2F22;
+    --ink-soft: #6B5847;
+    --muted: #9A8D7E;
+    --muted-soft: #C9BEB0;
+
+    --paper: #FCF5E8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'General Sans', sans-serif;
+    background: #E8DDC9;
+    padding: 40px 20px 60px;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-head { text-align: center; max-width: 760px; margin: 0 auto 40px; }
+  .page-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.8px;
+    text-transform: uppercase; color: var(--terra-deep); margin-bottom: 10px;
+  }
+  .page-title {
+    font-size: 36px; font-weight: 500; line-height: 1.1;
+    letter-spacing: -0.8px; margin-bottom: 14px;
+  }
+  .page-sub {
+    font-size: 14px; color: var(--ink-soft); line-height: 1.6;
+    max-width: 620px; margin: 0 auto;
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 400px);
+    justify-content: center;
+    gap: 36px;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  .tab-col { display: flex; flex-direction: column; gap: 14px; }
+  .tab-header { padding: 0 6px; min-height: 78px; }
+  .tab-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.8px;
+    text-transform: uppercase; color: var(--terra-deep); margin-bottom: 4px;
+  }
+  .tab-name {
+    font-size: 20px; font-weight: 600;
+    letter-spacing: -0.5px; margin-bottom: 6px;
+  }
+  .tab-desc {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.5;
+  }
+
+  /* ========== DEVICE ========== */
+  .device {
+    width: 390px; height: 844px;
+    border-radius: 48px;
+    background: var(--bg);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow:
+      0 0 0 1px rgba(62,47,34,0.04),
+      0 30px 60px -10px rgba(62,47,34,0.20);
+  }
+  .device .bg-wash {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 500px 280px at 20% -5%, rgba(232,160,122,0.10), transparent 60%),
+      radial-gradient(ellipse 500px 300px at 50% 120%, rgba(122,148,112,0.06), transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+  .scroll {
+    flex: 1; overflow-y: auto;
+    position: relative; z-index: 2;
+    padding-bottom: 120px;
+  }
+  .scroll.no-tabbar { padding-bottom: 40px; }
+  .scroll::-webkit-scrollbar { display: none; }
+
+  /* ========== STATUS BAR ========== */
+  .status {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 28px 8px;
+    font-size: 14px; font-weight: 600; color: var(--ink);
+    letter-spacing: -0.2px;
+    position: sticky; top: 0; z-index: 10;
+    background: linear-gradient(to bottom, var(--bg) 75%, rgba(250,246,239,0.5));
+    backdrop-filter: blur(10px);
+  }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+
+  /* ========== SHARED ICON BUTTON ========== */
+  .icon-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink); cursor: pointer; flex-shrink: 0;
+  }
+  .icon-btn svg { width: 16px; height: 16px; stroke-width: 2; }
+
+  /* ========== HOME — TOP ROW ========== */
+  .top-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 10px 28px 20px; gap: 16px;
+  }
+  .top-meta {
+    font-size: 11px; font-weight: 600; color: var(--muted);
+    letter-spacing: 1.4px; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .top-title {
+    font-size: 28px; font-weight: 500; line-height: 1.1;
+    letter-spacing: -0.7px; color: var(--ink); display: block;
+  }
+  .greet-name-line { display: inline-flex; align-items: baseline; }
+  .streak-inline {
+    display: inline-flex; align-items: center; gap: 3px;
+    margin-left: 10px; padding: 3px 9px 3px 7px;
+    border-radius: 10px;
+    background: var(--amber-pale); color: var(--amber-deep);
+    font-size: 13px; font-weight: 700; letter-spacing: -0.1px;
+    position: relative; top: -6px;
+  }
+  .avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--terra), var(--terra-deep));
+    color: white; font-size: 15px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; cursor: pointer; position: relative;
+    box-shadow: 0 3px 10px rgba(192,104,72,0.25);
+  }
+  .avatar-dot {
+    position: absolute; top: -3px; right: -3px;
+    background: var(--amber); color: white;
+    font-size: 10px; font-weight: 700;
+    padding: 1px 6px; border-radius: 7px;
+    border: 2px solid var(--bg);
+  }
+
+  /* ========== STATS STRIP (now at top, no label) ========== */
+  .stats-section { padding: 0 24px 26px; }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .stat-tile {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 14px 14px 12px;
+    box-shadow: 0 2px 6px rgba(62,47,34,0.03);
+  }
+  .stat-tile.accent-terra { background: linear-gradient(160deg, #FDF1EB, #F7DFC4); border-color: rgba(192,104,72,0.15); }
+  .stat-tile.accent-sage { background: linear-gradient(160deg, #E9EFE4, #D8E4D2); border-color: rgba(122,148,112,0.15); }
+  .stat-tile.accent-amber { background: linear-gradient(160deg, #FCECD9, #F5E4CF); border-color: rgba(216,154,90,0.2); }
+  .stat-value {
+    font-size: 26px; font-weight: 600; letter-spacing: -0.9px;
+    color: var(--ink); line-height: 1;
+    display: flex; align-items: baseline; gap: 3px;
+  }
+  .stat-value-unit {
+    font-size: 11px; font-weight: 500; color: var(--muted);
+    letter-spacing: 0;
+  }
+  .stat-label {
+    font-size: 10.5px; font-weight: 600; color: var(--ink-soft);
+    letter-spacing: 0.6px; text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .stat-tile.accent-terra .stat-label { color: var(--terra-deep); }
+  .stat-tile.accent-sage .stat-label { color: var(--sage-deep); }
+  .stat-tile.accent-amber .stat-label { color: var(--amber-deep); }
+
+  /* ========== DAILY QUOTE — sage ========== */
+  .quote-card {
+    margin: 4px 24px 28px;
+    padding: 28px 24px 22px;
+    background: linear-gradient(160deg, #7A9470 0%, #556B4F 100%);
+    border-radius: 22px; text-align: left;
+    position: relative; overflow: hidden;
+    box-shadow:
+      0 10px 26px rgba(85,107,79,0.28),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .quote-card::before {
+    content: '\201C';
+    position: absolute; top: -14px; left: 14px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 130px; font-weight: 700;
+    color: rgba(255,255,255,0.10);
+    line-height: 1; pointer-events: none;
+  }
+  .quote-card::after {
+    content: '';
+    position: absolute; right: -40px; bottom: -60px;
+    width: 180px; height: 180px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(216,154,90,0.28), transparent 70%);
+    pointer-events: none;
+  }
+  .quote-card-text {
+    font-size: 17px; font-weight: 400; font-style: italic;
+    color: #FAF6EF; line-height: 1.5; letter-spacing: -0.25px;
+    margin: 6px 0 16px; position: relative; z-index: 2;
+  }
+  .quote-card-meta {
+    display: flex; align-items: center; gap: 9px;
+    font-size: 10.5px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: rgba(250,246,239,0.78);
+    position: relative; z-index: 2;
+  }
+  .quote-card-meta-dot {
+    width: 3px; height: 3px; border-radius: 50%; background: var(--amber);
+  }
+  .quote-card-author { color: #F5E4CF; font-weight: 700; }
+
+  /* ========== SECTION HEAD w/ subtitle ========== */
+  .section-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding: 0 28px 6px;
+  }
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.4px;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .section-meta {
+    color: var(--muted); font-weight: 500;
+    font-size: 11.5px; letter-spacing: -0.1px;
+  }
+  .section-subtitle {
+    padding: 0 28px 14px;
+    font-size: 13px; color: var(--ink-soft);
+    line-height: 1.5; font-style: italic;
+    letter-spacing: -0.1px;
+  }
+
+  /* ========== INTENTIONS — paper slips ========== */
+  .slips-wrap { padding: 0 24px; margin-bottom: 20px; }
+  .slip {
+    background: var(--paper);
+    border: 1px solid rgba(216,154,90,0.15);
+    border-radius: 8px;
+    padding: 14px 16px 16px; margin-bottom: 12px;
+    box-shadow: 0 3px 8px rgba(62,47,34,0.08);
+    position: relative; cursor: pointer;
+  }
+  .slip:nth-child(1) { transform: rotate(-1.2deg); margin-left: 2px; }
+  .slip:nth-child(2) { transform: rotate(0.6deg); margin-left: -2px; }
+  .slip:nth-child(3) { transform: rotate(-0.4deg); margin-left: 1px; }
+  .slip::before {
+    content: ''; position: absolute; top: -6px; left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 22px; height: 10px;
+    background: rgba(216,154,90,0.25);
+    border-radius: 1px;
+  }
+  .slip-top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px;
+  }
+  .slip-num {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1.2px; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--amber-deep);
+  }
+  .slip-num.identity { color: var(--amber-deep); }
+  .slip-num.action { color: var(--terra-deep); }
+  .slip-num-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: currentColor; opacity: 0.6;
+  }
+  .slip-edit {
+    width: 22px; height: 22px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--amber-deep); opacity: 0.5;
+  }
+  .slip-edit svg { width: 12px; height: 12px; stroke-width: 2.2; }
+  .slip-text {
+    font-size: 14.5px; color: var(--ink);
+    line-height: 1.5; letter-spacing: -0.2px; font-style: italic;
+  }
+
+  /* ========== WINS TAB ========== */
+  .wins-head-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 28px 24px;
+  }
+  .wins-title {
+    font-size: 30px; font-weight: 600;
+    letter-spacing: -0.8px; color: var(--ink);
+  }
+  .wins-head-actions { display: flex; gap: 8px; }
+
+  .day-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 0 28px 10px;
+    margin-top: 18px;
+  }
+  .day-header:first-of-type { margin-top: 0; }
+  .day-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1.4px; text-transform: uppercase;
+    color: var(--ink);
+  }
+  .day-label.today { color: var(--terra-deep); }
+  .day-label-count {
+    font-size: 11px; color: var(--muted); font-weight: 500;
+  }
+
+  .gallery-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 0 24px 8px;
+  }
+  .gallery-tile {
+    aspect-ratio: 1;
+    border-radius: 14px;
+    background-size: cover; background-position: center;
+    position: relative; overflow: hidden; cursor: pointer;
+    border: 1px solid var(--hairline);
+  }
+  .gallery-tile.text {
+    padding: 14px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .gallery-tile.text.terra { background: linear-gradient(135deg, #FDF1EB, #F7DFC4); border-color: rgba(192,104,72,0.15); }
+  .gallery-tile.text.sage { background: linear-gradient(135deg, #E9EFE4, #D8E4D2); border-color: rgba(122,148,112,0.15); }
+  .gallery-tile.text.amber { background: linear-gradient(135deg, #FCECD9, #F5E4CF); border-color: rgba(216,154,90,0.2); }
+  .gallery-tile-date {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .gallery-tile.text.terra .gallery-tile-date { color: var(--terra-deep); }
+  .gallery-tile.text.sage .gallery-tile-date { color: var(--sage-deep); }
+  .gallery-tile.text.amber .gallery-tile-date { color: var(--amber-deep); }
+  .gallery-tile-text {
+    font-size: 13px; font-weight: 500;
+    color: var(--ink); line-height: 1.35; letter-spacing: -0.1px;
+    display: -webkit-box; -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .gallery-tile.photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.6));
+  }
+  .gallery-tile-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 10px 12px; color: white; z-index: 2;
+  }
+  .gallery-tile-overlay-date {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    color: rgba(255,255,255,0.75); margin-bottom: 2px;
+  }
+  .gallery-tile-overlay-text {
+    font-size: 12px; color: white; line-height: 1.3;
+    font-weight: 500; letter-spacing: -0.1px;
+  }
+
+  /* ========== VISION BOARD ========== */
+  .board {
+    padding: 0 20px 30px;
+    position: relative;
+  }
+  .board-affirm {
+    background: var(--paper);
+    border: 1px solid rgba(216,154,90,0.15);
+    border-radius: 8px;
+    padding: 16px 18px 18px;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.4;
+    letter-spacing: -0.2px;
+    box-shadow: 0 4px 10px rgba(62,47,34,0.08);
+    position: relative;
+    margin-bottom: 14px;
+  }
+  .board-affirm::before {
+    content: ''; position: absolute; top: -7px; left: 22px;
+    transform: rotate(-3deg);
+    width: 26px; height: 11px;
+    background: rgba(216,154,90,0.28);
+    border-radius: 1px;
+  }
+  .board-affirm.tilt-l { transform: rotate(-1.8deg); margin-left: 14px; margin-right: 40px; }
+  .board-affirm.tilt-r { transform: rotate(1.6deg); margin-left: 34px; margin-right: 16px; }
+
+  .board-vision {
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 6px 18px rgba(62,47,34,0.10);
+    cursor: pointer;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .board-vision-image {
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .board-vision.hero .board-vision-image { height: 240px; }
+  .board-vision.med .board-vision-image { height: 180px; }
+  .board-vision-tag {
+    position: absolute; top: 12px; left: 12px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    font-size: 10px; font-weight: 700;
+    padding: 4px 9px; border-radius: 6px;
+    color: var(--terra-deep);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .board-vision-title-bar {
+    padding: 14px 18px 16px;
+  }
+  .board-vision-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+    line-height: 1.3;
+  }
+  .board-vision-affirm {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.45;
+    letter-spacing: -0.1px;
+    margin-top: 6px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(216,154,90,0.35);
+  }
+
+  /* Vision-tab visualization reminder */
+  .vision-prompt {
+    margin: 0 24px 18px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: rgba(122,148,112,0.10);
+    border: 1px solid rgba(122,148,112,0.18);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .vision-prompt-icon {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--sage); color: white;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .vision-prompt-icon svg { width: 14px; height: 14px; stroke-width: 2.2; }
+  .vision-prompt-body { flex: 1; }
+  .vision-prompt-title {
+    font-size: 13px; font-weight: 600; color: var(--sage-deep);
+    letter-spacing: -0.1px; margin-bottom: 1px;
+  }
+  .vision-prompt-sub {
+    font-size: 12px; color: var(--ink-soft);
+    line-height: 1.4; font-style: italic;
+  }
+  .board-vision.tilt-l { transform: rotate(-0.8deg); }
+  .board-vision.tilt-r { transform: rotate(0.9deg); }
+
+  .board-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .board-vision.small {
+    margin-bottom: 0;
+  }
+  .board-vision.small .board-vision-image { height: 140px; }
+  .board-vision.small .board-vision-title-bar { padding: 12px 14px 14px; }
+  .board-vision.small .board-vision-title { font-size: 14px; letter-spacing: -0.2px; }
+
+  .board-add {
+    margin: 20px 6px 0;
+    padding: 22px;
+    border-radius: 20px;
+    border: 1.5px dashed var(--muted-soft);
+    background: transparent;
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer;
+  }
+  .board-add-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--bg-soft);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+  }
+  .board-add-icon svg { width: 18px; height: 18px; stroke-width: 2.2; }
+  .board-add-body { display: flex; flex-direction: column; gap: 2px; }
+  .board-add-title {
+    font-size: 15px; font-weight: 600; color: var(--ink);
+    letter-spacing: -0.2px;
+  }
+  .board-add-sub {
+    font-size: 12px; color: var(--muted);
+  }
+
+  /* ========== WIN DETAIL ========== */
+  .detail-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 20px 12px;
+  }
+  .detail-back {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink); cursor: pointer;
+  }
+  .detail-back svg { width: 16px; height: 16px; stroke-width: 2.2; }
+  .detail-actions { display: flex; gap: 8px; }
+
+  .detail-hero {
+    margin: 4px 20px 20px;
+    aspect-ratio: 4/5;
+    border-radius: 22px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    box-shadow: 0 12px 30px rgba(62,47,34,0.18);
+  }
+  .detail-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.55));
+  }
+  .detail-hero-meta {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 18px 20px;
+    z-index: 2;
+    color: white;
+  }
+  .detail-hero-date {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(255,255,255,0.8); margin-bottom: 4px;
+  }
+  .detail-hero-text {
+    font-size: 22px; font-weight: 500; line-height: 1.25;
+    letter-spacing: -0.5px;
+    color: white;
+  }
+  .detail-body {
+    padding: 0 24px 20px;
+  }
+  .detail-note {
+    font-size: 15px; color: var(--ink);
+    line-height: 1.6; letter-spacing: -0.2px;
+    margin-bottom: 22px;
+  }
+  .detail-linked {
+    background: var(--bg-soft);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 14px;
+    cursor: pointer;
+  }
+  .detail-linked-icon {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: var(--terra);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .detail-linked-icon svg { width: 16px; height: 16px; stroke-width: 2; }
+  .detail-linked-body { flex: 1; }
+  .detail-linked-label {
+    font-size: 10px; font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 1.2px; text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .detail-linked-title {
+    font-size: 14px; font-weight: 600; color: var(--ink);
+    letter-spacing: -0.2px;
+  }
+  .detail-linked-arrow {
+    color: var(--muted);
+  }
+  .detail-linked-arrow svg { width: 16px; height: 16px; stroke-width: 2.2; }
+
+  .detail-tags-row {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .detail-tag {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--terra-pale);
+    color: var(--terra-deep);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .detail-tag.sage { background: var(--sage-pale); color: var(--sage-deep); }
+
+  .detail-footer-row {
+    display: flex; gap: 10px;
+    padding: 0 24px;
+  }
+  .detail-action-btn {
+    flex: 1; height: 48px;
+    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px;
+    font-family: 'General Sans', sans-serif;
+    font-size: 14px; font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.1px;
+    cursor: pointer;
+  }
+  .detail-action-btn svg { width: 15px; height: 15px; stroke-width: 2.2; }
+  .detail-action-btn.danger { color: var(--terra-deep); }
+
+  /* ========== FAB (Wins tab only, labeled "Add win") ========== */
+  .fab {
+    position: absolute;
+    right: 24px;
+    bottom: 94px;
+    height: 56px;
+    padding: 0 22px 0 18px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--terra) 0%, var(--terra-light) 100%);
+    color: white;
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'General Sans', sans-serif;
+    font-size: 15px; font-weight: 600; letter-spacing: -0.1px;
+    z-index: 50;
+    box-shadow:
+      0 10px 28px rgba(192,104,72,0.35),
+      0 4px 10px rgba(158,79,50,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.22);
+    cursor: pointer; border: none;
+  }
+  .fab svg { width: 18px; height: 18px; stroke-width: 2.6; }
+
+  /* ========== BOTTOM TAB BAR ========== */
+  .tab-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 78px;
+    background: rgba(250,246,239,0.92);
+    backdrop-filter: blur(24px);
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    padding: 10px 16px 24px;
+    z-index: 40;
+  }
+  .tab-item {
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+  .tab-item svg { width: 22px; height: 22px; stroke-width: 2; }
+  .tab-item span {
+    font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+  .tab-item.active { color: var(--terra-deep); }
+  .tab-item.active svg { stroke-width: 2.4; }
+
+  /* ========== LOOP CALLOUTS (dashed annotations in page head) ========== */
+  .loop-diagram {
+    margin: 32px auto 8px;
+    max-width: 560px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 18px;
+    font-size: 12px; color: var(--ink-soft);
+    font-weight: 500;
+    flex-wrap: wrap;
+  }
+  .loop-step {
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    letter-spacing: -0.1px;
+  }
+  .loop-step strong {
+    color: var(--terra-deep);
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .loop-arrow {
+    color: var(--muted);
+    font-size: 16px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div class="page-eyebrow">v9 · Three-tab architecture + win detail</div>
+  <div class="page-title">Home · Wins · Vision · Detail</div>
+  <p class="page-sub">Progress moved to top of Home. Intentions framed as steps toward your vision. Wins tab stripped to pure archive. Vision tab reborn as a vision board (no metrics on cards). Win detail view added. FAB only on Wins, renamed "Add win".</p>
+  <div class="loop-diagram">
+    <div class="loop-step"><strong>1</strong>Set intentions (daily)</div>
+    <div class="loop-arrow">→</div>
+    <div class="loop-step"><strong>2</strong>Capture wins (all day)</div>
+    <div class="loop-arrow">→</div>
+    <div class="loop-step"><strong>3</strong>Build toward your vision</div>
+  </div>
+</div>
+
+<div class="stage">
+
+  <!-- ===================== TAB 1: HOME ===================== -->
+  <div class="tab-col">
+    <div class="tab-header">
+      <div class="tab-label">Tab 1 · Home</div>
+      <div class="tab-name">Today</div>
+      <div class="tab-desc">Progress tiles at top. Quote. Intentions framed with purpose. No FAB here — this is a ritual surface, not a capture surface.</div>
+    </div>
+    <div class="device">
+      <div class="bg-wash"></div>
+      <div class="scroll">
+        <div class="status">
+          <span>9:41</span>
+          <span class="status-icons">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="none"><rect y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="4.5" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"/><rect x="9" y=".5" width="3" height="10.5" rx="1" fill="currentColor"/><rect x="13.5" y=".5" width="3" height="10.5" rx="1" fill="currentColor" opacity=".3"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y=".5" width="21" height="11" rx="2.5" stroke="currentColor" stroke-opacity=".3"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="currentColor"/><rect x="23" y="3.5" width="1.5" height="5" rx=".75" fill="currentColor" opacity=".35"/></svg>
+          </span>
+        </div>
+
+        <div class="top-row">
+          <div>
+            <div class="top-meta">Thursday, April 24</div>
+            <div class="top-title">
+              <span>Good morning,</span><br>
+              <span class="greet-name-line">Shellena<span class="streak-inline"><span>🔥</span> 7</span></span>
+            </div>
+          </div>
+          <div class="avatar">S<span class="avatar-dot">3</span></div>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-card-text">The day is what you make it. Begin with intention, and watch what unfolds.</div>
+          <div class="quote-card-meta">
+            <span class="quote-card-author">Rumi</span>
+            <span class="quote-card-meta-dot"></span>
+            Today's inspiration
+          </div>
+        </div>
+
+        <!-- INTENTIONS — now with context copy -->
+        <div class="section-head">
+          <span class="section-label">Morning intentions</span>
+          <span class="section-meta">7:12 AM</span>
+        </div>
+        <div class="section-subtitle">Set your state. Then your steps.</div>
+        <div class="slips-wrap">
+          <div class="slip">
+            <div class="slip-top">
+              <div class="slip-num identity"><span class="slip-num-dot"></span>I am</div>
+              <div class="slip-edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+            </div>
+            <div class="slip-text">grounded, open, and unafraid. Conversations flow easily.</div>
+          </div>
+          <div class="slip">
+            <div class="slip-top">
+              <div class="slip-num action"><span class="slip-num-dot"></span>Today, I will</div>
+              <div class="slip-edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+            </div>
+            <div class="slip-text">reach out to one potential collaborator on the Q2 plan.</div>
+          </div>
+          <div class="slip">
+            <div class="slip-top">
+              <div class="slip-num action"><span class="slip-num-dot"></span>Today, I will</div>
+              <div class="slip-edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+            </div>
+            <div class="slip-text">spend an hour outside, no phone, no agenda.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No FAB on Home -->
+
+      <div class="tab-bar">
+        <div class="tab-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1V9.5z"/></svg>
+          <span>Home</span>
+        </div>
+        <div class="tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>
+          <span>Wins</span>
+        </div>
+        <div class="tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="16.5 7.5 13.5 13.5 7.5 16.5 10.5 10.5 16.5 7.5"/></svg>
+          <span>Vision</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 2: WINS ===================== -->
+  <div class="tab-col">
+    <div class="tab-header">
+      <div class="tab-label">Tab 2 · Wins</div>
+      <div class="tab-name">Archive</div>
+      <div class="tab-desc">Pure chronological gallery. No stats strip, no category filters. The FAB lives here and says "Add win". Tap any tile → detail view.</div>
+    </div>
+    <div class="device">
+      <div class="bg-wash"></div>
+      <div class="scroll">
+        <div class="status">
+          <span>9:41</span>
+          <span class="status-icons">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="none"><rect y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="4.5" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"/><rect x="9" y=".5" width="3" height="10.5" rx="1" fill="currentColor"/><rect x="13.5" y=".5" width="3" height="10.5" rx="1" fill="currentColor" opacity=".3"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y=".5" width="21" height="11" rx="2.5" stroke="currentColor" stroke-opacity=".3"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="currentColor"/><rect x="23" y="3.5" width="1.5" height="5" rx=".75" fill="currentColor" opacity=".35"/></svg>
+          </span>
+        </div>
+
+        <div class="wins-head-row">
+          <div class="wins-title">Wins</div>
+          <div class="wins-head-actions">
+            <div class="icon-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-header">
+          <span class="day-label today">Today · Apr 24</span>
+          <span class="day-label-count">2 wins</span>
+        </div>
+        <div class="gallery-grid">
+          <div class="gallery-tile photo" style="background-image: url('vision-assets/health-marathon.jpg');">
+            <div class="gallery-tile-overlay">
+              <div class="gallery-tile-overlay-date">7:15 AM</div>
+              <div class="gallery-tile-overlay-text">Ran 3.5 miles — felt strong</div>
+            </div>
+          </div>
+          <div class="gallery-tile text terra">
+            <div class="gallery-tile-date">2h ago</div>
+            <div class="gallery-tile-text">"Positive feedback from my manager on the Q2 plan."</div>
+          </div>
+        </div>
+
+        <div class="day-header">
+          <span class="day-label">Yesterday</span>
+          <span class="day-label-count">4 wins</span>
+        </div>
+        <div class="gallery-grid">
+          <div class="gallery-tile text terra">
+            <div class="gallery-tile-date">Apr 23</div>
+            <div class="gallery-tile-text">Coffee chat with a potential collaborator</div>
+          </div>
+          <div class="gallery-tile photo" style="background-image: url('vision-assets/central-park.jpg');">
+            <div class="gallery-tile-overlay">
+              <div class="gallery-tile-overlay-date">Apr 23</div>
+              <div class="gallery-tile-overlay-text">Hour in Central Park</div>
+            </div>
+          </div>
+          <div class="gallery-tile text amber">
+            <div class="gallery-tile-date">Apr 23</div>
+            <div class="gallery-tile-text">Finished chapter 4 of Atomic Habits</div>
+          </div>
+          <div class="gallery-tile text sage">
+            <div class="gallery-tile-date">Apr 23</div>
+            <div class="gallery-tile-text">8 hours of sleep, woke up rested</div>
+          </div>
+        </div>
+
+        <div class="day-header">
+          <span class="day-label">Sun · Apr 20</span>
+          <span class="day-label-count">2 wins</span>
+        </div>
+        <div class="gallery-grid">
+          <div class="gallery-tile text terra">
+            <div class="gallery-tile-date">Apr 20</div>
+            <div class="gallery-tile-text">Told mom I loved her, unprompted.</div>
+          </div>
+          <div class="gallery-tile photo" style="background-image: url('vision-assets/morning-coffee.jpg');">
+            <div class="gallery-tile-overlay">
+              <div class="gallery-tile-overlay-date">Apr 20</div>
+              <div class="gallery-tile-overlay-text">Morning coffee, lots of ideas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="fab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add win
+      </button>
+
+      <div class="tab-bar">
+        <div class="tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1V9.5z"/></svg>
+          <span>Home</span>
+        </div>
+        <div class="tab-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>
+          <span>Wins</span>
+        </div>
+        <div class="tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="16.5 7.5 13.5 13.5 7.5 16.5 10.5 10.5 16.5 7.5"/></svg>
+          <span>Vision</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 3: VISION BOARD ===================== -->
+  <div class="tab-col">
+    <div class="tab-header">
+      <div class="tab-label">Tab 3 · Vision</div>
+      <div class="tab-name">Board</div>
+      <div class="tab-desc">Scrapbook energy. Mixed photo sizes + affirmation slips. Each card = photo + title. No metrics. Tap a card → detail where linked wins live.</div>
+    </div>
+    <div class="device">
+      <div class="bg-wash"></div>
+      <div class="scroll">
+        <div class="status">
+          <span>9:41</span>
+          <span class="status-icons">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="none"><rect y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="4.5" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"/><rect x="9" y=".5" width="3" height="10.5" rx="1" fill="currentColor"/><rect x="13.5" y=".5" width="3" height="10.5" rx="1" fill="currentColor" opacity=".3"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y=".5" width="21" height="11" rx="2.5" stroke="currentColor" stroke-opacity=".3"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="currentColor"/><rect x="23" y="3.5" width="1.5" height="5" rx=".75" fill="currentColor" opacity=".35"/></svg>
+          </span>
+        </div>
+
+        <div class="wins-head-row">
+          <div class="wins-title">Your vision</div>
+        </div>
+
+        <!-- VISUALIZATION REMINDER -->
+        <div class="vision-prompt">
+          <div class="vision-prompt-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/><path d="M8 22h8"/></svg>
+          </div>
+          <div class="vision-prompt-body">
+            <div class="vision-prompt-title">Pause. Don't just look — feel.</div>
+            <div class="vision-prompt-sub">Take a breath. Step into who you're becoming.</div>
+          </div>
+        </div>
+
+        <div class="board">
+          <!-- HERO VISION (with identity line) -->
+          <div class="board-vision hero tilt-l">
+            <div class="board-vision-image" style="background-image: url('vision-assets/work-window.jpg');">
+              <span class="board-vision-tag">Career</span>
+            </div>
+            <div class="board-vision-title-bar">
+              <div class="board-vision-title">Work for myself</div>
+              <div class="board-vision-affirm">I am someone who builds on her own terms.</div>
+            </div>
+          </div>
+
+          <!-- AFFIRMATION SLIP 1 -->
+          <div class="board-affirm tilt-r">I trust that I'm becoming who I'm meant to be.</div>
+
+          <!-- 2-UP GRID — left card image only, right card with identity line -->
+          <div class="board-grid">
+            <div class="board-vision small">
+              <div class="board-vision-image" style="background-image: url('vision-assets/health-marathon.jpg');">
+                <span class="board-vision-tag" style="color: var(--sage-deep);">Health</span>
+              </div>
+              <div class="board-vision-title-bar">
+                <div class="board-vision-title">Half marathon</div>
+              </div>
+            </div>
+            <div class="board-vision small">
+              <div class="board-vision-image" style="background-image: url('vision-assets/love-hero.jpg');">
+                <span class="board-vision-tag" style="color: var(--amber-deep);">Love</span>
+              </div>
+              <div class="board-vision-title-bar">
+                <div class="board-vision-title">Deep, secure love</div>
+                <div class="board-vision-affirm">I am safe to be fully seen.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AFFIRMATION SLIP 2 -->
+          <div class="board-affirm tilt-l">I am allowed to want more, and to go get it.</div>
+
+          <!-- MEDIUM VISION (image-only, no identity — showing it's optional) -->
+          <div class="board-vision med tilt-r">
+            <div class="board-vision-image" style="background-image: url('vision-assets/morning-coffee.jpg');">
+              <span class="board-vision-tag" style="color: var(--amber-deep);">Growth</span>
+            </div>
+            <div class="board-vision-title-bar">
+              <div class="board-vision-title">A morning practice that actually sticks</div>
+            </div>
+          </div>
+
+          <!-- ADD CTA -->
+          <div class="board-add">
+            <div class="board-add-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+            <div class="board-add-body">
+              <div class="board-add-title">Add to your vision</div>
+              <div class="board-add-sub">What else are you calling in?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No FAB on Vision -->
+
+      <div class="tab-bar">
+        <div class="tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1V9.5z"/></svg>
+          <span>Home</span>
+        </div>
+        <div class="tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>
+          <span>Wins</span>
+        </div>
+        <div class="tab-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="16.5 7.5 13.5 13.5 7.5 16.5 10.5 10.5 16.5 7.5"/></svg>
+          <span>Vision</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 4: WIN DETAIL ===================== -->
+  <div class="tab-col">
+    <div class="tab-header">
+      <div class="tab-label">Flow · Win detail</div>
+      <div class="tab-name">Expanded view</div>
+      <div class="tab-desc">Tap a win tile → this. Hero photo, date, title, optional linked-vision chip (this is where the loop lives — explicit, one layer deep).</div>
+    </div>
+    <div class="device">
+      <div class="bg-wash"></div>
+      <div class="scroll no-tabbar">
+        <div class="status">
+          <span>9:41</span>
+          <span class="status-icons">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="none"><rect y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="4.5" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"/><rect x="9" y=".5" width="3" height="10.5" rx="1" fill="currentColor"/><rect x="13.5" y=".5" width="3" height="10.5" rx="1" fill="currentColor" opacity=".3"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y=".5" width="21" height="11" rx="2.5" stroke="currentColor" stroke-opacity=".3"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="currentColor"/><rect x="23" y="3.5" width="1.5" height="5" rx=".75" fill="currentColor" opacity=".35"/></svg>
+          </span>
+        </div>
+
+        <div class="detail-top">
+          <div class="detail-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </div>
+          <div class="detail-actions">
+            <div class="icon-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-hero" style="background-image: url('vision-assets/health-marathon.jpg');">
+          <div class="detail-hero-overlay"></div>
+          <div class="detail-hero-meta">
+            <div class="detail-hero-date">Thursday · April 24 · 7:15 AM</div>
+            <div class="detail-hero-text">Ran 3.5 miles — felt strong the whole way.</div>
+          </div>
+        </div>
+
+        <div class="detail-body">
+          <div class="detail-note">First time I've hit that pace without walking breaks. Music + cool morning air + the loop by the river. Body feels like it's finally remembering what it can do.</div>
+
+          <!-- THE LOOP — linked vision lives here -->
+          <div class="detail-linked">
+            <div class="detail-linked-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="16.5 7.5 13.5 13.5 7.5 16.5 10.5 10.5 16.5 7.5"/></svg>
+            </div>
+            <div class="detail-linked-body">
+              <div class="detail-linked-label">Proof toward</div>
+              <div class="detail-linked-title">Run a half marathon</div>
+            </div>
+            <div class="detail-linked-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+
+          <div class="detail-tags-row">
+            <div class="detail-tag sage">Health</div>
+            <div class="detail-tag">Morning</div>
+          </div>
+        </div>
+
+        <div class="detail-footer-row">
+          <div class="detail-action-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Edit
+          </div>
+          <div class="detail-action-btn danger">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            Delete
+          </div>
+        </div>
+      </div>
+
+      <!-- No tab bar on detail view (modal feel) -->
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

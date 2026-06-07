@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>R26 — Affirmations + Wisdom heading iterations</title>
+<style>
+  :root {
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cosmic-c: #7A4530;
+    --cream: #FAF6EF;
+    --cream-soft: rgba(250,246,239,0.78);
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --ink: #3E2F22;
+    --muted: rgba(250,246,239,0.55);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0F0B07;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+    color: var(--cream);
+    padding: 56px 28px 80px;
+    min-height: 100vh;
+  }
+  .page-h1 { text-align: center; font-size: 28px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .page-h1 i { color: var(--terra-light); font-weight: 400; }
+  .page-sub { text-align: center; color: var(--muted); font-size: 13.5px; max-width: 760px; margin: 0 auto 56px; line-height: 1.6; }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(360px, 1fr));
+    gap: 40px;
+    max-width: 1080px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  @media (max-width: 880px) { .compare-grid { grid-template-columns: 1fr; } }
+
+  .column { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .col-tag {
+    padding: 5px 12px; border-radius: 999px;
+    background: rgba(216,154,90,0.18); color: var(--amber);
+    font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase;
+  }
+  .col-title {
+    font-size: 16px; font-weight: 600; color: var(--cream); letter-spacing: -0.2px;
+    text-align: center;
+  }
+  .col-desc {
+    font-size: 11.5px; color: var(--muted); line-height: 1.6;
+    text-align: center; max-width: 380px; margin-bottom: 12px;
+  }
+
+  /* iPhone frame */
+  .phone {
+    width: 380px;
+    height: 700px;
+    border-radius: 46px;
+    background: var(--cosmic-a);
+    overflow: hidden;
+    position: relative;
+    border: 1.5px solid rgba(255,255,255,0.05);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+  .phone .screen {
+    position: absolute; inset: 0;
+    padding: 50px 24px 80px;
+    overflow: hidden;
+  }
+
+  /* GREETING (shared) */
+  .greeting { display: flex; justify-content: space-between; margin-bottom: 18px; }
+  .greeting .eyebrow {
+    font-size: 9px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 5px;
+  }
+  .greeting .name {
+    font-size: 21px; font-weight: 500; color: var(--cream); letter-spacing: -0.4px; line-height: 1.15;
+  }
+  .greeting .name i { color: var(--terra-light); font-weight: 400; }
+  .greeting .avatar {
+    width: 38px; height: 38px; border-radius: 999px;
+    background: linear-gradient(135deg, var(--terra-light), var(--terra));
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 13.5px; font-weight: 600;
+  }
+
+  /* Ritual card (shared, compact) */
+  .ritual {
+    height: 170px; border-radius: 22px; overflow: hidden; position: relative;
+    background: linear-gradient(135deg, #5b4029, #2c1d0f);
+    margin-bottom: 20px;
+  }
+  .ritual::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(20,12,6,0.3), rgba(20,12,6,0.92));
+  }
+  .ritual .glow {
+    position: absolute; right: -50px; top: -50px; width: 180px; height: 180px;
+    border-radius: 50%; background: rgba(192,104,72,0.5);
+  }
+  .ritual .inner {
+    position: relative; z-index: 2; padding: 18px;
+    height: 100%; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .ritual h2 { font-size: 20px; font-weight: 500; line-height: 1.18; }
+  .ritual h2 i { color: var(--terra-light); font-weight: 400; }
+  .ritual .cta {
+    align-self: center; display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--terra), var(--terra-deep));
+    border: 1px solid rgba(216,154,90,0.5); padding: 7px 14px;
+    border-radius: 999px; font-size: 12px; font-weight: 600; color: var(--cream);
+  }
+
+  /* Affirmation cards (shared) */
+  .aff-row { display: flex; gap: 10px; overflow: hidden; margin-top: 0; }
+  .aff-card {
+    flex: 0 0 152px; height: 116px; border-radius: 14px;
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #6b3c28, #2a1812);
+  }
+  .aff-card.featured { flex: 0 0 168px; border: 1px solid rgba(216,154,90,0.5); }
+  .aff-card .photo {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #8d4f30, #401b0e);
+  }
+  .aff-card.b .photo { background: linear-gradient(135deg, #b06b4e, #4a2614); }
+  .aff-card .photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 35%, rgba(20,12,6,0.88) 100%);
+  }
+  .aff-card .text {
+    position: absolute; bottom: 10px; left: 12px; right: 12px;
+    font-size: 12px; font-style: italic; line-height: 1.32; color: var(--cream); font-weight: 500;
+  }
+
+  /* Quote (shared body) */
+  .quote {
+    position: relative; padding-left: 32px;
+  }
+  .quote .glyph {
+    position: absolute; top: -16px; left: 0;
+    font-family: Georgia, serif; font-size: 50px; line-height: 50px;
+    color: rgba(216,154,90,0.32);
+  }
+  .quote .body {
+    font-family: Georgia, serif; font-size: 16px; font-style: italic;
+    line-height: 1.42; color: var(--cream);
+  }
+  .quote .byline {
+    font-family: Georgia, serif; font-size: 11.5px; font-style: italic;
+    color: rgba(250,246,239,0.55); margin-top: 8px;
+  }
+
+  /* Caption */
+  .caption {
+    margin-top: 16px; max-width: 360px; text-align: center;
+    font-size: 11.5px; color: var(--muted); line-height: 1.55;
+  }
+
+  /* ════════════ A — TINY UPPERCASE EYEBROWS ════════════ */
+  .a .h-section {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 2.4px;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 12px;
+  }
+  .a .section { margin-top: 22px; }
+  .a .quote { margin-top: 22px; }
+
+  /* ════════════ B — NUMBERED EDITORIAL ════════════ */
+  .b .section { margin-top: 24px; }
+  .b .h-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+  .b .h-num {
+    font-family: Georgia, serif; font-size: 22px; font-style: italic;
+    color: var(--amber); font-weight: 400;
+  }
+  .b .h-rule { flex: 1; height: 1px; background: rgba(250,246,239,0.18); }
+  .b .h-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--cream-soft);
+  }
+  .b .quote { margin-top: 22px; }
+
+  /* ════════════ C — LOWERCASE ITALIC SUBLINE ════════════ */
+  .c .section { margin-top: 24px; }
+  .c .h-label {
+    font-size: 13px; font-style: italic; font-weight: 400;
+    color: var(--cream-soft); letter-spacing: 0px;
+    margin-bottom: 12px; padding-left: 1px;
+  }
+  .c .h-label::before {
+    content: '— ';
+    color: var(--amber);
+  }
+  .c .quote { margin-top: 24px; }
+
+  /* ════════════ D — NO HEADINGS, JUST CONTENT ════════════ */
+  .d .section { margin-top: 22px; position: relative; }
+  /* a small terra dot in the top-right corner as a section marker */
+  .d .section::before {
+    content: '';
+    position: absolute; top: -8px; right: 0;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: rgba(216,154,90,0.55);
+  }
+  .d .quote { margin-top: 22px; }
+</style>
+</head>
+<body>
+
+<h1 class="page-h1">Heading iterations — <i>R26.</i></h1>
+<p class="page-sub">
+  Four distinct treatments for the Affirmations + Wisdom sections, all on a no-scroll Home tab.
+  Goal is something that feels considered without competing with the ritual card above. Same content in every preview — only the section heading treatment changes.
+</p>
+
+<div class="compare-grid">
+
+  <!-- ════════════ A ════════════ -->
+  <div class="column">
+    <span class="col-tag">A · Tiny eyebrow</span>
+    <h3 class="col-title">Minimal uppercase tag</h3>
+    <p class="col-desc">
+      Pulled back to a tiny letter-spaced uppercase tag — barely there. Lets the content (cards + quote body) carry all the weight. Closest to a "no chrome" feel without removing the heading entirely.
+    </p>
+    <div class="phone a">
+      <div class="screen">
+        <div class="greeting">
+          <div><div class="eyebrow">Sat · May 31</div><div class="name">Good morning, <i>Shellena.</i></div></div>
+          <div class="avatar">S</div>
+        </div>
+        <div class="ritual"><div class="glow"></div><div class="inner">
+          <h2>Visualise<br><i>what you're becoming.</i></h2>
+          <span class="cta">▶ Begin ritual</span>
+        </div></div>
+
+        <div class="section">
+          <div class="h-section">Today's affirmations</div>
+          <div class="aff-row">
+            <div class="aff-card featured"><div class="photo"></div><div class="text">I am building a body of work I'm proud of.</div></div>
+            <div class="aff-card b"><div class="photo"></div><div class="text">My energy is mine to spend.</div></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="h-section">Daily wisdom</div>
+          <div class="quote">
+            <div class="glyph">"</div>
+            <div class="body">Whatever stands in the way, becomes the way.</div>
+            <div class="byline">— Marcus Aurelius</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="caption">
+      9.5px amber uppercase, letter-spacing 2.4. Returns to the eyebrow language of the rest of the app (greeting, ritual eyebrow). Quiet and consistent.
+    </p>
+  </div>
+
+  <!-- ════════════ B ════════════ -->
+  <div class="column">
+    <span class="col-tag">B · Numbered editorial</span>
+    <h3 class="col-title">Italic number + rule</h3>
+    <p class="col-desc">
+      A small italic-serif number (<i>i</i>, <i>ii</i>) sits next to a hairline rule and a small uppercase label. Feels like a magazine section break. Adds a sense of progression — first the affirmations, then wisdom.
+    </p>
+    <div class="phone b">
+      <div class="screen">
+        <div class="greeting">
+          <div><div class="eyebrow">Sat · May 31</div><div class="name">Good morning, <i>Shellena.</i></div></div>
+          <div class="avatar">S</div>
+        </div>
+        <div class="ritual"><div class="glow"></div><div class="inner">
+          <h2>Visualise<br><i>what you're becoming.</i></h2>
+          <span class="cta">▶ Begin ritual</span>
+        </div></div>
+
+        <div class="section">
+          <div class="h-row">
+            <span class="h-num"><i>i.</i></span>
+            <span class="h-label">Affirmations</span>
+            <span class="h-rule"></span>
+          </div>
+          <div class="aff-row">
+            <div class="aff-card featured"><div class="photo"></div><div class="text">I am building a body of work I'm proud of.</div></div>
+            <div class="aff-card b"><div class="photo"></div><div class="text">My energy is mine to spend.</div></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="h-row">
+            <span class="h-num"><i>ii.</i></span>
+            <span class="h-label">Wisdom</span>
+            <span class="h-rule"></span>
+          </div>
+          <div class="quote">
+            <div class="glyph">"</div>
+            <div class="body">Whatever stands in the way, becomes the way.</div>
+            <div class="byline">— Marcus Aurelius</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="caption">
+      Italic Roman numeral + cream label + hairline. The rule makes each section feel "filed" rather than stacked. Could read as numbered chapters in a daily booklet.
+    </p>
+  </div>
+
+  <!-- ════════════ C ════════════ -->
+  <div class="column">
+    <span class="col-tag">C · Conversational italic</span>
+    <h3 class="col-title">Subline, em-dash lead-in</h3>
+    <p class="col-desc">
+      A short italic phrase preceded by an em-dash, like a hand-written marginal note. Conversational, low-key. Says <i>"to embody"</i>, <i>"to reflect on"</i> — verbs of intent, not nouns of section.
+    </p>
+    <div class="phone c">
+      <div class="screen">
+        <div class="greeting">
+          <div><div class="eyebrow">Sat · May 31</div><div class="name">Good morning, <i>Shellena.</i></div></div>
+          <div class="avatar">S</div>
+        </div>
+        <div class="ritual"><div class="glow"></div><div class="inner">
+          <h2>Visualise<br><i>what you're becoming.</i></h2>
+          <span class="cta">▶ Begin ritual</span>
+        </div></div>
+
+        <div class="section">
+          <div class="h-label"><i>to embody, today</i></div>
+          <div class="aff-row">
+            <div class="aff-card featured"><div class="photo"></div><div class="text">I am building a body of work I'm proud of.</div></div>
+            <div class="aff-card b"><div class="photo"></div><div class="text">My energy is mine to spend.</div></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="h-label"><i>to reflect on</i></div>
+          <div class="quote">
+            <div class="glyph">"</div>
+            <div class="body">Whatever stands in the way, becomes the way.</div>
+            <div class="byline">— Marcus Aurelius</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="caption">
+      Sans italic 13px, em-dash in amber. Captions the section by intention ("to embody / to reflect on"). Personal, low-key, never shouting.
+    </p>
+  </div>
+
+  <!-- ════════════ D ════════════ -->
+  <div class="column">
+    <span class="col-tag">D · No headings</span>
+    <h3 class="col-title">Just the content + a dot</h3>
+    <p class="col-desc">
+      Drop the labels entirely. A 4px amber dot in the top-right corner of each section is the only marker. Content carries everything. The most minimal — but only works if the visual style of the cards and quote are distinct enough that no label is needed.
+    </p>
+    <div class="phone d">
+      <div class="screen">
+        <div class="greeting">
+          <div><div class="eyebrow">Sat · May 31</div><div class="name">Good morning, <i>Shellena.</i></div></div>
+          <div class="avatar">S</div>
+        </div>
+        <div class="ritual"><div class="glow"></div><div class="inner">
+          <h2>Visualise<br><i>what you're becoming.</i></h2>
+          <span class="cta">▶ Begin ritual</span>
+        </div></div>
+
+        <div class="section">
+          <div class="aff-row">
+            <div class="aff-card featured"><div class="photo"></div><div class="text">I am building a body of work I'm proud of.</div></div>
+            <div class="aff-card b"><div class="photo"></div><div class="text">My energy is mine to spend.</div></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="quote">
+            <div class="glyph">"</div>
+            <div class="body">Whatever stands in the way, becomes the way.</div>
+            <div class="byline">— Marcus Aurelius</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="caption">
+      Tiny dot ornament top-right of each section. The most "magazine" feel — relies entirely on the visual distinction between the affirmation cards (photo-forward) and the quote (serif text). No labels to overthink.
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>

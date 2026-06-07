@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>R28 — Affirmation card variants</title>
+<style>
+  :root {
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cosmic-c: #7A4530;
+    --cream: #FAF6EF;
+    --cream-soft: rgba(250,246,239,0.78);
+    --paper: #FCF5E8;
+    --paper-aged: #EBD9B5;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --ink: #3E2F22;
+    --muted: rgba(250,246,239,0.55);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0F0B07;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+    color: var(--cream);
+    padding: 56px 28px 80px;
+    min-height: 100vh;
+  }
+  h1.page { text-align: center; font-size: 28px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 8px; }
+  h1.page i { color: var(--terra-light); font-weight: 400; }
+  p.sub { text-align: center; color: var(--muted); font-size: 13.5px; max-width: 720px; margin: 0 auto 56px; line-height: 1.6; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(360px, 1fr));
+    gap: 56px 40px;
+    max-width: 1080px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+
+  .v { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .tag {
+    padding: 5px 12px; border-radius: 999px;
+    background: rgba(216,154,90,0.18); color: var(--amber);
+    font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase;
+  }
+  .name {
+    font-size: 16px; font-weight: 600; color: var(--cream); letter-spacing: -0.2px;
+  }
+  .desc {
+    font-size: 11.5px; color: var(--muted); line-height: 1.6;
+    text-align: center; max-width: 360px; margin-bottom: 12px;
+  }
+
+  /* Section heading (kept the same across all variants — direction A) */
+  .heading {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 2.4px;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 14px;
+  }
+
+  /* Container = horizontal scroll row */
+  .row { display: flex; gap: 10px; overflow: hidden; padding: 4px; }
+
+  /* ════════════ V1 — Centered text, original layout ════════════ */
+  .v1 .card {
+    flex: 0 0 168px; height: 130px; border-radius: 14px;
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #6b3c28, #2a1812);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  }
+  .v1 .card.featured { flex: 0 0 188px; border: 1px solid rgba(216,154,90,0.55); }
+  .v1 .card .photo { position: absolute; inset: 0; }
+  .v1 .card .photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(20,12,6,0.25), rgba(20,12,6,0.78));
+  }
+  .v1 .card .text {
+    position: absolute; inset: 0; padding: 14px;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    font-size: 13.5px; font-style: italic; line-height: 1.32; color: var(--cream); font-weight: 500;
+    z-index: 2;
+  }
+  .v1 .card.a .photo { background: linear-gradient(135deg, #8d4f30, #401b0e); }
+  .v1 .card.b .photo { background: linear-gradient(135deg, #b06b4e, #4a2614); }
+  .v1 .card.c .photo { background: linear-gradient(135deg, #5e4a82, #281a3e); }
+
+  /* ════════════ V2 — Polaroid (photo + paper strip below) ════════════ */
+  .v2 .card {
+    flex: 0 0 168px; border-radius: 12px; overflow: hidden;
+    background: var(--paper);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.55);
+    padding: 8px 8px 14px 8px;
+    transform: rotate(-1.5deg);
+  }
+  .v2 .card.featured { transform: rotate(1deg); flex: 0 0 188px; }
+  .v2 .card:nth-child(3) { transform: rotate(-0.5deg); }
+  .v2 .card .photo {
+    aspect-ratio: 1; border-radius: 4px; background: #6b3c28; margin-bottom: 10px;
+  }
+  .v2 .card.a .photo { background: linear-gradient(135deg, #8d4f30, #401b0e); }
+  .v2 .card.b .photo { background: linear-gradient(135deg, #b06b4e, #4a2614); }
+  .v2 .card.c .photo { background: linear-gradient(135deg, #5e4a82, #281a3e); }
+  .v2 .card .text {
+    font-family: Georgia, serif; font-size: 12px; font-style: italic;
+    color: var(--ink); text-align: center; line-height: 1.3; padding: 0 4px;
+  }
+
+  /* ════════════ V3 — Glass card over photo ════════════ */
+  .v3 .card {
+    flex: 0 0 168px; height: 138px; border-radius: 16px;
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #6b3c28, #2a1812);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.5);
+  }
+  .v3 .card.featured { flex: 0 0 188px; }
+  .v3 .card .photo { position: absolute; inset: 0; }
+  .v3 .card.a .photo { background: linear-gradient(135deg, #8d4f30, #401b0e); }
+  .v3 .card.b .photo { background: linear-gradient(135deg, #b06b4e, #4a2614); }
+  .v3 .card.c .photo { background: linear-gradient(135deg, #5e4a82, #281a3e); }
+  .v3 .card .glass {
+    position: absolute; inset: 12px;
+    border-radius: 12px;
+    background: rgba(20,12,6,0.40);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.18);
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px;
+    z-index: 2;
+  }
+  .v3 .card .text {
+    font-size: 12.5px; font-style: italic; line-height: 1.32;
+    color: var(--cream); font-weight: 500; text-align: center;
+  }
+
+  /* ════════════ V4 — Side-by-side (photo left, text right) ════════════ */
+  .v4 .card {
+    flex: 0 0 232px; height: 116px; border-radius: 14px; overflow: hidden;
+    background: rgba(250,246,239,0.05);
+    border: 1px solid rgba(250,246,239,0.10);
+    display: flex; flex-direction: row;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  }
+  .v4 .card.featured { flex: 0 0 248px; border-color: rgba(216,154,90,0.55); }
+  .v4 .card .photo {
+    width: 90px; height: 100%;
+    background: linear-gradient(135deg, #8d4f30, #401b0e);
+    flex-shrink: 0;
+  }
+  .v4 .card.a .photo { background: linear-gradient(135deg, #8d4f30, #401b0e); }
+  .v4 .card.b .photo { background: linear-gradient(135deg, #b06b4e, #4a2614); }
+  .v4 .card.c .photo { background: linear-gradient(135deg, #5e4a82, #281a3e); }
+  .v4 .card .text {
+    padding: 12px 14px; flex: 1;
+    display: flex; align-items: center;
+    font-size: 12.5px; font-style: italic; line-height: 1.34;
+    color: var(--cream); font-weight: 500;
+  }
+
+  /* ════════════ V5 — Typography-first, no photo ════════════ */
+  .v5 .card {
+    flex: 0 0 168px; height: 130px; border-radius: 16px;
+    position: relative; overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+  }
+  .v5 .card.a {
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(216,154,90,0.45), transparent 60%),
+      linear-gradient(135deg, var(--terra), var(--terra-deep));
+  }
+  .v5 .card.b {
+    background:
+      radial-gradient(ellipse at 80% 40%, rgba(255,200,140,0.3), transparent 60%),
+      linear-gradient(135deg, var(--cosmic-c), var(--cosmic-b));
+  }
+  .v5 .card.c {
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(184,150,200,0.3), transparent 60%),
+      linear-gradient(135deg, #5e4a82, #281a3e);
+  }
+  .v5 .card.featured { flex: 0 0 188px; }
+  .v5 .card .text {
+    font-family: Georgia, serif;
+    font-size: 15px; font-style: italic; line-height: 1.32;
+    color: var(--cream); font-weight: 400; text-align: center;
+    letter-spacing: -0.1px;
+  }
+  .v5 .card .quote-glyph {
+    position: absolute; top: 6px; left: 12px;
+    font-family: Georgia, serif; font-size: 40px; line-height: 40px;
+    color: rgba(255,255,255,0.18);
+  }
+
+  /* ════════════ V6 — Magazine cover with title bar ════════════ */
+  .v6 .card {
+    flex: 0 0 168px; height: 130px; border-radius: 14px;
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #6b3c28, #2a1812);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  }
+  .v6 .card.featured { flex: 0 0 188px; border: 1px solid rgba(216,154,90,0.55); }
+  .v6 .card .photo { position: absolute; inset: 0; }
+  .v6 .card.a .photo { background: linear-gradient(135deg, #8d4f30, #401b0e); }
+  .v6 .card.b .photo { background: linear-gradient(135deg, #b06b4e, #4a2614); }
+  .v6 .card.c .photo { background: linear-gradient(135deg, #5e4a82, #281a3e); }
+  .v6 .card .ribbon {
+    position: absolute; left: 10px; right: 10px; bottom: 10px;
+    background: rgba(252,245,232,0.94);
+    border-radius: 8px; padding: 9px 11px;
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .v6 .card .text {
+    font-family: Georgia, serif; font-size: 11.5px; font-style: italic;
+    color: var(--ink); line-height: 1.3; text-align: left;
+  }
+
+  /* ════════════ Caption ════════════ */
+  .cap {
+    margin-top: 14px; max-width: 380px; text-align: center;
+    font-size: 11.5px; color: var(--muted); line-height: 1.55;
+  }
+
+  /* Padding wrapper for each variant */
+  .panel {
+    background: var(--cosmic-a);
+    border-radius: 28px;
+    padding: 30px 22px 28px;
+    width: 100%;
+    max-width: 440px;
+  }
+</style>
+</head>
+<body>
+
+<h1 class="page">Affirmation card — <i>six variants.</i></h1>
+<p class="sub">
+  Direction A heading style kept the same (tiny amber uppercase eyebrow) across all six.
+  Only the card layout changes. Each shows the same affirmation set in a different visual register.
+</p>
+
+<div class="grid">
+
+  <!-- V1 — Centered text, original layout -->
+  <div class="v">
+    <span class="tag">V1 · Centered text</span>
+    <div class="name">Same card, text centered</div>
+    <p class="desc">
+      The current card layout with a single change — affirmation text moved from bottom-left to vertically and horizontally centered. Less "Instagram caption", more "framed quote". Photo darkened slightly so text is readable from anywhere on the card.
+    </p>
+    <div class="panel">
+      <div class="heading">Today's affirmations</div>
+      <div class="row v1">
+        <div class="card featured a"><div class="photo"></div><div class="text">I am building a body of work I'm proud of.</div></div>
+        <div class="card b"><div class="photo"></div><div class="text">My energy is mine to spend.</div></div>
+        <div class="card c"><div class="photo"></div><div class="text">Love finds me ready.</div></div>
+      </div>
+    </div>
+    <p class="cap">Smallest change to current. The photo becomes a mood backdrop, the text the focus.</p>
+  </div>
+
+  <!-- V2 — Polaroid -->
+  <div class="v">
+    <span class="tag">V2 · Polaroid</span>
+    <div class="name">Photo + paper caption</div>
+    <p class="desc">
+      Square photo on cream paper with a serif italic caption below. Slight rotation per card so the row feels like keepsakes scattered. Most tactile — feels like something you could pick up.
+    </p>
+    <div class="panel">
+      <div class="heading">Today's affirmations</div>
+      <div class="row v2">
+        <div class="card featured a"><div class="photo"></div><div class="text">I am building a body of work I'm proud of.</div></div>
+        <div class="card b"><div class="photo"></div><div class="text">My energy is mine to spend.</div></div>
+        <div class="card c"><div class="photo"></div><div class="text">Love finds me ready.</div></div>
+      </div>
+    </div>
+    <p class="cap">Inspired by analog photo decks. Warm, personal, less "app UI" more "vision board you can hold".</p>
+  </div>
+
+  <!-- V3 — Glass card over photo -->
+  <div class="v">
+    <span class="tag">V3 · Glass overlay</span>
+    <div class="name">Frosted glass card on photo</div>
+    <p class="desc">
+      Photo fills the card, a frosted-glass panel floats inset with the affirmation text. iOS 26-style. Photo still visible at the edges; text is on a stable, readable surface that doesn't depend on photo brightness.
+    </p>
+    <div class="panel">
+      <div class="heading">Today's affirmations</div>
+      <div class="row v3">
+        <div class="card featured a"><div class="photo"></div><div class="glass"><div class="text">I am building a body of work I'm proud of.</div></div></div>
+        <div class="card b"><div class="photo"></div><div class="glass"><div class="text">My energy is mine to spend.</div></div></div>
+        <div class="card c"><div class="photo"></div><div class="glass"><div class="text">Love finds me ready.</div></div></div>
+      </div>
+    </div>
+    <p class="cap">Most modern feel. Solves the "is the text legible against the photo" problem cleanly.</p>
+  </div>
+
+  <!-- V4 — Side-by-side -->
+  <div class="v">
+    <span class="tag">V4 · Split layout</span>
+    <div class="name">Photo left, text right</div>
+    <p class="desc">
+      Wider cards (232pt vs 168pt). Photo column on the left, text panel on the right with cosmic-dark bg. Inspired by editorial book covers and Spotify "now playing" cards. Each card holds more content but the row shows fewer of them at once.
+    </p>
+    <div class="panel">
+      <div class="heading">Today's affirmations</div>
+      <div class="row v4">
+        <div class="card featured a"><div class="photo"></div><div class="text">I am building a body of work I'm proud of.</div></div>
+        <div class="card b"><div class="photo"></div><div class="text">My energy is mine to spend.</div></div>
+      </div>
+    </div>
+    <p class="cap">Wider cards mean longer text reads without clipping. Trade-off: ~2 cards visible at once instead of ~2.5.</p>
+  </div>
+
+  <!-- V5 — Typography-first -->
+  <div class="v">
+    <span class="tag">V5 · Type only</span>
+    <div class="name">No photo, gradient + serif</div>
+    <p class="desc">
+      Drop the photo entirely. Each card is a colored gradient (terra / cosmic / aubergine) with a large italic Georgia serif body. The most minimal and the most "intentional" — nothing competing with the words.
+    </p>
+    <div class="panel">
+      <div class="heading">Today's affirmations</div>
+      <div class="row v5">
+        <div class="card featured a"><div class="quote-glyph">"</div><div class="text">I am building a body of work I'm proud of.</div></div>
+        <div class="card b"><div class="quote-glyph">"</div><div class="text">My energy is mine to spend.</div></div>
+        <div class="card c"><div class="quote-glyph">"</div><div class="text">Love finds me ready.</div></div>
+      </div>
+    </div>
+    <p class="cap">Pulled from print poetry / quote-card design. Each card a different mood-color, like a daily card from a deck of contemplative prompts.</p>
+  </div>
+
+  <!-- V6 — Magazine ribbon -->
+  <div class="v">
+    <span class="tag">V6 · Magazine ribbon</span>
+    <div class="name">Photo with paper caption ribbon</div>
+    <p class="desc">
+      Photo fills the card, a cream-paper ribbon at the bottom holds the affirmation text in serif italic. Inspired by magazine pull-quotes and photo-book captions. Photo gets to breathe, text gets a defined readable surface.
+    </p>
+    <div class="panel">
+      <div class="heading">Today's affirmations</div>
+      <div class="row v6">
+        <div class="card featured a"><div class="photo"></div><div class="ribbon"><div class="text">I am building a body of work I'm proud of.</div></div></div>
+        <div class="card b"><div class="photo"></div><div class="ribbon"><div class="text">My energy is mine to spend.</div></div></div>
+        <div class="card c"><div class="photo"></div><div class="ribbon"><div class="text">Love finds me ready.</div></div></div>
+      </div>
+    </div>
+    <p class="cap">Hybrid of current and V2 polaroid. Keeps the photo prominence but adds the paper-caption legibility.</p>
+  </div>
+
+</div>
+
+<p style="text-align: center; margin-top: 64px; color: var(--muted); font-size: 13px;">
+  <i>Pick one (or two to compose) and I'll ship it on Home.</i>
+</p>
+
+</body>
+</html>

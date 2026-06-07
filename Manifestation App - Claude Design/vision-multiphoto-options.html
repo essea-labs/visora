@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vision board — multi-photo layout options</title>
+<style>
+  :root {
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cosmic-c: #7A4530;
+    --cream: #FAF6EF;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --ink: #3E2F22;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #14100C;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+    color: var(--cream);
+    padding: 40px 24px 60px;
+    min-height: 100vh;
+  }
+  .page-title {
+    text-align: center; margin-bottom: 8px;
+    font-size: 22px; font-weight: 600; letter-spacing: -0.3px;
+  }
+  .page-sub {
+    text-align: center; color: rgba(250,246,239,0.55); margin-bottom: 40px;
+    font-size: 13px; max-width: 720px; margin-left: auto; margin-right: auto;
+    line-height: 1.55;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 32px;
+    max-width: 1700px; margin: 0 auto;
+  }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .col h2 { color: #FAF6EF; font-size: 16px; font-weight: 600; }
+  .col .badge {
+    display: inline-block; padding: 4px 10px; border-radius: 999px;
+    background: rgba(216,154,90,0.15); color: var(--amber);
+    font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase;
+  }
+  .col .note {
+    color: rgba(250,246,239,0.6); font-size: 12px; max-width: 360px; text-align: center;
+    line-height: 1.55;
+  }
+  .col .tradeoff {
+    color: rgba(250,246,239,0.45); font-size: 11px; max-width: 360px; text-align: center;
+    line-height: 1.55; font-style: italic;
+    border-top: 1px dashed rgba(250,246,239,0.15);
+    padding-top: 10px; margin-top: 4px;
+  }
+
+  /* Phone frame */
+  .phone {
+    width: 380px; height: 780px;
+    border-radius: 48px;
+    position: relative; overflow: hidden;
+    background: var(--cosmic-a);
+    box-shadow: 0 30px 70px -10px rgba(0,0,0,0.65);
+    flex-shrink: 0;
+  }
+  .phone::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(80% 50% at 50% 100%, rgba(122,69,48,0.55) 0%, rgba(75,46,30,0.35) 35%, transparent 70%),
+      radial-gradient(60% 40% at 50% 0%, rgba(158,79,50,0.30) 0%, transparent 60%);
+  }
+  .phone::after {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    background-image:
+      radial-gradient(1px 1px at 14% 12%, rgba(250,246,239,0.35), transparent),
+      radial-gradient(1px 1px at 28% 32%, rgba(250,246,239,0.25), transparent),
+      radial-gradient(1px 1px at 64% 18%, rgba(250,246,239,0.40), transparent),
+      radial-gradient(1px 1px at 84% 44%, rgba(250,246,239,0.28), transparent),
+      radial-gradient(1px 1px at 12% 64%, rgba(250,246,239,0.20), transparent),
+      radial-gradient(1px 1px at 48% 78%, rgba(250,246,239,0.30), transparent),
+      radial-gradient(1px 1px at 72% 84%, rgba(250,246,239,0.22), transparent);
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  .notch {
+    width: 116px; height: 28px; border-radius: 0 0 14px 14px;
+    background: #000; position: absolute; left: 50%; transform: translateX(-50%); top: 0;
+    z-index: 20;
+  }
+  .status {
+    position: relative; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 24px 0; color: var(--cream);
+    font-size: 13px; font-weight: 600;
+  }
+  .chrome {
+    position: relative; z-index: 5;
+    height: 38px;
+  }
+  .add-btn {
+    position: absolute; right: 18px; top: 58px;
+    width: 30px; height: 30px; border-radius: 99px;
+    background: rgba(250,246,239,0.08);
+    border: 1px solid rgba(250,246,239,0.22);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(250,246,239,0.7);
+    font-size: 16px; font-weight: 300;
+    opacity: 0.6;
+    z-index: 28;
+  }
+  .header {
+    position: relative; z-index: 5;
+    padding: 22px 24px 22px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 28px; font-weight: 500; letter-spacing: -0.5px;
+    line-height: 1.1; color: var(--cream);
+  }
+  .stage {
+    position: relative; z-index: 5;
+    flex: 1;
+  }
+
+  /* Card foundations */
+  .pin {
+    position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+    width: 11px; height: 11px; border-radius: 99px;
+    background: radial-gradient(circle at 30% 30%, #f7d49a 0%, #c89548 50%, #8a5a20 100%);
+    box-shadow:
+      0 2px 5px rgba(0,0,0,0.55),
+      inset 0 1px 1.5px rgba(255,255,255,0.5);
+    z-index: 25;
+  }
+  .card-photo {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    filter: saturate(0.88) brightness(0.9);
+  }
+  .card-photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 38%, rgba(20,12,6,0.85) 100%);
+  }
+  .label {
+    position: absolute; left: 12px; right: 12px; bottom: 10px;
+    z-index: 3;
+  }
+  .label .eyebrow {
+    font-size: 9px; font-weight: 700; letter-spacing: 1.6px;
+    text-transform: uppercase; color: var(--terra-light); margin-bottom: 3px;
+  }
+  .label .identity {
+    font-size: 14px; font-weight: 600; font-style: italic;
+    color: var(--cream); letter-spacing: -0.3px; line-height: 1.1;
+    margin-bottom: 3px;
+  }
+  .label .wins {
+    font-size: 9px; font-weight: 600; color: rgba(250,246,239,0.62);
+    letter-spacing: 0.2px;
+  }
+
+
+  /* ────────── A. Each photo = own pin ────────── */
+  .a-board .card {
+    position: absolute;
+    width: 130px; height: 170px;
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 14px 28px -6px rgba(0,0,0,0.65), 0 0 0 0.5px rgba(250,246,239,0.10);
+    background: var(--cosmic-b);
+  }
+  /* Career cluster (top-left, 3 photos) */
+  .a1 { top: 4px;   left: 14px;  transform: rotate(-3.5deg); }
+  .a2 { top: 30px;  left: 152px; transform: rotate(2deg); }
+  .a3 { top: 168px; left: 80px;  transform: rotate(-1.5deg); }
+  /* Health (right, 2 photos) */
+  .a4 { top: 220px; right: 16px; transform: rotate(3deg); }
+  .a5 { top: 376px; right: 60px; transform: rotate(-2.5deg); }
+  /* Love (bottom-left, 1 photo) */
+  .a6 { top: 388px; left: 30px;  transform: rotate(1.5deg); }
+
+
+  /* ────────── B. Stacked polaroid effect ────────── */
+  .b-board .stack {
+    position: absolute;
+    width: 152px; height: 200px;
+  }
+  .b-board .layer {
+    position: absolute;
+    width: 152px; height: 200px;
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 16px 30px -6px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(250,246,239,0.10);
+    background: var(--cosmic-b);
+  }
+  .b-board .layer-1 { transform: translate(-10px, -8px) rotate(-6deg); z-index: 1; }
+  .b-board .layer-2 { transform: translate(6px, -4px) rotate(3deg); z-index: 2; }
+  .b-board .layer-3 { transform: translate(0, 0) rotate(-1deg); z-index: 3; }
+  .b-board .layer-1 .card-photo, .b-board .layer-2 .card-photo {
+    filter: saturate(0.7) brightness(0.7);
+  }
+  .b-board .layer-1 .label, .b-board .layer-2 .label { display: none; }
+  .b-board .stack .pin { z-index: 30; }
+  /* Stack positions */
+  .stack-1 { top: 16px;   left: 16px; }
+  .stack-2 { top: 38px;   right: 14px; }
+  .stack-3 { top: 268px;  left: 60px; }
+  .stack-4 { top: 290px;  right: 24px; }
+  .b-board .count-badge {
+    position: absolute; top: 8px; right: 8px; z-index: 35;
+    padding: 3px 6px; border-radius: 99px;
+    background: rgba(20,12,6,0.8); border: 1px solid rgba(250,246,239,0.18);
+    color: var(--cream);
+    font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+    backdrop-filter: blur(6px);
+  }
+
+
+  /* ────────── C. Photo strip inside card ────────── */
+  .c-board .card {
+    position: absolute;
+    width: 152px; height: 222px;
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 18px 32px -4px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(250,246,239,0.10);
+    background: var(--cosmic-b);
+  }
+  .c-board .label .thumbs {
+    display: flex; gap: 4px; margin-top: 6px;
+  }
+  .c-board .label .thumbs .thumb {
+    width: 18px; height: 18px; border-radius: 4px;
+    background-size: cover; background-position: center;
+    border: 1px solid rgba(250,246,239,0.18);
+  }
+  .c-board .label .thumbs .thumb.empty {
+    background: rgba(250,246,239,0.06);
+    border: 1px dashed rgba(250,246,239,0.18);
+  }
+  .c1 { top: 20px;  left: 18px;  transform: rotate(-3deg); }
+  .c2 { top: 36px;  right: 18px; transform: rotate(2.5deg); }
+  .c3 { top: 290px; left: 56px;  transform: rotate(-1.5deg); }
+
+
+  /* ────────── D. Variable card size (collage) ────────── */
+  .d-board .card {
+    position: absolute;
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 18px 32px -4px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(250,246,239,0.10);
+    background: var(--cosmic-b);
+  }
+  .d-board .card.small { width: 130px; height: 168px; }
+  .d-board .card.medium { width: 168px; height: 218px; }
+  .d-board .card.large { width: 200px; height: 248px; }
+  .d-board .card.large .label, .d-board .card.medium .label { left: 14px; right: 14px; bottom: 14px; }
+  .d-board .card.large .label .identity, .d-board .card.medium .label .identity { font-size: 15px; }
+  .d-board .card.large .collage {
+    position: absolute; left: 10px; right: 10px; bottom: 64px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px;
+    z-index: 4;
+  }
+  .d-board .card.large .collage .t {
+    height: 36px; border-radius: 5px;
+    background-size: cover; background-position: center;
+    border: 1px solid rgba(250,246,239,0.18);
+  }
+  .d-board .card.medium .collage {
+    position: absolute; left: 10px; right: 10px; bottom: 56px;
+    display: flex; gap: 4px; z-index: 4;
+  }
+  .d-board .card.medium .collage .t {
+    flex: 1; height: 32px; border-radius: 5px;
+    background-size: cover; background-position: center;
+    border: 1px solid rgba(250,246,239,0.18);
+  }
+  .d1 { top: 16px;  left: 16px;  transform: rotate(-3deg); }
+  .d2 { top: 40px;  right: 18px; transform: rotate(2.5deg); }
+  .d3 { top: 270px; left: 50px;  transform: rotate(-1.5deg); }
+
+
+  /* Tab bar */
+  .tabbar {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 30;
+    height: 72px;
+    background: rgba(20,12,6,0.92);
+    border-top: 1px solid rgba(250,246,239,0.08);
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 8px 24px 22px;
+  }
+  .tab { font-size: 9px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(250,246,239,0.55); }
+  .tab.active { color: var(--amber); }
+</style>
+</head>
+<body>
+
+  <h1 class="page-title">Multi-photo bulletin layouts — 4 options</h1>
+  <p class="page-sub">Each phone shows the same fictional data: Career (3 photos), Health (2 photos), Love (1 photo). Compare how each layout reads.</p>
+
+  <div class="grid">
+
+    <!-- ─── A. Each photo = own pin ─── -->
+    <div class="col">
+      <span class="badge">Option A</span>
+      <h2>Each photo = own pin</h2>
+      <div class="phone a-board">
+        <div class="notch"></div>
+        <div class="status"><span>3:42</span><span>● ● ●</span></div>
+        <div class="chrome">
+          <div class="add-btn">+</div>
+        </div>
+        <div class="header"><h1>Who you're becoming.</h1></div>
+        <div class="stage">
+          <!-- Career cluster (3 photos) -->
+          <div class="card a1">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/work-paris.jpg');"></div>
+            <div class="label">
+              <div class="eyebrow">Career</div>
+              <div class="identity">Studio.</div>
+            </div>
+          </div>
+          <div class="card a2">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/work-coffee.jpg');"></div>
+            <div class="label">
+              <div class="eyebrow">Career</div>
+              <div class="identity">Studio.</div>
+            </div>
+          </div>
+          <div class="card a3">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/work-window.jpg');"></div>
+            <div class="label">
+              <div class="eyebrow">Career</div>
+              <div class="identity">Studio.</div>
+            </div>
+          </div>
+          <!-- Health cluster (2 photos) -->
+          <div class="card a4">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/health-runner.jpg');"></div>
+            <div class="label">
+              <div class="eyebrow">Health</div>
+              <div class="identity">Strong.</div>
+            </div>
+          </div>
+          <div class="card a5">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/health-yoga.jpg');"></div>
+            <div class="label">
+              <div class="eyebrow">Health</div>
+              <div class="identity">Strong.</div>
+            </div>
+          </div>
+          <!-- Love (1 photo) -->
+          <div class="card a6">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/love-hero.jpg');"></div>
+            <div class="label">
+              <div class="eyebrow">Love</div>
+              <div class="identity">Chosen.</div>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar">
+          <div class="tab">Today</div>
+          <div class="tab active">Vision</div>
+          <div class="tab">Wins</div>
+        </div>
+      </div>
+      <p class="note"><strong>Feel:</strong> Most authentic to a real bulletin board. Each photo gets its own pin. Cards from the same vision repeat the eyebrow (Career, Career, Career) so they're recognisable as a group.</p>
+      <p class="tradeoff">Trade-off: with 5 visions × 3 photos each = 15 cards. Board gets dense fast. Repeated eyebrow text might feel redundant.</p>
+    </div>
+
+    <!-- ─── B. Stacked polaroid ─── -->
+    <div class="col">
+      <span class="badge">Option B</span>
+      <h2>Stacked polaroids</h2>
+      <div class="phone b-board">
+        <div class="notch"></div>
+        <div class="status"><span>3:42</span><span>● ● ●</span></div>
+        <div class="chrome">
+          <div class="add-btn">+</div>
+        </div>
+        <div class="header"><h1>Who you're becoming.</h1></div>
+        <div class="stage">
+          <!-- Career stack (3 photos) -->
+          <div class="stack stack-1">
+            <div class="layer layer-1">
+              <div class="card-photo" style="background-image: url('assets/work-window.jpg');"></div>
+            </div>
+            <div class="layer layer-2">
+              <div class="card-photo" style="background-image: url('assets/work-coffee.jpg');"></div>
+            </div>
+            <div class="layer layer-3">
+              <div class="card-photo" style="background-image: url('assets/work-paris.jpg');"></div>
+              <div class="label">
+                <div class="eyebrow">Career</div>
+                <div class="identity">Studio.</div>
+                <div class="wins">14 wins</div>
+              </div>
+              <div class="count-badge">3</div>
+            </div>
+            <div class="pin"></div>
+          </div>
+          <!-- Health stack (2 photos) -->
+          <div class="stack stack-2">
+            <div class="layer layer-2">
+              <div class="card-photo" style="background-image: url('assets/health-yoga.jpg');"></div>
+            </div>
+            <div class="layer layer-3">
+              <div class="card-photo" style="background-image: url('assets/health-runner.jpg');"></div>
+              <div class="label">
+                <div class="eyebrow">Health</div>
+                <div class="identity">Strong.</div>
+                <div class="wins">9 wins</div>
+              </div>
+              <div class="count-badge">2</div>
+            </div>
+            <div class="pin"></div>
+          </div>
+          <!-- Love (1 photo, no stack) -->
+          <div class="stack stack-3">
+            <div class="layer layer-3">
+              <div class="card-photo" style="background-image: url('assets/love-hero.jpg');"></div>
+              <div class="label">
+                <div class="eyebrow">Love</div>
+                <div class="identity">Chosen.</div>
+                <div class="wins">7 wins</div>
+              </div>
+            </div>
+            <div class="pin"></div>
+          </div>
+          <!-- Joy stack (2 photos) -->
+          <div class="stack stack-4">
+            <div class="layer layer-2">
+              <div class="card-photo" style="background-image: url('assets/work-beach.jpg');"></div>
+            </div>
+            <div class="layer layer-3">
+              <div class="card-photo" style="background-image: url('assets/hero-warm-bright.jpg');"></div>
+              <div class="label">
+                <div class="eyebrow">Joy</div>
+                <div class="identity">Lit up.</div>
+                <div class="wins">11 wins</div>
+              </div>
+              <div class="count-badge">2</div>
+            </div>
+            <div class="pin"></div>
+          </div>
+        </div>
+        <div class="tabbar">
+          <div class="tab">Today</div>
+          <div class="tab active">Vision</div>
+          <div class="tab">Wins</div>
+        </div>
+      </div>
+      <p class="note"><strong>Feel:</strong> Each vision is one "spot" on the board, but the stacked polaroid effect signals depth. Small count badge top-right shows how many. Tap → cycle through within Detail.</p>
+      <p class="tradeoff">Trade-off: secondary photos are mostly hidden — they're peek-only. Photo count badge helps but the back layers are decorative more than informational.</p>
+    </div>
+
+    <!-- ─── C. Photo strip inside card ─── -->
+    <div class="col">
+      <span class="badge">Option C</span>
+      <h2>Photo strip inside card</h2>
+      <div class="phone c-board">
+        <div class="notch"></div>
+        <div class="status"><span>3:42</span><span>● ● ●</span></div>
+        <div class="chrome">
+          <div class="add-btn">+</div>
+        </div>
+        <div class="header"><h1>Who you're becoming.</h1></div>
+        <div class="stage">
+          <!-- Career card (3 photos) -->
+          <div class="card c1">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/work-paris.jpg');"></div>
+            <div class="label">
+              <div class="eyebrow">Career</div>
+              <div class="identity">Studio.</div>
+              <div class="wins">14 wins</div>
+              <div class="thumbs">
+                <div class="thumb" style="background-image: url('assets/work-coffee.jpg');"></div>
+                <div class="thumb" style="background-image: url('assets/work-window.jpg');"></div>
+                <div class="thumb empty"></div>
+                <div class="thumb empty"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Health (2 photos) -->
+          <div class="card c2">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/health-runner.jpg');"></div>
+            <div class="label">
+              <div class="eyebrow">Health</div>
+              <div class="identity">Strong.</div>
+              <div class="wins">9 wins</div>
+              <div class="thumbs">
+                <div class="thumb" style="background-image: url('assets/health-yoga.jpg');"></div>
+                <div class="thumb empty"></div>
+                <div class="thumb empty"></div>
+                <div class="thumb empty"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Love (1 photo) -->
+          <div class="card c3">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/love-hero.jpg');"></div>
+            <div class="label">
+              <div class="eyebrow">Love</div>
+              <div class="identity">Chosen.</div>
+              <div class="wins">7 wins</div>
+              <div class="thumbs">
+                <div class="thumb empty"></div>
+                <div class="thumb empty"></div>
+                <div class="thumb empty"></div>
+                <div class="thumb empty"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar">
+          <div class="tab">Today</div>
+          <div class="tab active">Vision</div>
+          <div class="tab">Wins</div>
+        </div>
+      </div>
+      <p class="note"><strong>Feel:</strong> Quietest treatment. Single card per vision, hero photo dominant. A small row of 4 thumbnail slots (filled or empty) under the identity text indicates remaining photos.</p>
+      <p class="tradeoff">Trade-off: thumbnails are very small (18×18). Hard to recognise what they show. Reads more like "data" than "vision". Empty slots may feel like a checklist.</p>
+    </div>
+
+    <!-- ─── D. Variable card size ─── -->
+    <div class="col">
+      <span class="badge">Option D</span>
+      <h2>Variable card size</h2>
+      <div class="phone d-board">
+        <div class="notch"></div>
+        <div class="status"><span>3:42</span><span>● ● ●</span></div>
+        <div class="chrome">
+          <div class="add-btn">+</div>
+        </div>
+        <div class="header"><h1>Who you're becoming.</h1></div>
+        <div class="stage">
+          <!-- Career large (3 photos) -->
+          <div class="card large d1">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/work-paris.jpg');"></div>
+            <div class="collage">
+              <div class="t" style="background-image: url('assets/work-coffee.jpg');"></div>
+              <div class="t" style="background-image: url('assets/work-window.jpg');"></div>
+              <div class="t" style="background-image: url('assets/work-beach.jpg');"></div>
+            </div>
+            <div class="label">
+              <div class="eyebrow">Career</div>
+              <div class="identity">Studio of My Own.</div>
+              <div class="wins">14 wins</div>
+            </div>
+          </div>
+          <!-- Health medium (2 photos) -->
+          <div class="card medium d2">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/health-runner.jpg');"></div>
+            <div class="collage">
+              <div class="t" style="background-image: url('assets/health-yoga.jpg');"></div>
+            </div>
+            <div class="label">
+              <div class="eyebrow">Health</div>
+              <div class="identity">Strong.</div>
+              <div class="wins">9 wins</div>
+            </div>
+          </div>
+          <!-- Love small (1 photo) -->
+          <div class="card small d3">
+            <div class="pin"></div>
+            <div class="card-photo" style="background-image: url('assets/love-hero.jpg');"></div>
+            <div class="label">
+              <div class="eyebrow">Love</div>
+              <div class="identity">Chosen.</div>
+              <div class="wins">7 wins</div>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar">
+          <div class="tab">Today</div>
+          <div class="tab active">Vision</div>
+          <div class="tab">Wins</div>
+        </div>
+      </div>
+      <p class="note"><strong>Feel:</strong> Cards grow with photo count. 1-photo = small (current size). 2-photo = hero + 1 strip. 3-5 photos = larger card with mini collage of secondary photos under the hero.</p>
+      <p class="tradeoff">Trade-off: inconsistent card sizes complicate the bulletin layout math. Larger cards eat board real-estate. Maybe more "useful" than "vision board"-feeling.</p>
+    </div>
+
+  </div>
+
+  <p class="page-sub" style="margin-top: 48px;">
+    Reply <strong>A · B · C · D</strong> and I'll lock the rest of the plan and call ExitPlanMode.
+  </p>
+
+</body>
+</html>

@@ -1,0 +1,749 @@
+// Home tab.
+//
+// ═══════════════════════════════════════════════════════════════════
+// ⚠️  LAYOUT CONTRACT — DO NOT BREAK
+// ═══════════════════════════════════════════════════════════════════
+// Home must ALWAYS fit on a single screen (no scroll), on iPhone 14
+// and up. Breaking this is a recurring bug — we've fixed it 5+ times.
+// Current sizing budget after the wisdom redesign (R52):
+//
+//   • Greeting row             ≈ 75pt
+//   • Ritual card              ≈ 140pt  (minHeight, fixed)
+//   • Today's wisdom strip     ≈ 130pt  (heading + 80pt cards + paginator)
+//   • Today's reading card     ≈ 105pt  (self-contained, no external heading)
+//   • paddingTop 4 + paddingBottom 90
+//   • Total budget:            ≈ 450pt content
+//
+// Available content area on iPhone 14: ~620pt. Slack: +170pt.
+// The Intention card (~80pt, conditional on ritual being done today)
+// still fits inside the slack.
+//
+// DO NOT use flex:1 on the ritual card — R35 tried and the card
+// ballooned to fill all available space. Fixed sizing is the answer.
+// If layout pressure returns, compress one of the sections — not
+// the ritual.
+// ═══════════════════════════════════════════════════════════════════
+//
+// Sections, top to bottom:
+//   1. RITUAL card             (unchanged)
+//   2. INTENTION card          (conditional — only after ritual is done today)
+//   3. TODAY'S WISDOM strip    (swipeable set of 8 mixed-kind cards)
+//   4. TODAY'S READING card    (preview → tap pushes /reading modal)
+//
+// The wisdom strip and reading card replaced the older Affirmations
+// strip + Daily wisdom quote in the R52 redesign.
+
+import {
+  ScrollView,
+  View,
+  Text,
+  Pressable,
+  Image,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import Feather from '@expo/vector-icons/Feather';
+import * as Haptics from 'expo-haptics';
+
+import { useDailyStore } from '@/core/stores/useDailyStore';
+import { useVisionAreasStore } from '@/core/stores/useVisionAreasStore';
+import { colors } from '@/ui/tokens';
+import { todaysWisdomSet } from '@/core/constants/wisdomItems';
+import { todaysReading } from '@/core/constants/dailyReadings';
+import type { WisdomItem, DailyReading } from '@/core/models/wisdom';
+
+function greetingForHour(): string {
+  const h = new Date().getHours();
+  if (h >= 5 && h < 12) return 'Good morning,';
+  if (h >= 12 && h < 17) return 'Good afternoon,';
+  if (h >= 17 && h < 21) return 'Good evening,';
+  return 'Hello,';
+}
+
+function formattedDate(): string {
+  const d = new Date();
+  return d.toLocaleDateString(undefined, {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+export default function Home() {
+  const router = useRouter();
+  const intention = useDailyStore((s) => s.todaysIntention());
+  const ritualDone = useDailyStore((s) => s.isRitualCompletedToday());
+
+  // R52: wisdom redesign — single unified set replaces the separate
+  // affirmations strip + daily quote. Categories filter the
+  // affirmation pool; quotes and prompts are universal.
+  const activeVisions = useVisionAreasStore((s) => s.activeVisions);
+  const visionCategories = Array.from(
+    new Set(activeVisions().map((v) => v.category)),
+  );
+  const wisdomItems = todaysWisdomSet(visionCategories, 8);
+  const reading = todaysReading();
+
+  const openReading = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+    router.push('/reading');
+  };
+
+  // Intention shows ONLY after ritual is done (per round 4 feedback).
+  const showIntention = ritualDone && !!intention;
+
+  const openRitual = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+    router.push('/ritual');
+  };
+
+  return (
+    <View style={{ flex: 1, backgroundColor: colors.cosmicA }}>
+      {/* Cosmic warm gradient */}
+      <LinearGradient
+        colors={[colors.terraDeep + '66', 'transparent']}
+        locations={[0, 1]}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 380 }}
+      />
+      <LinearGradient
+        colors={[
+          colors.cosmicC + 'AA',
+          colors.cosmicB + '77',
+          colors.cosmicA + 'FF',
+          colors.cosmicA,
+        ]}
+        locations={[0, 0.35, 0.75, 1]}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+      />
+
+      <SafeAreaView style={{ flex: 1 }} edges={['top', 'left', 'right']}>
+        {/* Round 25: back to a non-scrolling flex View (per user — Home
+            should never scroll). Quote clipping is solved by compressing
+            inter-section spacing and capping the body's line count
+            rather than by allowing scroll. */}
+        <View
+          style={{
+            flex: 1,
+            paddingHorizontal: 24,
+            paddingTop: 4,
+            // LAYOUT: 90 just clears the tab bar (~80pt) with a small
+            // breath. Don't bump higher without compressing a section
+            // — every pixel here comes out of the quote.
+            paddingBottom: 90,
+          }}
+        >
+          {/* ── Greeting row (no streak pill anymore) ─── */}
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              justifyContent: 'space-between',
+              marginTop: 2,
+              marginBottom: 18,
+            }}
+          >
+            <View style={{ flex: 1 }}>
+              <Text
+                style={{
+                  fontSize: 10,
+                  fontWeight: '700',
+                  letterSpacing: 2,
+                  textTransform: 'uppercase',
+                  color: colors.amber,
+                  marginBottom: 5,
+                }}
+              >
+                {formattedDate()}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: '500',
+                  color: colors.cream,
+                  letterSpacing: -0.5,
+                  lineHeight: 28,
+                }}
+              >
+                {greetingForHour()}{' '}
+                <Text style={{ fontStyle: 'italic', fontWeight: '400', color: colors.terraLight }}>
+                  Shellena.
+                </Text>
+              </Text>
+            </View>
+            {/* Round 13: avatar is now tappable → opens Profile screen. */}
+            <Pressable
+              onPress={() => router.push('/profile')}
+              hitSlop={8}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.85 : 1,
+                marginTop: 6,
+              })}
+            >
+              <LinearGradient
+                colors={[colors.terraLight, colors.terra]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={{
+                  width: 42,
+                  height: 42,
+                  borderRadius: 999,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderWidth: 1,
+                  borderColor: 'rgba(250,246,239,0.14)',
+                }}
+              >
+                <Text
+                  style={{
+                    color: colors.cream,
+                    fontSize: 15,
+                    fontWeight: '600',
+                    letterSpacing: 0.3,
+                  }}
+                >
+                  S
+                </Text>
+              </LinearGradient>
+            </Pressable>
+          </View>
+
+          {/* ── 1. RITUAL feature card ── */}
+          <RitualFeatureCard onPress={openRitual} groupedBelow={showIntention} />
+
+          {/* ── 2. INTENTION (only after ritual done) ── */}
+          {showIntention && <IntentionDisplay text={intention} attached />}
+
+          {/* ── 3. TODAY'S WISDOM strip (R52) ── */}
+          <WisdomStrip items={wisdomItems} />
+
+          {/* ── 4. TODAY'S READING preview (R52) ── */}
+          <ReadingPreviewCard reading={reading} onPress={openReading} />
+        </View>
+      </SafeAreaView>
+    </View>
+  );
+}
+
+// ─── Ritual feature card ───────────────────────────────
+// Hero photo bg + dark vignette + terra glow + Begin ritual button + mini orb.
+// When `groupedBelow` is true, the bottom-corner radii are zeroed so the
+// intention card below attaches seamlessly.
+function RitualFeatureCard({
+  onPress,
+  groupedBelow,
+}: {
+  onPress: () => void;
+  groupedBelow: boolean;
+}) {
+  // R36 revert: the flex:1 experiment in R35 made the card balloon on
+  // tall phones. Back to fixed-size sizing via the inner View's
+  // minHeight, which is the proven approach. If layout pressure
+  // returns, compress elsewhere — DO NOT add flex sizing here again.
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => ({
+        borderRadius: 24,
+        borderBottomLeftRadius: groupedBelow ? 0 : 24,
+        borderBottomRightRadius: groupedBelow ? 0 : 24,
+        overflow: 'hidden',
+        marginBottom: groupedBelow ? 0 : 14,
+        opacity: pressed ? 0.96 : 1,
+        shadowColor: colors.terra,
+        shadowOpacity: 0.35,
+        shadowRadius: 32,
+        shadowOffset: { width: 0, height: 22 },
+        elevation: 12,
+      })}
+    >
+      <Image
+        source={require('@/assets/images/library/hero-warm-bright.jpg')}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
+        }}
+        resizeMode="cover"
+      />
+      <LinearGradient
+        colors={[
+          'rgba(20,12,6,0.35)',
+          'rgba(20,12,6,0.55)',
+          'rgba(20,12,6,0.92)',
+        ]}
+        locations={[0, 0.55, 1]}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+      />
+      <View
+        style={{
+          position: 'absolute',
+          right: -50,
+          top: -50,
+          width: 220,
+          height: 220,
+          borderRadius: 110,
+          backgroundColor: colors.terra + '77',
+          opacity: 0.6,
+        }}
+      />
+
+      <View style={{ padding: 18, paddingBottom: 16, minHeight: 140 }}>
+        {/* R36: back to fixed minHeight (140pt). Was 150 in R31, R35
+            tried flex:1 (over-corrected). 140 is slightly tighter than
+            R31 to give the daily wisdom card 10pt more headroom. */}
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: '500',
+            color: colors.cream,
+            letterSpacing: -0.5,
+            lineHeight: 27,
+            marginBottom: 8,
+          }}
+        >
+          Visualise{'\n'}
+          <Text style={{ fontStyle: 'italic', fontWeight: '400', color: colors.terraLight }}>
+            what you're becoming.
+          </Text>
+        </Text>
+
+        <Text
+          style={{
+            fontSize: 13,
+            lineHeight: 19,
+            color: 'rgba(250,246,239,0.85)',
+            marginBottom: 16,
+            maxWidth: 320,
+          }}
+        >
+          A 3-minute visualisation to set your intentions and bring you closer to your vision. Visualising daily is how you get there.
+        </Text>
+
+        {/* Round 12: CTA centered horizontally inside the ritual card. */}
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 9,
+              height: 46,
+              paddingHorizontal: 20,
+              paddingLeft: 16,
+              borderRadius: 999,
+              borderWidth: 1,
+              borderColor: colors.amber + '80',
+              overflow: 'hidden',
+            }}
+          >
+            <LinearGradient
+              colors={[colors.terra, colors.terraDeep]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{
+                position: 'absolute',
+                top: -1,
+                left: -1,
+                right: -1,
+                bottom: -1,
+                borderRadius: 999,
+              }}
+            />
+            <View
+              style={{
+                width: 26,
+                height: 26,
+                borderRadius: 99,
+                backgroundColor: 'rgba(250,246,239,0.18)',
+                borderWidth: 1,
+                borderColor: 'rgba(250,246,239,0.35)',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Feather name="play" size={10} color={colors.cream} />
+            </View>
+            <Text
+              style={{
+                color: colors.cream,
+                fontSize: 14.5,
+                fontWeight: '600',
+                letterSpacing: -0.1,
+              }}
+            >
+              Begin ritual
+            </Text>
+          </View>
+        </View>
+      </View>
+    </Pressable>
+  );
+}
+
+// ─── Intention display ─────────────────────────────────
+// Read-only "From your ritual" card. Only renders after the ritual is
+// completed today. When `attached` is true, it visually joins the ritual
+// card above (no top-radius, no top margin).
+function IntentionDisplay({ text, attached }: { text: string; attached?: boolean }) {
+  return (
+    <View style={{ marginBottom: 14 }}>
+      <View
+        style={{
+          borderRadius: 24,
+          borderTopLeftRadius: attached ? 0 : 24,
+          borderTopRightRadius: attached ? 0 : 24,
+          backgroundColor: 'rgba(250,246,239,0.07)',
+          borderWidth: 1,
+          borderTopWidth: attached ? 0 : 1,
+          borderColor: 'rgba(250,246,239,0.12)',
+          padding: 22,
+          // Lifting the top so it visually overlaps the ritual card's
+          // base, creating a "stacked" feel
+          marginTop: attached ? -1 : 0,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'baseline',
+            justifyContent: 'space-between',
+            marginBottom: 10,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 9.5,
+              fontWeight: '700',
+              letterSpacing: 1.8,
+              textTransform: 'uppercase',
+              color: colors.amber,
+            }}
+          >
+            Today's intention
+          </Text>
+          <Text
+            style={{
+              fontSize: 9,
+              fontWeight: '700',
+              letterSpacing: 1.4,
+              textTransform: 'uppercase',
+              color: 'rgba(250,246,239,0.55)',
+            }}
+          >
+            From your ritual
+          </Text>
+        </View>
+        <Text
+          style={{
+            fontSize: 18,
+            color: colors.cream,
+            lineHeight: 25,
+            fontWeight: '500',
+            letterSpacing: -0.2,
+          }}
+        >
+          {text}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
+// ─── Today’s wisdom — unified card renderer ────────────────────
+// All three variants share the 115×80pt footprint. Discriminated
+// render based on item.kind. Cards are deliberately compact so 3
+// peek visible inside the swipeable strip on iPhone 14.
+function WisdomCard({ item }: { item: WisdomItem }) {
+  switch (item.kind) {
+    case 'affirmation':
+      return <AffirmationVariant text={item.item.text} />;
+    case 'quote':
+      return <QuoteVariant text={item.item.text} author={item.item.author} />;
+    case 'prompt':
+      return <PromptVariant text={item.item.text} />;
+  }
+}
+
+function AffirmationVariant({ text }: { text: string }) {
+  return (
+    <View
+      style={{
+        width: 115,
+        height: 80,
+        borderRadius: 12,
+        padding: 10,
+        backgroundColor: 'rgba(192,104,72,0.28)',
+        borderWidth: 1,
+        borderColor: 'rgba(216,154,90,0.35)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+      }}
+    >
+      <LinearGradient
+        colors={['rgba(192,104,72,0.4)', 'rgba(192,104,72,0.18)']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+      />
+      <Text
+        style={{
+          fontFamily: 'Georgia',
+          fontStyle: 'italic',
+          fontSize: 11,
+          lineHeight: 14,
+          color: colors.cream,
+          fontWeight: '500',
+          textAlign: 'center',
+        }}
+        numberOfLines={4}
+      >
+        {text}
+      </Text>
+    </View>
+  );
+}
+
+function QuoteVariant({ text, author }: { text: string; author: string }) {
+  return (
+    <View
+      style={{
+        width: 115,
+        height: 80,
+        borderRadius: 12,
+        padding: 9,
+        backgroundColor: 'rgba(216,154,90,0.08)',
+        borderWidth: 1,
+        borderColor: 'rgba(216,154,90,0.22)',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Text
+        style={{
+          fontFamily: 'Georgia',
+          fontStyle: 'italic',
+          fontSize: 10,
+          lineHeight: 12.5,
+          color: colors.cream,
+          textAlign: 'center',
+          marginBottom: 4,
+        }}
+        numberOfLines={3}
+      >
+        {text}
+      </Text>
+      <Text
+        style={{
+          fontSize: 6,
+          fontWeight: '700',
+          letterSpacing: 1.2,
+          color: colors.amber,
+          textAlign: 'center',
+        }}
+        numberOfLines={1}
+      >
+        — {author.toUpperCase()}
+      </Text>
+    </View>
+  );
+}
+
+function PromptVariant({ text }: { text: string }) {
+  return (
+    <View
+      style={{
+        width: 115,
+        height: 80,
+        borderRadius: 12,
+        padding: 9,
+        backgroundColor: 'rgba(250,246,239,0.03)',
+        borderWidth: 1,
+        borderStyle: 'dashed',
+        borderColor: 'rgba(216,154,90,0.4)',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 6,
+          fontWeight: '700',
+          letterSpacing: 1.5,
+          color: 'rgba(250,246,239,0.55)',
+          marginBottom: 4,
+        }}
+      >
+        SIT WITH
+      </Text>
+      <Text
+        style={{
+          fontSize: 10,
+          lineHeight: 12.5,
+          color: colors.cream,
+          fontWeight: '500',
+          textAlign: 'center',
+        }}
+        numberOfLines={3}
+      >
+        {text}
+      </Text>
+    </View>
+  );
+}
+
+// ─── Today’s wisdom strip ───────────────────────────────────────
+// Horizontal scrollable set of 8 mixed-kind wisdom cards with a
+// paginator. The "active" dot is the first one — there's no actual
+// scroll-position tracking yet, the dot count is just a visual
+// affordance hinting at the set size. Add scroll-position tracking
+// in a v1.1 polish pass if needed.
+function WisdomStrip({ items }: { items: WisdomItem[] }) {
+  return (
+    <View style={{ marginTop: 14 }}>
+      <Text
+        style={{
+          fontSize: 22,
+          fontWeight: '500',
+          color: colors.amber,
+          letterSpacing: -0.4,
+          marginBottom: 10,
+        }}
+      >
+        Today’s wisdom
+      </Text>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ gap: 9, paddingRight: 12 }}
+      >
+        {items.map((item, i) => (
+          <WisdomCard key={`${item.kind}-${i}`} item={item} />
+        ))}
+      </ScrollView>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          gap: 4,
+          marginTop: 10,
+        }}
+      >
+        {items.map((_, i) => (
+          <View
+            key={i}
+            style={{
+              height: 4,
+              width: i === 0 ? 14 : 4,
+              borderRadius: 99,
+              backgroundColor:
+                i === 0 ? colors.amber : 'rgba(250,246,239,0.18)',
+            }}
+          />
+        ))}
+      </View>
+    </View>
+  );
+}
+
+// ─── Today's reading preview ────────────────────────────────────
+// Card sits beneath the wisdom strip. Self-contained — eyebrow
+// label is inside the card so no section heading is needed above it.
+// Tap pushes the full reader modal.
+function ReadingPreviewCard({
+  reading,
+  onPress,
+}: {
+  reading: DailyReading;
+  onPress: () => void;
+}) {
+  const opening = reading.body.find((b) => b.type === 'paragraph')?.text ?? '';
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => ({
+        marginTop: 14,
+        padding: 12,
+        borderRadius: 14,
+        backgroundColor: 'rgba(216,154,90,0.05)',
+        borderWidth: 1,
+        borderColor: 'rgba(216,154,90,0.22)',
+        opacity: pressed ? 0.85 : 1,
+      })}
+    >
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 4,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 9,
+            fontWeight: '700',
+            letterSpacing: 1.5,
+            color: colors.amber,
+          }}
+        >
+          TODAY’S READING
+        </Text>
+        <Text
+          style={{
+            fontSize: 9,
+            color: 'rgba(250,246,239,0.5)',
+          }}
+        >
+          {reading.readTimeMinutes} min
+        </Text>
+      </View>
+      <Text
+        style={{
+          fontFamily: 'Georgia',
+          fontSize: 16,
+          fontWeight: '500',
+          color: colors.cream,
+          marginBottom: 4,
+          letterSpacing: -0.2,
+        }}
+        numberOfLines={1}
+      >
+        {reading.title}
+      </Text>
+      <Text
+        style={{
+          fontFamily: 'Georgia',
+          fontStyle: 'italic',
+          fontSize: 12,
+          lineHeight: 16,
+          color: 'rgba(250,246,239,0.78)',
+        }}
+        numberOfLines={2}
+      >
+        {opening}
+      </Text>
+      <Text
+        style={{
+          marginTop: 8,
+          fontSize: 10,
+          fontWeight: '700',
+          letterSpacing: 1.2,
+          color: colors.amber,
+        }}
+      >
+        CONTINUE READING →
+      </Text>
+    </Pressable>
+  );
+}

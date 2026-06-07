@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Innerproof preview</title>
+<style>
+  body { margin: 0; padding: 40px 20px; background: #2A1F15; color: #FAF6EF;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    display: flex; flex-direction: column; align-items: center; min-height: 100vh; box-sizing: border-box; }
+  h1 { font-size: 18px; font-weight: 500; margin: 0 0 6px; letter-spacing: -0.2px; }
+  .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #D89A5A; margin-bottom: 8px; }
+  .url { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px;
+    background: rgba(250,246,239,0.08); padding: 8px 14px; border-radius: 8px; margin: 18px 0 26px;
+    user-select: all; }
+  .qr { background: #fff; padding: 18px; border-radius: 18px; box-shadow: 0 14px 30px rgba(0,0,0,0.4); }
+  ol { font-size: 14px; line-height: 1.6; max-width: 420px; color: rgba(250,246,239,0.85); margin: 30px 0 0; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  .caveat { margin-top: 28px; padding: 14px 16px; max-width: 420px; border-radius: 12px;
+    background: rgba(216,154,90,0.10); border: 1px solid rgba(216,154,90,0.25);
+    color: rgba(250,246,239,0.85); font-size: 12px; line-height: 1.5; }
+</style></head>
+<body>
+  <div class="eyebrow">Innerproof · dev preview</div>
+  <h1>Scan to open in Expo Go</h1>
+  <div class="url">exp://192.168.0.93:8081</div>
+  <div class="qr">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=exp%3A%2F%2F192.168.0.93%3A8081"
+      width="320" height="320" alt="QR code" />
+  </div>
+  <ol>
+    <li>Install <strong>Expo Go</strong> from the App Store on your phone.</li>
+    <li>Make sure your phone is on the <strong>same WiFi</strong> as this Mac.</li>
+    <li>Open the Camera app and point at the QR code (iOS), or use Expo Go's built-in scanner.</li>
+    <li>The first launch will download + compile the bundle (~30s).</li>
+  </ol>
+  <div class="caveat">
+    <strong>Heads up:</strong> Innerproof uses native modules
+    (Skia, expo-audio, expo-haptics, apple-authentication) that may not run in Expo Go.
+    If you see a red error screen, we'll need to build a dev client instead.
+  </div>
+</body></html>

@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Affirmations feed — concepts</title>
+<style>
+  :root {
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cosmic-c: #7A4530;
+    --cream: #FAF6EF;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --ink: #3E2F22;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #14100C;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+    color: var(--cream);
+    padding: 40px 24px 60px;
+  }
+  .page-title { text-align: center; font-size: 22px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .page-sub { text-align: center; color: rgba(250,246,239,0.55); font-size: 13px; max-width: 760px; margin: 0 auto 40px; line-height: 1.55; }
+
+  .section {
+    max-width: 1700px; margin: 0 auto 60px;
+  }
+  .section h2 {
+    color: var(--amber); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    border-top: 1px solid rgba(216,154,90,0.25); padding-top: 24px; margin-bottom: 8px;
+    max-width: 1500px; margin-left: auto; margin-right: auto;
+  }
+  .section h3 {
+    color: var(--cream); font-size: 18px; font-weight: 500; margin-bottom: 26px; letter-spacing: -0.3px;
+    max-width: 1500px; margin-left: auto; margin-right: auto;
+  }
+  .row { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .col h4 { color: var(--cream); font-size: 14px; font-weight: 600; }
+  .col .badge {
+    display: inline-block; padding: 4px 10px; border-radius: 999px;
+    background: rgba(216,154,90,0.15); color: var(--amber);
+    font-size: 9.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase;
+  }
+  .col .note { color: rgba(250,246,239,0.6); font-size: 11.5px; max-width: 340px; text-align: center; line-height: 1.55; }
+  .col .tradeoff {
+    color: rgba(250,246,239,0.45); font-size: 10.5px; max-width: 340px; text-align: center;
+    line-height: 1.55; font-style: italic;
+    border-top: 1px dashed rgba(250,246,239,0.15); padding-top: 8px; margin-top: 2px;
+  }
+
+  .phone {
+    width: 360px; height: 760px;
+    border-radius: 44px;
+    position: relative; overflow: hidden;
+    background: var(--cosmic-a);
+    box-shadow: 0 30px 70px -10px rgba(0,0,0,0.65);
+  }
+  .phone::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(80% 50% at 50% 100%, rgba(122,69,48,0.50) 0%, rgba(75,46,30,0.30) 35%, transparent 70%),
+      radial-gradient(60% 40% at 50% 0%, rgba(158,79,50,0.28) 0%, transparent 60%);
+  }
+  .notch { width: 116px; height: 28px; border-radius: 0 0 14px 14px; background: #000; position: absolute; left: 50%; transform: translateX(-50%); top: 0; z-index: 20; }
+  .status { position: relative; z-index: 5; display: flex; justify-content: space-between; padding: 14px 24px 0; color: var(--cream); font-size: 13px; font-weight: 600; }
+  .tabbar {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 30; height: 72px;
+    background: rgba(20,12,6,0.92); border-top: 1px solid rgba(250,246,239,0.08);
+    display: flex; align-items: center; justify-content: space-around; padding: 8px 24px 22px;
+  }
+  .tab { font-size: 9px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(250,246,239,0.55); }
+  .tab.active { color: var(--amber); }
+
+  /* ─── HOME (renamed from Today) ─── */
+  .home-content { position: relative; z-index: 5; padding: 8px 24px; }
+  .greeting-row { display: flex; justify-content: space-between; align-items: flex-start; padding-top: 8px; margin-bottom: 18px; }
+  .greeting-text { flex: 1; }
+  .greeting-eyebrow { font-size: 10.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
+  .greeting-title { font-size: 26px; font-weight: 500; color: var(--cream); letter-spacing: -0.6px; line-height: 30px; }
+  .greeting-title em { font-style: italic; font-weight: 400; color: var(--terra-light); }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 999px;
+    background: linear-gradient(135deg, var(--terra-light), var(--terra));
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 14px; font-weight: 600;
+    border: 1px solid rgba(250,246,239,0.14);
+  }
+  .ritual-card {
+    height: 200px; border-radius: 22px; overflow: hidden;
+    position: relative;
+    margin-bottom: 16px;
+    background-image: url('assets/hero-warm-bright.jpg');
+    background-size: cover; background-position: center;
+    box-shadow: 0 18px 36px -4px rgba(192,104,72,0.35);
+  }
+  .ritual-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(20,12,6,0.2) 0%, transparent 30%, rgba(20,12,6,0.65) 100%);
+  }
+  .ritual-content { position: absolute; left: 20px; right: 20px; bottom: 20px; z-index: 2; }
+  .ritual-eyebrow { font-size: 9.5px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
+  .ritual-title { font-size: 22px; font-weight: 500; color: var(--cream); letter-spacing: -0.4px; line-height: 26px; margin-bottom: 10px; }
+  .ritual-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 999px;
+    background: rgba(250,246,239,0.18); backdrop-filter: blur(6px);
+    color: var(--cream); font-size: 11px; font-weight: 600; letter-spacing: 0.4px;
+  }
+
+  /* ── Section headings ── */
+  .section-heading {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 2.2px;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .section-heading .see-all { color: rgba(250,246,239,0.5); font-size: 9.5px; letter-spacing: 0.4px; text-transform: none; font-weight: 600; }
+
+  /* ── Affirmation card (small, on home) ── */
+  .affirm-strip {
+    display: flex; gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .affirm-card {
+    flex-shrink: 0;
+    width: 200px; height: 220px;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    background-size: cover; background-position: center;
+    box-shadow: 0 14px 28px -6px rgba(0,0,0,0.5);
+  }
+  .affirm-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(20,12,6,0.15) 0%, rgba(20,12,6,0.5) 50%, rgba(20,12,6,0.9) 100%);
+  }
+  .affirm-card .content { position: absolute; left: 16px; right: 16px; bottom: 14px; z-index: 2; }
+  .affirm-card .eyebrow {
+    font-size: 8.5px; font-weight: 700; letter-spacing: 1.4px;
+    text-transform: uppercase; color: var(--terra-light); margin-bottom: 6px;
+  }
+  .affirm-card .text {
+    font-size: 15px; font-weight: 500; color: var(--cream);
+    line-height: 19px; letter-spacing: -0.2px;
+    font-style: italic;
+  }
+  .affirm-card .heart {
+    position: absolute; top: 10px; right: 10px; z-index: 3;
+    width: 28px; height: 28px; border-radius: 99px;
+    background: rgba(20,12,6,0.45); backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(250,246,239,0.85); font-size: 13px;
+  }
+  .affirm-card.featured {
+    width: 220px; height: 250px;
+    border: 1px solid rgba(216,154,90,0.4);
+  }
+  .affirm-card.featured .text { font-size: 17px; line-height: 22px; }
+
+  /* ─── B: Full-screen feed ─── */
+  .fullfeed { position: relative; height: 100%; }
+  .ff-photo {
+    position: absolute; inset: 0; z-index: 1;
+    background-size: cover; background-position: center;
+    filter: brightness(0.7);
+  }
+  .ff-photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(20,12,6,0.4) 0%, transparent 30%, transparent 50%, rgba(20,12,6,0.95) 100%);
+  }
+  .ff-top {
+    position: absolute; top: 12px; left: 16px; right: 16px; z-index: 10;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .ff-close, .ff-action {
+    width: 38px; height: 38px; border-radius: 99px;
+    background: rgba(20,12,6,0.55); border: 1px solid rgba(255,255,255,0.16);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 16px;
+    backdrop-filter: blur(8px);
+  }
+  .ff-actions { display: flex; gap: 8px; }
+  .ff-content {
+    position: absolute; left: 32px; right: 32px; bottom: 160px; z-index: 5;
+  }
+  .ff-eyebrow {
+    font-size: 10px; font-weight: 700; letter-spacing: 2.2px;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 16px;
+  }
+  .ff-text {
+    font-size: 32px; font-weight: 400; color: var(--cream);
+    line-height: 38px; letter-spacing: -0.5px;
+    font-style: italic;
+  }
+  .ff-text strong { font-style: normal; font-weight: 600; }
+  .ff-actions-bottom {
+    position: absolute; left: 0; right: 0; bottom: 70px; z-index: 5;
+    display: flex; justify-content: center; gap: 36px;
+  }
+  .ff-action-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    color: rgba(250,246,239,0.85); font-size: 9.5px; font-weight: 600; letter-spacing: 0.4px;
+  }
+  .ff-action-btn .icon {
+    width: 48px; height: 48px; border-radius: 99px;
+    background: rgba(20,12,6,0.45); border: 1px solid rgba(255,255,255,0.16);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; backdrop-filter: blur(8px);
+  }
+  .ff-action-btn .icon.active { background: rgba(216,154,90,0.35); border-color: var(--amber); }
+  .ff-progress {
+    position: absolute; top: 60px; left: 16px; right: 16px; z-index: 10;
+    display: flex; gap: 3px;
+  }
+  .ff-progress-dot {
+    flex: 1; height: 2px; border-radius: 99px;
+    background: rgba(250,246,239,0.25);
+  }
+  .ff-progress-dot.active { background: var(--cream); }
+  .ff-progress-dot.done { background: rgba(250,246,239,0.55); }
+
+  /* ─── C: Library/explore ─── */
+  .lib-header { padding: 24px 24px 12px; position: relative; z-index: 5; }
+  .lib-title { font-size: 28px; font-weight: 500; color: var(--cream); letter-spacing: -0.5px; line-height: 32px; margin-bottom: 18px; }
+  .lib-tabs {
+    display: flex; gap: 6px; overflow-x: auto; padding-bottom: 14px;
+    margin: 0 -24px; padding-left: 24px; padding-right: 24px;
+  }
+  .lib-tab {
+    flex-shrink: 0;
+    height: 32px; padding: 0 12px; border-radius: 99px;
+    background: rgba(250,246,239,0.06); border: 1px solid rgba(250,246,239,0.10);
+    display: flex; align-items: center; gap: 6px;
+    color: rgba(250,246,239,0.7); font-size: 11px; font-weight: 600;
+  }
+  .lib-tab.active {
+    background: rgba(216,154,90,0.25); border-color: var(--amber);
+    color: var(--cream);
+  }
+  .lib-tab .cat-dot { width: 6px; height: 6px; border-radius: 99px; }
+  .lib-grid {
+    padding: 14px 24px; display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    position: relative; z-index: 5;
+  }
+  .lib-card {
+    border-radius: 14px; overflow: hidden;
+    position: relative;
+    background-size: cover; background-position: center;
+  }
+  .lib-card.tall { aspect-ratio: 0.72; }
+  .lib-card.short { aspect-ratio: 1.05; }
+  .lib-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 35%, rgba(20,12,6,0.78) 100%);
+  }
+  .lib-card .lc-text {
+    position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 2;
+    font-size: 11.5px; font-style: italic; color: var(--cream); line-height: 14px;
+  }
+  .lib-card .lc-heart {
+    position: absolute; top: 8px; right: 8px; z-index: 3;
+    width: 22px; height: 22px; border-radius: 99px;
+    background: rgba(20,12,6,0.5); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 10px;
+  }
+  .lib-card .lc-heart.filled { color: var(--terra-light); }
+
+  /* Annotation callouts */
+  .callout {
+    background: rgba(216,154,90,0.95); color: var(--ink);
+    padding: 3px 8px; border-radius: 5px;
+    font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    position: absolute; z-index: 50; pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+  <h1 class="page-title">Affirmations feed — concepts</h1>
+  <p class="page-sub">Curated affirmation library. Surfaces on the Home tab (renamed from "Today") as a small entry point, expands into a full-screen feed where users can browse, save, and build a collection. Affirmations are tagged by life-area category so they can be personalised to the user's active visions.</p>
+
+  <div class="section">
+    <h2>Concept</h2>
+    <h3>Three views you'd ship together</h3>
+    <div class="row">
+
+      <!-- ─── A: Home tab with affirmation strip ─── -->
+      <div class="col">
+        <span class="badge">A · Entry point</span>
+        <h4>Home tab — affirmation strip</h4>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="status"><span>9:14</span><span>● ● ●</span></div>
+          <div class="home-content">
+            <div class="greeting-row">
+              <div class="greeting-text">
+                <div class="greeting-eyebrow">Wednesday, May 29</div>
+                <div class="greeting-title">Good morning,<br/><em>Shellena.</em></div>
+              </div>
+              <div class="avatar">S</div>
+            </div>
+
+            <div class="ritual-card">
+              <div class="ritual-content">
+                <div class="ritual-eyebrow">Your ritual · 90s</div>
+                <div class="ritual-title">Visualise what<br/>you're becoming.</div>
+                <div class="ritual-cta">Begin →</div>
+              </div>
+            </div>
+
+            <div class="section-heading">
+              <span>Affirmations</span>
+              <span class="see-all">See all →</span>
+            </div>
+            <div class="affirm-strip">
+              <div class="affirm-card featured" style="background-image: url('assets/work-paris.jpg');">
+                <div class="heart">♡</div>
+                <div class="content">
+                  <div class="eyebrow">↳ Career</div>
+                  <div class="text">I am the person who finishes what I start.</div>
+                </div>
+              </div>
+              <div class="affirm-card" style="background-image: url('assets/health-runner.jpg');">
+                <div class="heart">♡</div>
+                <div class="content">
+                  <div class="eyebrow">↳ Health</div>
+                  <div class="text">My body is becoming what I ask of it.</div>
+                </div>
+              </div>
+              <div class="affirm-card" style="background-image: url('assets/love-hero.jpg');">
+                <div class="heart">♡</div>
+                <div class="content">
+                  <div class="eyebrow">↳ Love</div>
+                  <div class="text">I am chosen, and I choose.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tabbar">
+            <div class="tab active">Home</div>
+            <div class="tab">Vision</div>
+            <div class="tab">Wins</div>
+          </div>
+        </div>
+        <p class="note"><strong>Feel:</strong> Quiet entry. A horizontal strip of 3 affirmation cards sits below the ritual, headlined "Affirmations · See all →". First card is featured (slightly bigger, amber outline) — today's pick. The rest rotate based on the user's active visions.</p>
+        <p class="tradeoff">Trade-off: small footprint on home — users may not realise there's a deeper feed behind it. The "See all →" link does the heavy lifting.</p>
+      </div>
+
+      <!-- ─── B: Full-screen feed ─── -->
+      <div class="col">
+        <span class="badge">B · Deep experience</span>
+        <h4>Full-screen feed</h4>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="fullfeed">
+            <div class="ff-photo" style="background-image: url('assets/work-paris.jpg');"></div>
+            <div class="ff-progress">
+              <span class="ff-progress-dot done"></span>
+              <span class="ff-progress-dot done"></span>
+              <span class="ff-progress-dot active"></span>
+              <span class="ff-progress-dot"></span>
+              <span class="ff-progress-dot"></span>
+              <span class="ff-progress-dot"></span>
+            </div>
+            <div class="ff-top">
+              <div class="ff-close">×</div>
+              <div class="ff-actions">
+                <div class="ff-action">⤴</div>
+                <div class="ff-action">⋯</div>
+              </div>
+            </div>
+            <div class="ff-content">
+              <div class="ff-eyebrow">↳ Career</div>
+              <div class="ff-text">I am the person who <strong>finishes</strong> what I start.</div>
+            </div>
+            <div class="ff-actions-bottom">
+              <div class="ff-action-btn">
+                <div class="icon active">♥</div>
+                <span>Saved</span>
+              </div>
+              <div class="ff-action-btn">
+                <div class="icon">⋯</div>
+                <span>Link</span>
+              </div>
+              <div class="ff-action-btn">
+                <div class="icon">⤴</div>
+                <span>Share</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note"><strong>Feel:</strong> Tap an affirmation card → full-screen takeover. One affirmation per screen, big italic typography, photo backdrop. Swipe up for next, down for previous. Save (heart, fills amber), link to a vision (tag it), or share as image. Story-like progress dots show position in the session.</p>
+        <p class="tradeoff">Trade-off: TikTok pattern works but takes the user OUT of the home flow. Best when they want to consume — meditation mode, evening wind-down. Long-press to pause auto-advance.</p>
+      </div>
+
+      <!-- ─── C: Library / explore ─── -->
+      <div class="col">
+        <span class="badge">C · Library</span>
+        <h4>Explore + saved</h4>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="status"><span>9:14</span><span>● ● ●</span></div>
+          <div class="lib-header">
+            <div class="lib-title">Affirmations.</div>
+            <div class="lib-tabs">
+              <div class="lib-tab active">All</div>
+              <div class="lib-tab">
+                <span class="cat-dot" style="background: var(--terra);"></span>
+                Career
+              </div>
+              <div class="lib-tab">
+                <span class="cat-dot" style="background: #7A9470;"></span>
+                Health
+              </div>
+              <div class="lib-tab">
+                <span class="cat-dot" style="background: var(--terra-deep);"></span>
+                Love
+              </div>
+              <div class="lib-tab">
+                <span class="cat-dot" style="background: var(--amber);"></span>
+                Joy
+              </div>
+              <div class="lib-tab">♡ Saved</div>
+            </div>
+          </div>
+          <div class="lib-grid">
+            <div class="lib-card tall" style="background-image: url('assets/work-paris.jpg');">
+              <div class="lc-heart filled">♥</div>
+              <div class="lc-text">I am the person who finishes what I start.</div>
+            </div>
+            <div class="lib-card short" style="background-image: url('assets/health-runner.jpg');">
+              <div class="lc-heart">♡</div>
+              <div class="lc-text">My body is becoming what I ask of it.</div>
+            </div>
+            <div class="lib-card short" style="background-image: url('assets/work-coffee.jpg');">
+              <div class="lc-heart">♡</div>
+              <div class="lc-text">Quiet effort compounds.</div>
+            </div>
+            <div class="lib-card tall" style="background-image: url('assets/love-hero.jpg');">
+              <div class="lc-heart filled">♥</div>
+              <div class="lc-text">I am chosen, and I choose.</div>
+            </div>
+            <div class="lib-card tall" style="background-image: url('assets/work-window.jpg');">
+              <div class="lc-heart">♡</div>
+              <div class="lc-text">My work matters, even when no one is watching.</div>
+            </div>
+            <div class="lib-card short" style="background-image: url('assets/hero-warm-bright.jpg');">
+              <div class="lc-heart">♡</div>
+              <div class="lc-text">I notice the small lights.</div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="tab active">Home</div>
+            <div class="tab">Vision</div>
+            <div class="tab">Wins</div>
+          </div>
+        </div>
+        <p class="note"><strong>Feel:</strong> Pinterest-style mood board. Reached from "See all →" on the home strip. Category chips at top (color-coded to match life areas), "Saved" tab for the user's collection. Variable-aspect cards make it feel curated, not gridded.</p>
+        <p class="tradeoff">Trade-off: this is a fully separate screen. Lives at <code>/affirmations</code>. Doesn't add a new tab — entry stays through the Home strip.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="page-sub" style="margin-top: 40px;">
+    All three pieces ship together as one feature.
+    <strong>A</strong> is the daily touch (home tab strip).
+    <strong>B</strong> is the deep mode (full-screen swipe).
+    <strong>C</strong> is the library (explore + saved collection).
+    Together they cover: glance · consume · curate.
+  </p>
+
+  <p class="page-sub" style="color: rgba(250,246,239,0.75); margin-top: 20px;">
+    Initial content: ~150-200 affirmations, curated across 6 life-area categories. Each tagged with photo + category + tone (gentle / bold / playful).
+    Selection algorithm on Home: prioritises user's active vision categories, rotates daily.
+  </p>
+
+  <p class="page-sub" style="color: rgba(250,246,239,0.75); margin-top: 20px;">
+    Also in this round: rename <code>Today</code> tab to <code>Home</code>.
+  </p>
+
+</body>
+</html>

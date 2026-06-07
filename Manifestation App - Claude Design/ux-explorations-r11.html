@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Round 11 — view-first wins · vision attribution · archive position</title>
+<style>
+  :root {
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cosmic-c: #7A4530;
+    --cream: #FAF6EF;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --ink: #3E2F22;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #14100C;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+    color: var(--cream);
+    padding: 40px 24px 60px;
+  }
+  .page-title { text-align: center; font-size: 22px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .page-sub { text-align: center; color: rgba(250,246,239,0.55); font-size: 13px; max-width: 760px; margin: 0 auto 40px; line-height: 1.55; }
+  .section { max-width: 1600px; margin: 0 auto 60px; }
+  .section h2 {
+    color: var(--amber); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    border-top: 1px solid rgba(216,154,90,0.25); padding-top: 24px; margin-bottom: 8px;
+    max-width: 1500px; margin-left: auto; margin-right: auto;
+  }
+  .section h3 {
+    color: var(--cream); font-size: 18px; font-weight: 500; margin-bottom: 26px; letter-spacing: -0.3px;
+    max-width: 1500px; margin-left: auto; margin-right: auto;
+  }
+  .row { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .col h4 { color: var(--cream); font-size: 14px; font-weight: 600; }
+  .col .badge {
+    display: inline-block; padding: 4px 10px; border-radius: 999px;
+    background: rgba(216,154,90,0.15); color: var(--amber);
+    font-size: 9.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase;
+  }
+  .col .note { color: rgba(250,246,239,0.6); font-size: 11.5px; max-width: 340px; text-align: center; line-height: 1.5; }
+  .col .tradeoff {
+    color: rgba(250,246,239,0.45); font-size: 10.5px; max-width: 340px; text-align: center;
+    line-height: 1.5; font-style: italic;
+    border-top: 1px dashed rgba(250,246,239,0.15); padding-top: 8px; margin-top: 2px;
+  }
+
+  .phone {
+    width: 360px; height: 760px;
+    border-radius: 44px;
+    position: relative; overflow: hidden;
+    background: var(--cosmic-a);
+    box-shadow: 0 30px 70px -10px rgba(0,0,0,0.65);
+  }
+  .phone::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(80% 50% at 50% 100%, rgba(122,69,48,0.55) 0%, rgba(75,46,30,0.30) 40%, transparent 75%),
+      radial-gradient(60% 40% at 50% 0%, rgba(158,79,50,0.25) 0%, transparent 60%);
+  }
+  .notch { width: 116px; height: 28px; border-radius: 0 0 14px 14px; background: #000; position: absolute; left: 50%; transform: translateX(-50%); top: 0; z-index: 20; }
+  .status { position: relative; z-index: 5; display: flex; justify-content: space-between; padding: 14px 24px 0; color: var(--cream); font-size: 13px; font-weight: 600; }
+  .tabbar {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 30; height: 72px;
+    background: rgba(20,12,6,0.92); border-top: 1px solid rgba(250,246,239,0.08);
+    display: flex; align-items: center; justify-content: space-around; padding: 8px 24px 22px;
+  }
+  .tab { font-size: 9px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(250,246,239,0.55); }
+  .tab.active { color: var(--amber); }
+
+  /* ───────── Shared bits ───────── */
+  .header-row {
+    position: relative; z-index: 5;
+    padding: 18px 22px;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  .header-row .title {
+    font-size: 26px; font-weight: 500; color: var(--cream); letter-spacing: -0.6px; line-height: 30px; flex: 1;
+  }
+  .add-icon {
+    width: 36px; height: 36px; border-radius: 99px;
+    background: rgba(250,246,239,0.08); border: 1px solid rgba(250,246,239,0.18);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 16px; font-weight: 300;
+  }
+  .edit-pill {
+    height: 34px; padding: 0 14px; border-radius: 999px;
+    background: rgba(20,12,6,0.65); border: 1px solid rgba(255,255,255,0.18);
+    display: flex; align-items: center; gap: 5px;
+    color: var(--cream); font-size: 11.5px; font-weight: 600; letter-spacing: 0.3px;
+    backdrop-filter: blur(8px);
+  }
+  .back-icon {
+    width: 38px; height: 38px; border-radius: 999px;
+    background: rgba(20,12,6,0.55); border: 1px solid rgba(255,255,255,0.16);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 16px; backdrop-filter: blur(8px);
+  }
+
+  /* ───────── 1. Win view-first ───────── */
+  .winview .hero-img {
+    position: relative; height: 360px; width: 100%; overflow: hidden;
+    background-size: cover; background-position: center;
+  }
+  .winview .hero-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(20,12,6,0.45) 0%, transparent 30%, transparent 60%, var(--cosmic-a) 100%);
+  }
+  .winview .top-chrome {
+    position: absolute; top: 12px; left: 16px; right: 16px; z-index: 30;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .winview .pill-row {
+    display: flex; gap: 8px;
+    position: absolute; top: 320px; left: 22px; right: 22px; z-index: 4;
+  }
+  .winview .pill {
+    height: 26px; padding: 0 10px; border-radius: 999px;
+    background: rgba(20,12,6,0.65); border: 1px solid rgba(255,255,255,0.18);
+    display: flex; align-items: center; gap: 5px;
+    color: var(--cream); font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+  }
+  .winview .pill .dot { width: 5px; height: 5px; border-radius: 99px; background: var(--amber); }
+  .winview .body {
+    padding: 56px 22px 22px;
+    font-size: 22px; font-weight: 400; color: var(--cream); letter-spacing: -0.3px; line-height: 30px;
+  }
+  .winview .meta-row {
+    padding: 0 22px; margin-top: 28px;
+    display: flex; flex-direction: column; gap: 10px;
+    color: rgba(250,246,239,0.6);
+    font-size: 11.5px;
+  }
+  .winview .vision-link {
+    padding: 12px 14px; border-radius: 12px;
+    background: rgba(250,246,239,0.04); border: 1px solid rgba(250,246,239,0.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .winview .vision-link .swatch {
+    width: 36px; height: 36px; border-radius: 8px;
+    background-size: cover; background-position: center;
+  }
+  .winview .vision-link .text { flex: 1; }
+  .winview .vision-link .text .eyebrow {
+    color: var(--terra-light); font-size: 9px; font-weight: 700;
+    letter-spacing: 1.4px; text-transform: uppercase; margin-bottom: 2px;
+  }
+  .winview .vision-link .text .ident { color: var(--cream); font-size: 13px; font-style: italic; }
+  .winview .meta-row .time { color: rgba(250,246,239,0.45); font-size: 10.5px; padding: 0 4px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+
+  /* Edit icon (small button vs pill vs floating) */
+  .icon-edit { width: 34px; height: 34px; border-radius: 999px; background: rgba(20,12,6,0.65); border: 1px solid rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; color: var(--cream); font-size: 14px; backdrop-filter: blur(8px); }
+
+  /* ───────── 3. Vision attribution ───────── */
+  .capture-mock { background: #FAF6EF; height: 100%; padding-top: 0; }
+  .capture-mock::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(80% 50% at 50% 0%, rgba(245,219,201,0.45) 0%, transparent 60%);
+  }
+  .capture-mock .header { padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 5; }
+  .capture-mock .x { width: 38px; height: 38px; border-radius: 999px; background: #fff; border: 1px solid rgba(62,47,34,0.1); display: flex; align-items: center; justify-content: center; color: var(--ink); font-size: 16px; }
+  .capture-mock .title { padding: 0 22px 12px; font-size: 22px; font-weight: 500; color: var(--ink); letter-spacing: -0.5px; line-height: 26px; position: relative; z-index: 5; }
+  .capture-mock .label-eyebrow { padding: 0 22px 8px; font-size: 9.5px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: #9A8D7E; position: relative; z-index: 5; }
+  .capture-mock .chips-scroll { padding: 0 22px 14px; display: flex; gap: 7px; overflow-x: auto; position: relative; z-index: 5; }
+  .chip {
+    flex-shrink: 0; height: 36px; padding: 0 12px; border-radius: 999px;
+    background: #fff; border: 1px solid rgba(62,47,34,0.1);
+    display: flex; align-items: center; gap: 6px;
+    color: var(--ink); font-size: 12px; font-weight: 500;
+  }
+  .chip.active { background: var(--terra); border-color: var(--terra-deep); color: var(--cream); }
+  .chip .cat-dot { width: 7px; height: 7px; border-radius: 99px; }
+  .chip .cat-dot.career { background: var(--terra); }
+  .chip .cat-dot.health { background: #7A9470; }
+  .chip .cat-dot.love { background: #C06848; }
+  .chip .cat-dot.joy { background: var(--amber); }
+  .chip.active .cat-dot { background: #fff; }
+  .chip .cat-label {
+    color: rgba(62,47,34,0.55); font-size: 9px; font-weight: 700;
+    letter-spacing: 1.2px; text-transform: uppercase; margin-left: 4px;
+  }
+  .chip.active .cat-label { color: rgba(255,255,255,0.75); }
+  .body-area {
+    margin: 8px 22px 0; padding: 14px;
+    border-radius: 14px; background: #FCF5E8; border: 1px solid rgba(216,154,90,0.27);
+    color: rgba(62,47,34,0.45); font-size: 15px; line-height: 22px; min-height: 130px;
+    position: relative; z-index: 5;
+  }
+  .save-cta {
+    position: absolute; left: 22px; right: 22px; bottom: 18px; z-index: 5;
+    height: 52px; border-radius: 999px;
+    background: linear-gradient(135deg, var(--terra), var(--terra-deep));
+    color: var(--cream); font-size: 15px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.4;
+  }
+
+  /* ───────── 4. Archive position ───────── */
+  .vision-mock .board {
+    padding: 0 14px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .vision-mock .cluster {
+    border-radius: 12px; overflow: hidden; background: rgba(250,246,239,0.05);
+  }
+  .vision-mock .cluster .photo {
+    aspect-ratio: 0.85; background-size: cover; background-position: center;
+    filter: saturate(0.85) brightness(0.85);
+  }
+  .vision-mock .cluster .label {
+    padding: 8px 10px; background: rgba(20,12,6,0.55);
+    border-top: 1px solid rgba(250,246,239,0.08);
+  }
+  .vision-mock .cluster .label .eyebrow { font-size: 8px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--terra-light); margin-bottom: 2px; }
+  .vision-mock .cluster .label .ident { font-size: 11px; font-style: italic; color: var(--cream); }
+
+  .archive-under-title { padding: 0 22px 16px; position: relative; z-index: 5; }
+  .archive-under-title .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 28px; padding: 0 12px; border-radius: 999px;
+    background: rgba(250,246,239,0.05); border: 1px solid rgba(250,246,239,0.12);
+    color: rgba(250,246,239,0.65); font-size: 10.5px; letter-spacing: 0.4px;
+  }
+  .archive-under-title .pill .dot { width: 5px; height: 5px; border-radius: 99px; background: var(--amber); }
+
+  .archive-bottom-link { position: absolute; bottom: 90px; left: 0; right: 0; text-align: center; z-index: 30; }
+  .archive-bottom-link .text {
+    display: inline-block; color: rgba(250,246,239,0.45); font-size: 10.5px;
+    letter-spacing: 2px; text-transform: uppercase; font-weight: 700;
+  }
+
+  .archive-tab-toggle {
+    position: relative; z-index: 5;
+    padding: 0 22px 14px;
+  }
+  .archive-tab-toggle .seg {
+    display: flex; padding: 3px; border-radius: 999px;
+    background: rgba(250,246,239,0.06); border: 1px solid rgba(250,246,239,0.10);
+  }
+  .archive-tab-toggle .seg-item {
+    flex: 1; height: 30px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+    color: rgba(250,246,239,0.55);
+  }
+  .archive-tab-toggle .seg-item.active {
+    background: rgba(250,246,239,0.10); color: var(--cream);
+  }
+  .archive-tab-toggle .seg-item .count {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 16px; min-width: 16px; padding: 0 5px; border-radius: 999px;
+    background: rgba(216,154,90,0.30); color: var(--amber);
+    font-size: 9px; font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+  <h1 class="page-title">Round 11 — UX explorations</h1>
+  <p class="page-sub">Three open questions about how the user interacts with wins, vision attribution, and the archive entry point. Pick a direction in each section and I'll lock the plan + ship.</p>
+
+  <!-- ═══════════ ITEM 1 — Win view-first ═══════════ -->
+  <div class="section">
+    <h2>Item 1</h2>
+    <h3>Win view-first — show the win, then offer edit</h3>
+    <div class="row">
+
+      <div class="col">
+        <span class="badge">Option A · Recommended</span>
+        <h4>View screen → Edit pill top-right</h4>
+        <div class="phone winview">
+          <div class="notch"></div>
+          <div class="status"><span>3:42</span><span>● ● ●</span></div>
+          <div class="hero-img" style="background-image: url('assets/work-paris.jpg');"></div>
+          <div class="top-chrome">
+            <div class="back-icon">‹</div>
+            <div class="edit-pill">
+              <span style="font-size: 12px;">✎</span>
+              <span>Edit</span>
+            </div>
+          </div>
+          <div class="pill-row">
+            <div class="pill">
+              <span class="dot"></span>
+              Career
+            </div>
+          </div>
+          <div class="body">
+            First paying client said yes today. Felt the validation but also tried to stay grounded.
+          </div>
+          <div class="meta-row">
+            <div class="vision-link">
+              <div class="swatch" style="background-image: url('assets/work-paris.jpg');"></div>
+              <div class="text">
+                <div class="eyebrow">Linked vision</div>
+                <div class="ident">The Studio of My Own.</div>
+              </div>
+              <span style="color: rgba(250,246,239,0.4); font-size: 14px;">›</span>
+            </div>
+            <div class="time">CAPTURED MAY 27 · 9:14 PM</div>
+          </div>
+        </div>
+        <p class="note"><strong>Feel:</strong> Like opening an Apple Photos memory. Photo dominates, body text below, linked vision card surfaces the connection. Edit pill in the top-right (where iOS users expect it).</p>
+        <p class="tradeoff">Trade-off: needs a new screen file (<code>win-detail.tsx</code>). Edit + delete + share all live behind the Edit pill or an overflow menu.</p>
+      </div>
+
+      <div class="col">
+        <span class="badge">Option B</span>
+        <h4>Same screen, edit icon only (no label)</h4>
+        <div class="phone winview">
+          <div class="notch"></div>
+          <div class="status"><span>3:42</span><span>● ● ●</span></div>
+          <div class="hero-img" style="background-image: url('assets/work-paris.jpg');"></div>
+          <div class="top-chrome">
+            <div class="back-icon">‹</div>
+            <div style="display: flex; gap: 8px;">
+              <div class="icon-edit">✎</div>
+              <div class="icon-edit">⋯</div>
+            </div>
+          </div>
+          <div class="pill-row">
+            <div class="pill">
+              <span class="dot"></span>
+              Career
+            </div>
+          </div>
+          <div class="body">
+            First paying client said yes today. Felt the validation but also tried to stay grounded.
+          </div>
+          <div class="meta-row">
+            <div class="vision-link">
+              <div class="swatch" style="background-image: url('assets/work-paris.jpg');"></div>
+              <div class="text">
+                <div class="eyebrow">Linked vision</div>
+                <div class="ident">The Studio of My Own.</div>
+              </div>
+              <span style="color: rgba(250,246,239,0.4); font-size: 14px;">›</span>
+            </div>
+            <div class="time">CAPTURED MAY 27 · 9:14 PM</div>
+          </div>
+        </div>
+        <p class="note"><strong>Feel:</strong> Smaller chrome footprint. Two icons (edit + overflow) top-right. Overflow opens action sheet (Edit, Delete, Share).</p>
+        <p class="tradeoff">Trade-off: icons can feel cryptic without labels. Edit pencil is reasonably universal though.</p>
+      </div>
+
+      <div class="col">
+        <span class="badge">Option C</span>
+        <h4>Floating edit FAB bottom-right</h4>
+        <div class="phone winview">
+          <div class="notch"></div>
+          <div class="status"><span>3:42</span><span>● ● ●</span></div>
+          <div class="hero-img" style="background-image: url('assets/work-paris.jpg');"></div>
+          <div class="top-chrome">
+            <div class="back-icon">‹</div>
+          </div>
+          <div class="pill-row">
+            <div class="pill">
+              <span class="dot"></span>
+              Career
+            </div>
+          </div>
+          <div class="body">
+            First paying client said yes today. Felt the validation but also tried to stay grounded.
+          </div>
+          <div class="meta-row">
+            <div class="vision-link">
+              <div class="swatch" style="background-image: url('assets/work-paris.jpg');"></div>
+              <div class="text">
+                <div class="eyebrow">Linked vision</div>
+                <div class="ident">The Studio of My Own.</div>
+              </div>
+              <span style="color: rgba(250,246,239,0.4); font-size: 14px;">›</span>
+            </div>
+            <div class="time">CAPTURED MAY 27 · 9:14 PM</div>
+          </div>
+          <div style="position: absolute; bottom: 110px; right: 22px; width: 56px; height: 56px; border-radius: 999px; background: linear-gradient(135deg, var(--terra), var(--terra-deep)); display: flex; align-items: center; justify-content: center; color: var(--cream); font-size: 22px; box-shadow: 0 14px 30px rgba(192,104,72,0.5); z-index: 25;">✎</div>
+        </div>
+        <p class="note"><strong>Feel:</strong> Material Design feel. Big terra-gradient floating action button at bottom-right. Hard to miss.</p>
+        <p class="tradeoff">Trade-off: less iOS-native. The FAB competes visually with the photo. Less premium feel.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════ ITEM 3 — Specific vision attribution ═══════════ -->
+  <div class="section">
+    <h2>Item 3</h2>
+    <h3>Specific vision attribution — let users pick the exact vision, not just the category</h3>
+    <div class="row">
+
+      <div class="col">
+        <span class="badge">Option A · Recommended</span>
+        <h4>Chips show specific visions with category dot</h4>
+        <div class="phone capture-mock">
+          <div class="notch"></div>
+          <div class="status"><span>3:42</span><span>● ● ●</span></div>
+          <div class="header"><div class="x">×</div></div>
+          <div class="title">Capture a win.</div>
+          <div class="label-eyebrow">Linked to vision</div>
+          <div class="chips-scroll">
+            <div class="chip">None</div>
+            <div class="chip active">
+              <span class="cat-dot"></span>
+              <span style="font-style: italic;">Studio of My Own</span>
+              <span class="cat-label">Career</span>
+            </div>
+            <div class="chip">
+              <span class="cat-dot career"></span>
+              <span style="font-style: italic;">Side practice</span>
+              <span class="cat-label">Career</span>
+            </div>
+            <div class="chip">
+              <span class="cat-dot health"></span>
+              <span style="font-style: italic;">Strong &amp; rested</span>
+              <span class="cat-label">Health</span>
+            </div>
+            <div class="chip">
+              <span class="cat-dot love"></span>
+              <span style="font-style: italic;">Chosen</span>
+              <span class="cat-label">Love</span>
+            </div>
+          </div>
+          <div class="body-area">What happened? Just one thing — small counts.</div>
+          <div class="save-cta">Save</div>
+        </div>
+        <p class="note"><strong>Feel:</strong> Each chip = one specific vision. Chip shows vision NAME (italic) + small CATEGORY badge to the right. Horizontally scrollable. User can have two Career visions and attribute the win to the right one.</p>
+        <p class="tradeoff">Trade-off: each chip is longer, fewer fit on screen. Win data model gains <code>visionId?: string</code> field; <code>winsForVision(id)</code> selector replaces <code>winsForCategory(kind)</code> for Detail.</p>
+      </div>
+
+      <div class="col">
+        <span class="badge">Option B</span>
+        <h4>Two-row picker: category first, then vision</h4>
+        <div class="phone capture-mock">
+          <div class="notch"></div>
+          <div class="status"><span>3:42</span><span>● ● ●</span></div>
+          <div class="header"><div class="x">×</div></div>
+          <div class="title">Capture a win.</div>
+          <div class="label-eyebrow">Category</div>
+          <div class="chips-scroll" style="padding-bottom: 8px;">
+            <div class="chip">None</div>
+            <div class="chip active">
+              <span class="cat-dot"></span>
+              Career
+            </div>
+            <div class="chip">
+              <span class="cat-dot health"></span>
+              Health
+            </div>
+            <div class="chip">
+              <span class="cat-dot love"></span>
+              Love
+            </div>
+            <div class="chip">
+              <span class="cat-dot joy"></span>
+              Joy
+            </div>
+          </div>
+          <div class="label-eyebrow">Vision under Career</div>
+          <div class="chips-scroll">
+            <div class="chip active" style="font-style: italic;">Studio of My Own</div>
+            <div class="chip" style="font-style: italic;">Side practice</div>
+          </div>
+          <div class="body-area" style="min-height: 100px;">What happened? Just one thing — small counts.</div>
+          <div class="save-cta">Save</div>
+        </div>
+        <p class="note"><strong>Feel:</strong> Pick category first → second row shows only that category's visions. Two-step but each row is short. The vision row only appears when a category is picked.</p>
+        <p class="tradeoff">Trade-off: takes more vertical space, body input shrinks. Slightly more taps.</p>
+      </div>
+
+      <div class="col">
+        <span class="badge">Option C</span>
+        <h4>Full-screen vision picker sheet</h4>
+        <div class="phone capture-mock">
+          <div class="notch"></div>
+          <div class="status"><span>3:42</span><span>● ● ●</span></div>
+          <div class="header"><div class="x">×</div></div>
+          <div class="title">Capture a win.</div>
+          <div style="padding: 8px 22px 12px; position: relative; z-index: 5;">
+            <div style="padding: 14px; border-radius: 12px; background: rgba(192,104,72,0.10); border: 1px solid rgba(192,104,72,0.25); display: flex; align-items: center; gap: 12px;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background-image: url('assets/work-paris.jpg'); background-size: cover;"></div>
+              <div style="flex: 1;">
+                <div style="font-size: 8.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--terra-deep); margin-bottom: 2px;">Linked to</div>
+                <div style="font-size: 13px; font-style: italic; color: var(--ink);">The Studio of My Own.</div>
+              </div>
+              <span style="color: rgba(62,47,34,0.5); font-size: 16px;">›</span>
+            </div>
+          </div>
+          <div class="body-area" style="min-height: 200px;">What happened? Just one thing — small counts.</div>
+          <div class="save-cta">Save</div>
+        </div>
+        <p class="note"><strong>Feel:</strong> Compact vision-link card at the top (like the link-preview pattern in messengers). Tap → opens a full picker sheet listing all visions with photos/identities. Cleanest visually but more taps to change.</p>
+        <p class="tradeoff">Trade-off: extra navigation. But the linked vision feels more like a relationship than a "tag."</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════ ITEM 4 — Archive entry point ═══════════ -->
+  <div class="section">
+    <h2>Item 4</h2>
+    <h3>Archive entry point — get it out of the header row</h3>
+    <div class="row">
+
+      <div class="col">
+        <span class="badge">Option A · Recommended</span>
+        <h4>Under the title as a quiet pill</h4>
+        <div class="phone vision-mock">
+          <div class="notch"></div>
+          <div class="status"><span>3:42</span><span>● ● ●</span></div>
+          <div class="header-row">
+            <div class="title">Who you're becoming.</div>
+            <div class="add-icon">+</div>
+          </div>
+          <div class="archive-under-title">
+            <div class="pill">
+              <span class="dot"></span>
+              <span>2 in archive →</span>
+            </div>
+          </div>
+          <div class="board">
+            <div class="cluster"><div class="photo" style="background-image: url('assets/work-paris.jpg');"></div><div class="label"><div class="eyebrow">Career</div><div class="ident">Studio.</div></div></div>
+            <div class="cluster"><div class="photo" style="background-image: url('assets/health-runner.jpg');"></div><div class="label"><div class="eyebrow">Health</div><div class="ident">Strong.</div></div></div>
+            <div class="cluster"><div class="photo" style="background-image: url('assets/love-hero.jpg');"></div><div class="label"><div class="eyebrow">Love</div><div class="ident">Chosen.</div></div></div>
+            <div class="cluster"><div class="photo" style="background-image: url('assets/work-coffee.jpg');"></div><div class="label"><div class="eyebrow">Joy</div><div class="ident">Lit up.</div></div></div>
+          </div>
+          <div class="tabbar">
+            <div class="tab">Today</div>
+            <div class="tab active">Vision</div>
+            <div class="tab">Wins</div>
+          </div>
+        </div>
+        <p class="note"><strong>Feel:</strong> Sits in its own thin band right below the title. Reads as a contextual subtitle ("here's what's active, with N archived if you want to look"). Cream-faint, low contrast — never competes with the board.</p>
+        <p class="tradeoff">Trade-off: takes ~32px of vertical space below the title (slightly less room for the board).</p>
+      </div>
+
+      <div class="col">
+        <span class="badge">Option B</span>
+        <h4>At the bottom of the board</h4>
+        <div class="phone vision-mock">
+          <div class="notch"></div>
+          <div class="status"><span>3:42</span><span>● ● ●</span></div>
+          <div class="header-row">
+            <div class="title">Who you're becoming.</div>
+            <div class="add-icon">+</div>
+          </div>
+          <div class="board">
+            <div class="cluster"><div class="photo" style="background-image: url('assets/work-paris.jpg');"></div><div class="label"><div class="eyebrow">Career</div><div class="ident">Studio.</div></div></div>
+            <div class="cluster"><div class="photo" style="background-image: url('assets/health-runner.jpg');"></div><div class="label"><div class="eyebrow">Health</div><div class="ident">Strong.</div></div></div>
+            <div class="cluster"><div class="photo" style="background-image: url('assets/love-hero.jpg');"></div><div class="label"><div class="eyebrow">Love</div><div class="ident">Chosen.</div></div></div>
+            <div class="cluster"><div class="photo" style="background-image: url('assets/work-coffee.jpg');"></div><div class="label"><div class="eyebrow">Joy</div><div class="ident">Lit up.</div></div></div>
+            <div class="cluster"><div class="photo" style="background-image: url('assets/work-plant.jpg');"></div><div class="label"><div class="eyebrow">Finance</div><div class="ident">Free.</div></div></div>
+            <div class="cluster"><div class="photo" style="background-image: url('assets/hero-warm-bright.jpg');"></div><div class="label"><div class="eyebrow">Custom</div><div class="ident">Place.</div></div></div>
+          </div>
+          <div class="archive-bottom-link">
+            <span class="text">2 in archive →</span>
+          </div>
+          <div class="tabbar">
+            <div class="tab">Today</div>
+            <div class="tab active">Vision</div>
+            <div class="tab">Wins</div>
+          </div>
+        </div>
+        <p class="note"><strong>Feel:</strong> Tiny text link at the very bottom of the board, above the tab bar. Discoverable when scrolling, completely out of the way otherwise.</p>
+        <p class="tradeoff">Trade-off: only visible after scrolling to the bottom (or if all visions fit). On a board with 5+ visions it's below the fold.</p>
+      </div>
+
+      <div class="col">
+        <span class="badge">Option C</span>
+        <h4>Segmented tab toggle: Active / Archive</h4>
+        <div class="phone vision-mock">
+          <div class="notch"></div>
+          <div class="status"><span>3:42</span><span>● ● ●</span></div>
+          <div class="header-row">
+            <div class="title">Who you're becoming.</div>
+            <div class="add-icon">+</div>
+          </div>
+          <div class="archive-tab-toggle">
+            <div class="seg">
+              <div class="seg-item active">Active <span class="count">5</span></div>
+              <div class="seg-item">Archive <span class="count">2</span></div>
+            </div>
+          </div>
+          <div class="board">
+            <div class="cluster"><div class="photo" style="background-image: url('assets/work-paris.jpg');"></div><div class="label"><div class="eyebrow">Career</div><div class="ident">Studio.</div></div></div>
+            <div class="cluster"><div class="photo" style="background-image: url('assets/health-runner.jpg');"></div><div class="label"><div class="eyebrow">Health</div><div class="ident">Strong.</div></div></div>
+            <div class="cluster"><div class="photo" style="background-image: url('assets/love-hero.jpg');"></div><div class="label"><div class="eyebrow">Love</div><div class="ident">Chosen.</div></div></div>
+            <div class="cluster"><div class="photo" style="background-image: url('assets/work-coffee.jpg');"></div><div class="label"><div class="eyebrow">Joy</div><div class="ident">Lit up.</div></div></div>
+          </div>
+          <div class="tabbar">
+            <div class="tab">Today</div>
+            <div class="tab active">Vision</div>
+            <div class="tab">Wins</div>
+          </div>
+        </div>
+        <p class="note"><strong>Feel:</strong> iOS-standard segmented control. Toggle between Active and Archive in the same tab — no separate screen. Count badges show what's in each.</p>
+        <p class="tradeoff">Trade-off: gives Archive equal visual weight as Active, which may be too much for the rare case it's used. Takes ~40px of vertical space.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="page-sub" style="margin-top: 60px;">
+    Reply with your picks: <strong>1: A/B/C · 3: A/B/C · 4: A/B/C</strong>
+  </p>
+
+</body>
+</html>

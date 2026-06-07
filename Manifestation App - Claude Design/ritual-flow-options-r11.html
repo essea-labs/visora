@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Round 11 — daily ritual flow rethink</title>
+<style>
+  :root {
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cosmic-c: #7A4530;
+    --cream: #FAF6EF;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #14100C;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+    color: var(--cream);
+    padding: 40px 24px 60px;
+  }
+  .page-title { text-align: center; font-size: 22px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .page-sub { text-align: center; color: rgba(250,246,239,0.55); font-size: 13px; max-width: 760px; margin: 0 auto 40px; line-height: 1.55; }
+  .competitor-note {
+    max-width: 760px; margin: 0 auto 48px;
+    padding: 20px 26px; border-radius: 16px;
+    background: rgba(216,154,90,0.08); border: 1px solid rgba(216,154,90,0.18);
+    color: rgba(250,246,239,0.75); font-size: 12.5px; line-height: 1.65;
+  }
+  .competitor-note .h { color: var(--amber); font-size: 11px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 10px; }
+  .competitor-note ul { list-style: none; padding: 0; margin: 0; }
+  .competitor-note li { margin-bottom: 6px; padding-left: 18px; position: relative; }
+  .competitor-note li::before { content: '·'; position: absolute; left: 6px; color: var(--amber); font-size: 18px; line-height: 1; top: 1px; }
+  .competitor-note strong { color: var(--cream); font-weight: 600; }
+
+  .row { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .col h4 { color: var(--cream); font-size: 14px; font-weight: 600; }
+  .col .badge {
+    display: inline-block; padding: 4px 10px; border-radius: 999px;
+    background: rgba(216,154,90,0.15); color: var(--amber);
+    font-size: 9.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase;
+  }
+  .col .note { color: rgba(250,246,239,0.6); font-size: 11.5px; max-width: 340px; text-align: center; line-height: 1.55; }
+  .col .tradeoff {
+    color: rgba(250,246,239,0.45); font-size: 10.5px; max-width: 340px; text-align: center;
+    line-height: 1.55; font-style: italic;
+    border-top: 1px dashed rgba(250,246,239,0.15); padding-top: 8px; margin-top: 2px;
+  }
+  .col .competitor-tag {
+    color: var(--terra-light); font-size: 10px; font-weight: 700;
+    letter-spacing: 1.4px; text-transform: uppercase;
+  }
+
+  .phone {
+    width: 360px; height: 760px;
+    border-radius: 44px;
+    position: relative; overflow: hidden;
+    background: var(--cosmic-a);
+    box-shadow: 0 30px 70px -10px rgba(0,0,0,0.65);
+  }
+  .notch { width: 116px; height: 28px; border-radius: 0 0 14px 14px; background: #000; position: absolute; left: 50%; transform: translateX(-50%); top: 0; z-index: 30; }
+  .status { position: relative; z-index: 5; display: flex; justify-content: space-between; padding: 14px 24px 0; color: var(--cream); font-size: 13px; font-weight: 600; }
+
+  /* ─── Background imagery for ritual screens ─── */
+  .ritual-bg {
+    position: absolute; inset: 0; z-index: 1;
+    background-image: url('assets/work-paris.jpg');
+    background-size: cover; background-position: center;
+    filter: brightness(0.45) saturate(0.85);
+  }
+  .ritual-bg.dim { filter: brightness(0.25) saturate(0.7); }
+  .ritual-bg.subtle { filter: brightness(0.35) saturate(0.7); }
+  .ritual-overlay {
+    position: absolute; inset: 0; z-index: 2;
+    background: linear-gradient(180deg, rgba(20,12,6,0.55) 0%, transparent 30%, transparent 60%, rgba(20,12,6,0.85) 100%);
+  }
+
+  /* ─── Top chrome (× + variant info) ─── */
+  .ritual-top {
+    position: relative; z-index: 10;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 22px 0;
+  }
+  .ritual-top .x { color: rgba(250,246,239,0.7); font-size: 22px; }
+  .ritual-top .variant-pill {
+    height: 28px; padding: 0 12px; border-radius: 999px;
+    background: rgba(20,12,6,0.55); border: 1px solid rgba(255,255,255,0.16);
+    display: flex; align-items: center; gap: 6px;
+    color: rgba(250,246,239,0.75); font-size: 10.5px; letter-spacing: 0.6px;
+    backdrop-filter: blur(8px);
+  }
+  .ritual-top .variant-pill .dot { width: 4px; height: 4px; border-radius: 99px; background: var(--amber); }
+
+  /* ─── Breathing orb ─── */
+  .breathing-orb {
+    width: 180px; height: 180px; border-radius: 999px;
+    background: radial-gradient(circle at 30% 30%, rgba(216,154,90,0.6), rgba(192,104,72,0.3) 60%, transparent 100%);
+    box-shadow: 0 0 80px rgba(216,154,90,0.45);
+    position: relative;
+  }
+  .breathing-orb::before {
+    content: ''; position: absolute; inset: 30px; border-radius: 999px;
+    background: radial-gradient(circle at 35% 35%, rgba(245,219,201,0.8), transparent 70%);
+  }
+
+  /* ─── Big circular play button ─── */
+  .play-btn-big {
+    width: 84px; height: 84px; border-radius: 999px;
+    background: rgba(250,246,239,0.94);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink, #2A1F15); font-size: 32px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45), 0 0 0 6px rgba(250,246,239,0.10);
+  }
+  .play-btn-big.alt {
+    background: linear-gradient(135deg, var(--terra), var(--terra-deep));
+    color: var(--cream);
+  }
+
+  /* ─── Bottom controls ─── */
+  .scrubber {
+    display: flex; align-items: center; gap: 10px;
+    color: rgba(250,246,239,0.6); font-size: 11px; font-weight: 600; letter-spacing: 0.4px;
+  }
+  .scrubber-bar {
+    flex: 1; height: 3px; border-radius: 99px;
+    background: rgba(250,246,239,0.18); position: relative; overflow: hidden;
+  }
+  .scrubber-bar .fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    background: var(--cream); border-radius: 99px;
+  }
+  .scrubber-bar .thumb {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    width: 10px; height: 10px; border-radius: 99px; background: var(--cream);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .secondary-btn {
+    width: 44px; height: 44px; border-radius: 999px;
+    background: rgba(250,246,239,0.10); border: 1px solid rgba(250,246,239,0.16);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 16px;
+  }
+
+  /* ─── Beat copy ─── */
+  .beat-eyebrow {
+    color: var(--amber); font-size: 10.5px; font-weight: 700;
+    letter-spacing: 2.2px; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .beat-title {
+    color: var(--cream); font-size: 30px; font-weight: 500;
+    letter-spacing: -0.7px; line-height: 34px;
+  }
+  .beat-body {
+    color: rgba(250,246,239,0.78); font-size: 14.5px; line-height: 22px;
+    margin-top: 14px; max-width: 280px;
+  }
+
+  /* ─── Beat dots progress ─── */
+  .beat-dots { display: flex; gap: 5px; }
+  .beat-dot {
+    width: 5px; height: 3px; border-radius: 99px;
+    background: rgba(250,246,239,0.3);
+  }
+  .beat-dot.active { width: 22px; background: var(--cream); }
+  .beat-dot.done { background: rgba(250,246,239,0.5); }
+</style>
+</head>
+<body>
+
+  <h1 class="page-title">Daily ritual — flow rethink</h1>
+  <p class="page-sub">The current ritual has both a visual "story" (5 timed beats with copy) AND an audio player on top — they fight each other. Three competitor-inspired directions below. Pick which feels right for the manifestation experience.</p>
+
+  <div class="competitor-note">
+    <div class="h">What competitors do</div>
+    <ul>
+      <li><strong>Calm</strong> — full-bleed photo backdrop, single big play button center, scrubber at the bottom. Almost no text during the experience. Audio is the entire ritual.</li>
+      <li><strong>Headspace</strong> — animated breath visual center-screen, minimal text ("Breathe in… out"), play/pause + skip controls at the bottom.</li>
+      <li><strong>Insight Timer</strong> — photo + title at top, timer + scrubber at bottom, no per-section text changes.</li>
+      <li><strong>Waking Up</strong> — black background, breathing dot, controls auto-hide. Pure minimal listen.</li>
+      <li><strong>Balance</strong> — voiceover walks you through everything. UI just shows progress + pause.</li>
+    </ul>
+    <p style="margin-top: 12px; color: var(--cream); font-weight: 500;">Pattern: <em>audio is the experience.</em> Visuals are atmosphere, not content. Controls live at the bottom.</p>
+  </div>
+
+  <div class="row">
+
+    <!-- ─── A. Audio-first, minimal (Calm/Waking Up) ─── -->
+    <div class="col">
+      <span class="badge">Option A · Recommended</span>
+      <h4>Audio-first minimal</h4>
+      <span class="competitor-tag">Inspired by Calm + Waking Up</span>
+      <div class="phone">
+        <div class="ritual-bg dim"></div>
+        <div class="ritual-overlay"></div>
+        <div class="notch"></div>
+        <div class="status"><span>3:42</span><span>● ● ●</span></div>
+        <div class="ritual-top">
+          <div class="x">×</div>
+          <div class="variant-pill">
+            <span class="dot"></span>
+            <span>Wednesday · Dorothy</span>
+          </div>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 38px; position: relative; z-index: 5; padding: 60px 32px 0;">
+          <div class="breathing-orb"></div>
+          <div style="text-align: center;">
+            <div class="beat-eyebrow">Now playing</div>
+            <div style="font-size: 22px; font-weight: 400; color: var(--cream); font-style: italic; letter-spacing: -0.3px; line-height: 28px;">
+              Picture who you're becoming.
+            </div>
+          </div>
+        </div>
+        <div style="position: absolute; bottom: 30px; left: 0; right: 0; z-index: 10; padding: 0 28px;">
+          <div class="scrubber" style="margin-bottom: 22px;">
+            <span>0:38</span>
+            <div class="scrubber-bar">
+              <div class="fill" style="width: 42%;"></div>
+              <div class="thumb" style="left: 42%;"></div>
+            </div>
+            <span style="color: rgba(250,246,239,0.4);">1:30</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div class="secondary-btn">↺<span style="font-size: 9px; position: absolute; margin-top: 22px;">15</span></div>
+            <div class="play-btn-big">⏸</div>
+            <div class="secondary-btn">⤳<span style="font-size: 9px; position: absolute; margin-top: 22px;">15</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="note"><strong>Feel:</strong> The audio IS the ritual. Single screen, no beat changes. Breathing orb pulses to your breath. A subtle "now playing" line shows the current section the audio is on. Big play in the center-bottom, scrubber above, 15s skip back/forward.</p>
+      <p class="tradeoff">Trade-off: the "anchor" beat where the user types their intention needs a separate moment — handled after audio finishes ("What is true today?" → typing screen → complete).</p>
+    </div>
+
+    <!-- ─── B. Synced beats (Headspace) ─── -->
+    <div class="col">
+      <span class="badge">Option B</span>
+      <h4>Synced beats with audio</h4>
+      <span class="competitor-tag">Inspired by Headspace + Insight Timer</span>
+      <div class="phone">
+        <div class="ritual-bg subtle"></div>
+        <div class="ritual-overlay"></div>
+        <div class="notch"></div>
+        <div class="status"><span>3:42</span><span>● ● ●</span></div>
+        <div class="ritual-top">
+          <div class="x">×</div>
+          <div class="beat-dots">
+            <div class="beat-dot done"></div>
+            <div class="beat-dot done"></div>
+            <div class="beat-dot active"></div>
+            <div class="beat-dot"></div>
+            <div class="beat-dot"></div>
+          </div>
+          <div style="width: 24px;"></div>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; position: relative; z-index: 5; padding: 30px 32px 0; text-align: center;">
+          <div class="breathing-orb"></div>
+          <div>
+            <div class="beat-eyebrow">Picture · 35 sec</div>
+            <div class="beat-title">Who you're becoming.</div>
+            <div class="beat-body">See them now. Where they stand, how they hold themselves, what their face says. They're already real.</div>
+          </div>
+        </div>
+        <div style="position: absolute; bottom: 30px; left: 0; right: 0; z-index: 10; padding: 0 28px;">
+          <div class="scrubber" style="margin-bottom: 22px;">
+            <span>0:38</span>
+            <div class="scrubber-bar">
+              <div class="fill" style="width: 42%;"></div>
+              <div class="thumb" style="left: 42%;"></div>
+            </div>
+            <span style="color: rgba(250,246,239,0.4);">1:30</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div class="secondary-btn" style="width: 38px; height: 38px; font-size: 14px;">🔇</div>
+            <div class="play-btn-big">⏸</div>
+            <div class="secondary-btn" style="width: 38px; height: 38px; font-size: 14px;">⤳</div>
+          </div>
+        </div>
+      </div>
+      <p class="note"><strong>Feel:</strong> Keeps the 5-beat story, but driven by audio timestamps. Text changes as the audio progresses through Settle → Breathe → Picture → Anchor → Send-off. Beat-progress dots at the top.</p>
+      <p class="tradeoff">Trade-off: requires careful audio markers / timing constants per variant. Text could distract from the listening experience. More UI clutter.</p>
+    </div>
+
+    <!-- ─── C. Two-mode toggle (your control) ─── -->
+    <div class="col">
+      <span class="badge">Option C</span>
+      <h4>"Read" or "Listen" — user picks at start</h4>
+      <span class="competitor-tag">Original, story-friendly</span>
+      <div class="phone">
+        <div class="ritual-bg"></div>
+        <div class="ritual-overlay"></div>
+        <div class="notch"></div>
+        <div class="status"><span>3:42</span><span>● ● ●</span></div>
+        <div class="ritual-top">
+          <div class="x">×</div>
+          <div class="variant-pill">
+            <span>90 seconds</span>
+          </div>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; position: relative; z-index: 5; padding: 30px 32px 0; text-align: center;">
+          <div style="width: 92px; height: 92px; border-radius: 999px; background: rgba(216,154,90,0.18); border: 1.5px solid rgba(216,154,90,0.55); display: flex; align-items: center; justify-content: center; color: var(--amber); font-size: 36px; box-shadow: 0 0 36px rgba(216,154,90,0.3);">✦</div>
+          <div>
+            <div class="beat-eyebrow">Your ritual</div>
+            <div style="font-size: 28px; font-weight: 400; color: var(--cream); letter-spacing: -0.5px; line-height: 32px; max-width: 270px; margin-bottom: 12px;">
+              Visualise what you're becoming.
+            </div>
+            <div style="font-size: 13px; color: rgba(250,246,239,0.65); line-height: 20px; max-width: 270px;">
+              Settle → breathe → picture → anchor → send-off. 90 seconds.
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px; width: 260px;">
+            <div style="height: 54px; border-radius: 999px; background: linear-gradient(135deg, var(--terra), var(--terra-deep)); display: flex; align-items: center; justify-content: center; color: var(--cream); font-size: 15px; font-weight: 600; gap: 8px; box-shadow: 0 14px 30px rgba(192,104,72,0.5);">
+              <span style="font-size: 16px;">▶</span>
+              Listen · with voice
+            </div>
+            <div style="height: 48px; border-radius: 999px; background: rgba(250,246,239,0.06); border: 1px solid rgba(250,246,239,0.16); display: flex; align-items: center; justify-content: center; color: rgba(250,246,239,0.85); font-size: 13px; font-weight: 600; gap: 8px;">
+              Read · silent
+            </div>
+          </div>
+        </div>
+        <div style="position: absolute; bottom: 30px; left: 0; right: 0; z-index: 10; text-align: center; color: rgba(250,246,239,0.4); font-size: 10px; letter-spacing: 1.4px; text-transform: uppercase;">
+          Wednesday · Dorothy's voice
+        </div>
+      </div>
+      <p class="note"><strong>Feel:</strong> Show a "ritual home" screen first. User picks "Listen" (audio-driven, like Option A) or "Read" (silent, like the current text-driven beats). One ritual, two modes — preserves both experiences.</p>
+      <p class="tradeoff">Trade-off: extra screen / decision point at the start. Doesn't actually solve the underlying tension; just makes it the user's problem.</p>
+    </div>
+
+  </div>
+
+  <p class="page-sub" style="margin-top: 60px;">
+    Reply with your pick: <strong>A · B · C</strong>
+  </p>
+
+</body>
+</html>

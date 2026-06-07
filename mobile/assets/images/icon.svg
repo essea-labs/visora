@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Visora app icon — 1024 × 1024
+  ─────────────────────────────
+  Concept: a stylized "V" rendered as two thin horizon lines meeting at
+  a vanishing point. A small luminous dot floats above — the version of
+  you you envision, the destination you're tracing toward.
+
+  Palette pulls from the in-app cosmic-warm register so the icon feels
+  continuous with the rest of the brand:
+    cosmic-a (#2A1F15)   — deep ground
+    terra (#C06848)       — warm dawn
+    amber (#D89A5A)        — luminous accent
+    cream (#FAF6EF)        — mark itself
+
+  Designed to read at 60×60 (smallest iOS rendering) — the V and dot are
+  both bold enough to survive aggressive downsampling.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+
+  <defs>
+    <!-- Background gradient: cosmic ground rising into dawn -->
+    <radialGradient id="dawn" cx="50%" cy="120%" r="120%">
+      <stop offset="0%" stop-color="#E8A07A" />
+      <stop offset="25%" stop-color="#C06848" />
+      <stop offset="55%" stop-color="#5b3a24" />
+      <stop offset="100%" stop-color="#2A1F15" />
+    </radialGradient>
+
+    <!-- Subtle vignette darkens the corners so the V/dot pop -->
+    <radialGradient id="vignette" cx="50%" cy="50%" r="75%">
+      <stop offset="60%" stop-color="rgba(0,0,0,0)" />
+      <stop offset="100%" stop-color="rgba(20,12,6,0.45)" />
+    </radialGradient>
+
+    <!-- Glow behind the dot — gives it a luminous quality -->
+    <radialGradient id="dot-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(250,246,239,0.55)" />
+      <stop offset="60%" stop-color="rgba(250,246,239,0.10)" />
+      <stop offset="100%" stop-color="rgba(250,246,239,0)" />
+    </radialGradient>
+
+    <!-- Soft shadow for the V strokes -->
+    <filter id="v-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" />
+      <feOffset dx="0" dy="6" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.35" /></feComponentTransfer>
+      <feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background (Apple will round corners for us, so no manual border-radius) -->
+  <rect width="1024" height="1024" fill="url(#dawn)" />
+  <rect width="1024" height="1024" fill="url(#vignette)" />
+
+  <!-- Dot glow halo (large, soft) -->
+  <circle cx="512" cy="372" r="120" fill="url(#dot-glow)" />
+
+  <!-- Luminous dot — the envisioned self -->
+  <circle cx="512" cy="372" r="38" fill="#FAF6EF" />
+  <!-- Inner highlight on dot for dimensionality -->
+  <circle cx="503" cy="362" r="13" fill="rgba(255,255,255,0.45)" />
+
+  <!-- The V — two thin lines meeting at a vanishing point.
+       Rounded line caps for an elegant, almost calligraphic feel.
+       Width 36 keeps it confident at small sizes without becoming a slab. -->
+  <g filter="url(#v-shadow)" stroke="#FAF6EF" stroke-width="36" stroke-linecap="round" fill="none">
+    <line x1="300" y1="500" x2="512" y2="800" />
+    <line x1="724" y1="500" x2="512" y2="800" />
+  </g>
+
+  <!-- Subtle amber tint at the V's vertex — references the dawn glow,
+       ties background and foreground together -->
+  <circle cx="512" cy="800" r="12" fill="#D89A5A" opacity="0.6" />
+
+</svg>

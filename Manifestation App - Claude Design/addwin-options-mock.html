@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Add Win sheet — 4 layout options</title>
+<style>
+  :root {
+    --bg: #FAF6EF;
+    --bg-soft: #F4EEE2;
+    --surface: #FFFFFF;
+    --paper: #FCF5E8;
+    --hairline: rgba(62,47,34,0.08);
+    --ink: #3E2F22;
+    --ink-soft: #6B5847;
+    --muted: #9A8D7E;
+    --muted-soft: #C9BEB0;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --cream: #FAF6EF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1410;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+    color: var(--cream);
+    padding: 40px 24px 60px;
+  }
+  .page-title {
+    text-align: center; margin-bottom: 8px;
+    font-size: 22px; font-weight: 600; letter-spacing: -0.3px;
+  }
+  .page-sub {
+    text-align: center; color: rgba(250,246,239,0.55); margin-bottom: 36px;
+    font-size: 13px; max-width: 600px; margin-left: auto; margin-right: auto;
+    line-height: 1.5;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 32px;
+    max-width: 1700px;
+    margin: 0 auto;
+  }
+  .col {
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+  }
+  .col h2 {
+    color: #FAF6EF; font-size: 15px; font-weight: 600; letter-spacing: 0.2px;
+    text-align: center;
+  }
+  .col .badge {
+    display: inline-block; padding: 4px 10px; border-radius: 999px;
+    background: rgba(216,154,90,0.15); color: var(--amber);
+    font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase;
+  }
+  .col .note {
+    color: rgba(250,246,239,0.6); font-size: 12px; max-width: 360px; text-align: center;
+    line-height: 1.5;
+  }
+  .col .tradeoff {
+    color: rgba(250,246,239,0.45); font-size: 11px; max-width: 360px; text-align: center;
+    line-height: 1.5; font-style: italic;
+    border-top: 1px dashed rgba(250,246,239,0.15);
+    padding-top: 10px; margin-top: 4px;
+  }
+
+  /* Phone frame */
+  .phone {
+    width: 360px; height: 760px;
+    border-radius: 44px;
+    position: relative; overflow: hidden;
+    background: var(--bg);
+    box-shadow: 0 30px 70px -10px rgba(0,0,0,0.55);
+    flex-shrink: 0;
+    display: flex; flex-direction: column;
+  }
+  .phone.dual { width: 740px; }
+  .dual-inner { display: flex; gap: 8px; padding: 0 4px; flex: 1; }
+  .dual-half {
+    flex: 1; background: var(--bg);
+    border-radius: 32px; overflow: hidden;
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+
+  .status {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 24px 4px; color: var(--ink);
+    font-size: 14px; font-weight: 600;
+  }
+  .notch {
+    width: 120px; height: 28px; border-radius: 0 0 14px 14px;
+    background: #000; position: absolute; left: 50%; transform: translateX(-50%); top: 0;
+    z-index: 10;
+  }
+  .dual-half .notch { display: none; }
+
+  /* Sheet content */
+  .sheet { flex: 1; display: flex; flex-direction: column; padding: 0; position: relative; }
+  .head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 20px 18px;
+  }
+  .x {
+    width: 38px; height: 38px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink); font-size: 16px;
+  }
+
+  .eyebrow {
+    font-size: 10px; font-weight: 700; letter-spacing: 2.2px;
+    text-transform: uppercase; color: var(--amber-deep);
+    margin-bottom: 6px;
+  }
+  .title-block { padding: 0 22px 18px; }
+  .title {
+    font-size: 26px; font-weight: 500; color: var(--ink);
+    letter-spacing: -0.6px; line-height: 1.1;
+  }
+  .title.small { font-size: 22px; }
+
+  .label-eyebrow {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 1.6px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .chips {
+    display: flex; gap: 8px; overflow-x: auto; padding: 0 22px 4px;
+  }
+  .chips.compact { padding: 0 14px 4px; gap: 6px; }
+  .chip {
+    flex-shrink: 0;
+    padding: 7px 13px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--hairline);
+    font-size: 11.5px; font-weight: 600; color: var(--ink);
+    white-space: nowrap;
+  }
+  .chip.active { background: var(--terra); border-color: var(--terra-deep); color: var(--cream); }
+
+  .body-box {
+    margin: 0 22px;
+    padding: 16px;
+    border-radius: 18px;
+    background: var(--paper);
+    border: 1px solid rgba(216,154,90,0.27);
+    color: var(--ink);
+    font-size: 15px; line-height: 1.5; letter-spacing: -0.2px;
+    color: var(--muted-soft);
+  }
+  .body-box.flex { flex: 1; display: flex; flex-direction: column; }
+  .body-box.short { min-height: 80px; }
+  .body-box.medium { min-height: 110px; }
+  .body-box.huge { flex: 1; }
+
+  .char {
+    font-size: 10.5px; color: var(--muted-soft);
+    text-align: right; padding: 6px 22px 0;
+  }
+  .char.inline {
+    position: absolute; bottom: 8px; right: 12px;
+    padding: 0;
+  }
+
+  .photo-btn {
+    margin: 14px 22px 0;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--surface); border: 1px dashed var(--hairline);
+    display: flex; align-items: center; gap: 8px;
+    color: var(--ink-soft); font-size: 12.5px;
+  }
+  .photo-btn.small {
+    margin: 10px 22px 0;
+    padding: 10px 12px;
+    font-size: 11.5px;
+  }
+
+  .photo-icon {
+    width: 32px; height: 32px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  .meta-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 22px;
+    border-top: 1px solid var(--hairline);
+    background: rgba(252,245,232,0.7);
+  }
+  .meta-row .chips {
+    padding: 0; flex: 1; min-width: 0;
+  }
+
+  .toolbar {
+    padding: 10px 22px 6px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .cta-region {
+    padding: 14px 22px 24px;
+    border-top: 1px solid var(--hairline);
+    background: var(--bg);
+  }
+  .cta {
+    height: 54px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--terra), var(--terra-deep));
+    color: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 600;
+    box-shadow: 0 14px 30px -8px rgba(192,104,72,0.55);
+  }
+  .cta.disabled { opacity: 0.4; }
+
+  /* Keyboard simulation */
+  .keyboard {
+    height: 240px;
+    background: linear-gradient(180deg, #e7e2d6 0%, #d4cebf 100%);
+    border-top: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    font-weight: 600;
+  }
+  .kb-label {
+    background: rgba(255,255,255,0.5);
+    padding: 6px 14px; border-radius: 999px;
+  }
+
+  /* For Option D: meta row at top */
+  .top-meta {
+    padding: 8px 22px 14px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  /* Step indicator */
+  .steps {
+    display: flex; gap: 6px; align-items: center;
+    padding: 0 22px 14px;
+  }
+  .step-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--muted-soft); }
+  .step-dot.active { background: var(--terra); }
+  .step-back {
+    width: 32px; height: 32px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink); font-size: 14px;
+  }
+
+  /* annotation strip */
+  .ann {
+    position: absolute; left: 14px; right: 14px; bottom: 12px;
+    background: rgba(216,154,90,0.18);
+    border: 1px solid rgba(216,154,90,0.5);
+    padding: 8px 12px; border-radius: 10px;
+    font-size: 10.5px; color: var(--amber-deep); font-weight: 600;
+    line-height: 1.4;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <h1 class="page-title">Add Win sheet — 4 layout options</h1>
+  <p class="page-sub">All four mockups show the sheet WITH KEYBOARD UP (the hardest case). Goal: every input visible at once, Save button doesn't cover anything. Pick whichever feels right and I'll port it to React Native.</p>
+
+  <div class="grid">
+
+    <!-- ─────────── OPTION A: Body-first, metadata row below ─────────── -->
+    <div class="col">
+      <span class="badge">Option A</span>
+      <h2>Body-first, metadata row below</h2>
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="status"><span>9:41</span><span>● ● ●</span></div>
+        <div class="sheet">
+          <div class="head">
+            <div class="x">×</div>
+          </div>
+          <div class="title-block">
+            <div class="eyebrow">A new proof</div>
+            <div class="title">Capture a win.</div>
+          </div>
+          <div class="body-box flex" style="margin-bottom: 0;">
+            What happened? Just one thing — small counts.
+          </div>
+          <div class="char">0 / 500</div>
+          <div class="meta-row">
+            <div class="photo-icon">📷</div>
+            <div class="chips" style="padding: 0;">
+              <div class="chip active">None</div>
+              <div class="chip">Career</div>
+              <div class="chip">Health</div>
+              <div class="chip">Love</div>
+            </div>
+          </div>
+          <div class="cta-region">
+            <div class="cta disabled">Save</div>
+          </div>
+          <div class="keyboard"><span class="kb-label">keyboard</span></div>
+        </div>
+      </div>
+      <p class="note"><strong>How it works:</strong> Body input fills all flex space — it's the star. Photo is now a tappable circle icon. Chips horizontal-scroll right next to it. One compact bar holds all metadata.</p>
+      <p class="tradeoff">Trade-off: photo button is smaller (less prominent). Some users may miss it.</p>
+    </div>
+
+    <!-- ─────────── OPTION B: Compact everything, no scroll ─────────── -->
+    <div class="col">
+      <span class="badge">Option B</span>
+      <h2>Compact everything, no scroll</h2>
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="status"><span>9:41</span><span>● ● ●</span></div>
+        <div class="sheet">
+          <div class="head">
+            <div class="x">×</div>
+          </div>
+          <div class="title-block" style="padding-bottom: 14px;">
+            <div class="title small">Capture a win.</div>
+          </div>
+          <div class="label-eyebrow" style="padding: 0 22px;">Linked to</div>
+          <div class="chips">
+            <div class="chip active">None</div>
+            <div class="chip">Career</div>
+            <div class="chip">Health</div>
+            <div class="chip">Love</div>
+            <div class="chip">Finance</div>
+          </div>
+          <div style="height: 14px;"></div>
+          <div class="body-box short">
+            What happened? Just one thing — small counts.
+          </div>
+          <div class="char">0 / 500</div>
+          <div class="photo-btn small">
+            <span style="font-size: 13px;">📷</span>
+            <span>Add a photo</span>
+          </div>
+          <div style="flex: 1"></div>
+          <div class="cta-region">
+            <div class="cta disabled">Save</div>
+          </div>
+          <div class="keyboard"><span class="kb-label">keyboard</span></div>
+        </div>
+      </div>
+      <p class="note"><strong>How it works:</strong> Aggressive compression — eyebrow ("A new proof") removed, title smaller, body min-height 80px, photo button shrinks. Chips stay in current position. Nothing is hidden.</p>
+      <p class="tradeoff">Trade-off: feels less editorial — title isn't a "moment" anymore. Body input is shorter (less room to write before scrolling within it).</p>
+    </div>
+
+    <!-- ─────────── OPTION C: Two-step flow ─────────── -->
+    <div class="col">
+      <span class="badge">Option C</span>
+      <h2>Two-step flow</h2>
+      <div class="phone dual">
+        <div class="notch" style="z-index: 11;"></div>
+        <div class="status"><span>9:41</span><span>● ● ●</span></div>
+        <div class="dual-inner">
+          <!-- step 1 -->
+          <div class="dual-half">
+            <div class="head">
+              <div class="x">×</div>
+            </div>
+            <div class="title-block">
+              <div class="eyebrow">Step 1 of 2</div>
+              <div class="title">Capture a win.</div>
+            </div>
+            <div class="body-box huge">
+              What happened? Just one thing — small counts.
+            </div>
+            <div class="char">0 / 500</div>
+            <div style="height: 8px"></div>
+            <div class="cta-region">
+              <div class="cta disabled">Next</div>
+            </div>
+            <div class="keyboard"><span class="kb-label">keyboard</span></div>
+          </div>
+          <!-- step 2 -->
+          <div class="dual-half">
+            <div class="head">
+              <div class="step-back">←</div>
+            </div>
+            <div class="title-block">
+              <div class="eyebrow">Step 2 of 2</div>
+              <div class="title small">Add details.</div>
+            </div>
+            <div style="padding: 0 22px;">
+              <div class="label-eyebrow">Linked to</div>
+            </div>
+            <div class="chips">
+              <div class="chip active">None</div>
+              <div class="chip">Career</div>
+              <div class="chip">Health</div>
+              <div class="chip">Love</div>
+            </div>
+            <div style="height: 16px;"></div>
+            <div class="photo-btn">
+              <span style="font-size: 13px;">📷</span>
+              <span>Add a photo (optional)</span>
+            </div>
+            <div style="flex: 1"></div>
+            <div class="cta-region">
+              <div class="cta">Save</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="note"><strong>How it works:</strong> Step 1 is ONLY the body input — huge, no distractions. Tap Next → Step 2 has photo + chips + Save. Each screen is uncluttered.</p>
+      <p class="tradeoff">Trade-off: it's two taps instead of one. The "fast capture" feel is lost a bit. Best if users typically just type and save (skip metadata).</p>
+    </div>
+
+    <!-- ─────────── OPTION D: Metadata above, body fills rest ─────────── -->
+    <div class="col">
+      <span class="badge">Option D</span>
+      <h2>Metadata above, body fills rest</h2>
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="status"><span>9:41</span><span>● ● ●</span></div>
+        <div class="sheet">
+          <div class="head">
+            <div class="x">×</div>
+          </div>
+          <div class="title-block" style="padding-bottom: 10px;">
+            <div class="eyebrow">A new proof</div>
+            <div class="title">Capture a win.</div>
+          </div>
+          <div class="top-meta">
+            <div class="photo-icon">📷</div>
+            <div class="chips" style="padding: 0;">
+              <div class="chip active">None</div>
+              <div class="chip">Career</div>
+              <div class="chip">Health</div>
+              <div class="chip">Love</div>
+            </div>
+          </div>
+          <div class="body-box huge" style="margin-top: 14px; position: relative;">
+            What happened? Just one thing — small counts.
+            <div class="char inline">0 / 500</div>
+          </div>
+          <div style="height: 14px"></div>
+          <div class="cta-region">
+            <div class="cta disabled">Save</div>
+          </div>
+          <div class="keyboard"><span class="kb-label">keyboard</span></div>
+        </div>
+      </div>
+      <p class="note"><strong>How it works:</strong> Photo icon + chips live in a thin band right under the title. Body input takes ALL remaining vertical space. Char count tucks into the bottom-right corner of the body input.</p>
+      <p class="tradeoff">Trade-off: metadata is "above the fold" of the body — user sees options before writing. Some users may find that distracting; others will love the structure.</p>
+    </div>
+
+  </div>
+
+  <p class="page-sub" style="margin-top: 40px;">
+    All four assume: Save CTA is a fixed bottom band — never overlaps content.
+    Body input is the primary action in every layout.
+    Reply with <strong>A</strong>, <strong>B</strong>, <strong>C</strong>, or <strong>D</strong> and I'll port it to React Native.
+  </p>
+
+</body>
+</html>

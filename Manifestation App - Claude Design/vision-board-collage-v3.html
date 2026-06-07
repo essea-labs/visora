@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vision board — collage v3</title>
+<style>
+  :root {
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cosmic-c: #7A4530;
+    --cream: #FAF6EF;
+    --paper: #FCF5E8;
+    --bg: #FAF6EF;
+    --bg-soft: #F4EEE2;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --ink: #3E2F22;
+    --ink-soft: #6B5847;
+    --muted: #9A8D7E;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #14100C;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+    color: var(--cream);
+    padding: 40px 24px 60px;
+    min-height: 100vh;
+  }
+  .page-title {
+    text-align: center; margin-bottom: 8px;
+    font-size: 22px; font-weight: 600; letter-spacing: -0.3px;
+  }
+  .page-sub {
+    text-align: center; color: rgba(250,246,239,0.55); margin-bottom: 40px;
+    font-size: 13px; max-width: 720px; margin-left: auto; margin-right: auto;
+    line-height: 1.55;
+  }
+  .row {
+    display: flex; gap: 40px; flex-wrap: wrap; justify-content: center;
+    max-width: 1500px; margin: 0 auto;
+  }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .col h2 { color: #FAF6EF; font-size: 16px; font-weight: 600; }
+  .col .badge {
+    display: inline-block; padding: 4px 10px; border-radius: 999px;
+    background: rgba(216,154,90,0.15); color: var(--amber);
+    font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase;
+  }
+  .col .note {
+    color: rgba(250,246,239,0.6); font-size: 12px; max-width: 360px; text-align: center;
+    line-height: 1.55;
+  }
+  .col .tradeoff {
+    color: rgba(250,246,239,0.45); font-size: 11px; max-width: 360px; text-align: center;
+    line-height: 1.55; font-style: italic;
+    border-top: 1px dashed rgba(250,246,239,0.15);
+    padding-top: 10px; margin-top: 4px;
+  }
+
+  /* ─── Phone (cosmic-dark version) ─── */
+  .phone {
+    width: 380px; height: 800px;
+    border-radius: 48px;
+    position: relative; overflow: hidden;
+    background: var(--cosmic-a);
+    box-shadow: 0 30px 70px -10px rgba(0,0,0,0.65);
+    flex-shrink: 0;
+  }
+  .phone.cosmic::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(80% 50% at 50% 100%, rgba(122,69,48,0.55) 0%, rgba(75,46,30,0.35) 35%, transparent 70%),
+      radial-gradient(60% 40% at 50% 0%, rgba(158,79,50,0.30) 0%, transparent 60%);
+  }
+  .phone.cosmic::after {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background-image:
+      radial-gradient(1px 1px at 14% 12%, rgba(250,246,239,0.35), transparent),
+      radial-gradient(1px 1px at 64% 18%, rgba(250,246,239,0.40), transparent),
+      radial-gradient(1px 1px at 84% 44%, rgba(250,246,239,0.28), transparent),
+      radial-gradient(1px 1px at 12% 64%, rgba(250,246,239,0.20), transparent),
+      radial-gradient(1px 1px at 72% 84%, rgba(250,246,239,0.22), transparent);
+    opacity: 0.7;
+  }
+  .phone.daylit {
+    background: var(--bg);
+  }
+  .phone.daylit::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(80% 50% at 50% 0%, rgba(245,219,201,0.45) 0%, transparent 60%),
+      radial-gradient(60% 40% at 50% 100%, rgba(245,228,207,0.4) 0%, transparent 70%);
+  }
+
+  .notch {
+    width: 116px; height: 28px; border-radius: 0 0 14px 14px;
+    background: #000; position: absolute; left: 50%; transform: translateX(-50%); top: 0;
+    z-index: 20;
+  }
+  .status {
+    position: relative; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 24px 0;
+    font-size: 13px; font-weight: 600;
+  }
+  .phone.cosmic .status { color: var(--cream); }
+  .phone.daylit .status { color: var(--ink); }
+  .chrome {
+    position: relative; z-index: 5;
+    height: 50px;
+  }
+  .add-btn {
+    position: absolute; right: 16px; top: 38px;
+    width: 30px; height: 30px; border-radius: 99px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 300;
+    opacity: 0.65;
+    z-index: 28;
+  }
+  .phone.cosmic .add-btn {
+    background: rgba(250,246,239,0.08);
+    border: 1px solid rgba(250,246,239,0.22);
+    color: rgba(250,246,239,0.85);
+  }
+  .phone.daylit .add-btn {
+    background: rgba(62,47,34,0.06);
+    border: 1px solid rgba(62,47,34,0.18);
+    color: var(--ink);
+  }
+  .archive-chip {
+    position: absolute; left: 16px; top: 44px;
+    display: flex; align-items: center; gap: 5px;
+    padding: 4px 9px; border-radius: 99px;
+    font-size: 9.5px; letter-spacing: 0.8px;
+    height: 22px;
+    z-index: 28;
+  }
+  .phone.cosmic .archive-chip {
+    background: rgba(250,246,239,0.05);
+    border: 1px solid rgba(250,246,239,0.10);
+    color: rgba(250,246,239,0.55);
+  }
+  .phone.daylit .archive-chip {
+    background: rgba(62,47,34,0.05);
+    border: 1px solid rgba(62,47,34,0.12);
+    color: var(--muted);
+  }
+  .archive-chip .dot {
+    width: 5px; height: 5px; border-radius: 99px;
+    background: rgba(216,154,90,0.85);
+  }
+  .header {
+    position: relative; z-index: 5;
+    padding: 24px 24px 18px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 28px; font-weight: 500; letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .phone.cosmic .header h1 { color: var(--cream); }
+  .phone.daylit .header h1 { color: var(--ink); }
+  .board {
+    position: relative; z-index: 5;
+    padding: 0 14px;
+    height: 580px;
+  }
+
+  /* ─── Masonry grid ─── */
+  .grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .grid-2col .col-l, .grid-2col .col-r {
+    display: flex; flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Vision cluster — a group of one vision's photos.
+     Now a flex column: photos area on top, label band below. */
+  .vision-cluster {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .phone.cosmic .vision-cluster {
+    background: rgba(250,246,239,0.05);
+    box-shadow: 0 8px 18px -4px rgba(0,0,0,0.45);
+  }
+  .phone.daylit .vision-cluster {
+    background: rgba(255,255,255,0.7);
+    box-shadow: 0 8px 18px -6px rgba(62,47,34,0.18);
+    border: 1px solid rgba(62,47,34,0.08);
+  }
+
+  /* Photos area — holds the per-count sub-layout */
+  .photos {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* Photo tile inside a cluster */
+  .tile {
+    background-size: cover;
+    background-position: center;
+    filter: saturate(0.92) brightness(0.95);
+  }
+  .phone.cosmic .tile { filter: saturate(0.85) brightness(0.85); }
+
+  /* Cluster sub-layouts (applied to .photos, not .vision-cluster) */
+  .photos.solo .tile-hero { aspect-ratio: 0.85; }
+
+  .photos.pair .tile-hero { aspect-ratio: 1.05; }
+  .photos.pair .tile-2 { aspect-ratio: 1.4; }
+
+  .photos.trio .tile-hero { aspect-ratio: 1.3; }
+  .photos.trio .trio-bottom { display: flex; gap: 2px; }
+  .photos.trio .trio-bottom .tile { flex: 1; aspect-ratio: 1; }
+
+  .photos.quad .tile-hero { aspect-ratio: 1.5; }
+  .photos.quad .quad-bottom { display: flex; gap: 2px; }
+  .photos.quad .quad-bottom .tile { flex: 1; aspect-ratio: 1; }
+
+  /* Label band — sits BELOW the photos, in its own footer area.
+     No longer overlaps the imagery. */
+  .cluster-label {
+    padding: 8px 11px 10px;
+  }
+  .phone.cosmic .cluster-label {
+    background: rgba(20,12,6,0.55);
+    border-top: 1px solid rgba(250,246,239,0.08);
+  }
+  .phone.daylit .cluster-label {
+    background: rgba(252,245,232,0.85);
+    border-top: 1px solid rgba(62,47,34,0.08);
+  }
+  .cluster-label .eyebrow {
+    font-size: 8px; font-weight: 700; letter-spacing: 1.6px;
+    text-transform: uppercase; margin-bottom: 2px;
+    color: var(--terra-light);
+  }
+  .phone.daylit .cluster-label .eyebrow { color: var(--terra-deep); }
+  .cluster-label .identity {
+    font-size: 12.5px; font-weight: 600; font-style: italic;
+    letter-spacing: -0.2px; line-height: 1.15;
+    color: var(--cream);
+  }
+  .phone.daylit .cluster-label .identity { color: var(--ink); }
+  .cluster-label .wins {
+    font-size: 8.5px; color: rgba(250,246,239,0.55);
+    letter-spacing: 0.2px; margin-top: 2px;
+  }
+  .phone.daylit .cluster-label .wins { color: var(--muted); }
+
+  /* Photo count badge (top-right) for clusters with multiple photos */
+  .photo-badge {
+    position: absolute; top: 6px; right: 6px; z-index: 3;
+    padding: 2px 6px; border-radius: 99px;
+    background: rgba(20,12,6,0.7);
+    color: var(--cream);
+    font-size: 9px; font-weight: 700; letter-spacing: 0.4px;
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; gap: 3px;
+  }
+  .phone.daylit .photo-badge {
+    background: rgba(255,255,255,0.9);
+    color: var(--ink);
+    border: 1px solid rgba(62,47,34,0.1);
+  }
+
+  /* Tab bar */
+  .tabbar {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 30;
+    height: 72px;
+    border-top-width: 1px; border-top-style: solid;
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 8px 24px 22px;
+  }
+  .phone.cosmic .tabbar {
+    background: rgba(20,12,6,0.92);
+    border-top-color: rgba(250,246,239,0.08);
+  }
+  .phone.daylit .tabbar {
+    background: rgba(252,245,232,0.96);
+    border-top-color: rgba(62,47,34,0.08);
+  }
+  .tab { font-size: 9px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
+  .phone.cosmic .tab { color: rgba(250,246,239,0.55); }
+  .phone.daylit .tab { color: var(--muted); }
+  .tab.active { color: var(--amber); }
+</style>
+</head>
+<body>
+
+  <h1 class="page-title">Vision board v3 — masonry collage</h1>
+  <p class="page-sub">Same data both phones: 5 visions, varying photo counts (Career 3, Health 2, Love 1, Joy 2, Finance 1). Each vision becomes one "cluster" — a packed sub-collage of its photos with a label floating on the hero. Everything fits on one screen.</p>
+
+  <div class="row">
+
+    <!-- ─── Cosmic dark version ─── -->
+    <div class="col">
+      <span class="badge">Cosmic dark</span>
+      <h2>Existing app palette</h2>
+      <div class="phone cosmic">
+        <div class="notch"></div>
+        <div class="status"><span>3:42</span><span>● ● ●</span></div>
+        <div class="chrome">
+          <div class="archive-chip">
+            <span class="dot"></span>
+            <span>2 archived</span>
+          </div>
+          <div class="add-btn">+</div>
+        </div>
+        <div class="header"><h1>Who you're becoming.</h1></div>
+        <div class="board">
+          <div class="grid-2col">
+
+            <!-- LEFT COLUMN -->
+            <div class="col-l">
+              <!-- Career: trio (3 photos) -->
+              <div class="vision-cluster">
+                <div class="photos trio">
+                  <div class="tile tile-hero" style="background-image: url('assets/work-paris.jpg');"></div>
+                  <div class="trio-bottom">
+                    <div class="tile" style="background-image: url('assets/work-coffee.jpg');"></div>
+                    <div class="tile" style="background-image: url('assets/work-window.jpg');"></div>
+                  </div>
+                </div>
+                <div class="cluster-label">
+                  <div class="eyebrow">Career</div>
+                  <div class="identity">The Studio of My Own.</div>
+                  <div class="wins">14 wins</div>
+                </div>
+                <div class="photo-badge">◫ 3</div>
+              </div>
+
+              <!-- Love: solo (1 photo) -->
+              <div class="vision-cluster">
+                <div class="photos solo">
+                  <div class="tile tile-hero" style="background-image: url('assets/love-hero.jpg');"></div>
+                </div>
+                <div class="cluster-label">
+                  <div class="eyebrow">Love</div>
+                  <div class="identity">Chosen.</div>
+                  <div class="wins">7 wins</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="col-r">
+              <!-- Health: pair (2 photos) -->
+              <div class="vision-cluster">
+                <div class="photos pair">
+                  <div class="tile tile-hero" style="background-image: url('assets/health-runner.jpg');"></div>
+                  <div class="tile tile-2" style="background-image: url('assets/health-yoga.jpg');"></div>
+                </div>
+                <div class="cluster-label">
+                  <div class="eyebrow">Health</div>
+                  <div class="identity">Strong &amp; rested.</div>
+                  <div class="wins">9 wins</div>
+                </div>
+                <div class="photo-badge">◫ 2</div>
+              </div>
+
+              <!-- Joy: pair (2 photos) -->
+              <div class="vision-cluster">
+                <div class="photos pair">
+                  <div class="tile tile-hero" style="background-image: url('assets/hero-warm-bright.jpg');"></div>
+                  <div class="tile tile-2" style="background-image: url('assets/work-beach.jpg');"></div>
+                </div>
+                <div class="cluster-label">
+                  <div class="eyebrow">Joy</div>
+                  <div class="identity">Lit up.</div>
+                  <div class="wins">11 wins</div>
+                </div>
+                <div class="photo-badge">◫ 2</div>
+              </div>
+
+              <!-- Finance: solo (1 photo) -->
+              <div class="vision-cluster">
+                <div class="photos solo">
+                  <div class="tile tile-hero" style="background-image: url('assets/work-plant.jpg');"></div>
+                </div>
+                <div class="cluster-label">
+                  <div class="eyebrow">Finance</div>
+                  <div class="identity">Free.</div>
+                  <div class="wins">5 wins</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="tabbar">
+          <div class="tab">Today</div>
+          <div class="tab active">Vision</div>
+          <div class="tab">Wins</div>
+        </div>
+      </div>
+      <p class="note"><strong>Feel:</strong> Cosmic register kept for app-wide consistency. Each vision is one cluster (a mini-collage of 1-5 photos). Label floats over the hero photo bottom. Photo-count badge top-right when more than 1.</p>
+      <p class="tradeoff">Trade-off: cards lose the polaroid/pin charm in favor of a tighter, more "mood-board" feel.</p>
+    </div>
+
+    <!-- ─── Daylit cream version ─── -->
+    <div class="col">
+      <span class="badge">Daylit cream</span>
+      <h2>Lighter palette (closer to your reference)</h2>
+      <div class="phone daylit">
+        <div class="notch"></div>
+        <div class="status"><span>3:42</span><span>● ● ●</span></div>
+        <div class="chrome">
+          <div class="archive-chip">
+            <span class="dot"></span>
+            <span>2 archived</span>
+          </div>
+          <div class="add-btn">+</div>
+        </div>
+        <div class="header"><h1>Who you're becoming.</h1></div>
+        <div class="board">
+          <div class="grid-2col">
+
+            <!-- LEFT -->
+            <div class="col-l">
+              <div class="vision-cluster">
+                <div class="photos trio">
+                  <div class="tile tile-hero" style="background-image: url('assets/work-paris.jpg');"></div>
+                  <div class="trio-bottom">
+                    <div class="tile" style="background-image: url('assets/work-coffee.jpg');"></div>
+                    <div class="tile" style="background-image: url('assets/work-window.jpg');"></div>
+                  </div>
+                </div>
+                <div class="cluster-label">
+                  <div class="eyebrow">Career</div>
+                  <div class="identity">The Studio of My Own.</div>
+                  <div class="wins">14 wins</div>
+                </div>
+                <div class="photo-badge">◫ 3</div>
+              </div>
+              <div class="vision-cluster">
+                <div class="photos solo">
+                  <div class="tile tile-hero" style="background-image: url('assets/love-hero.jpg');"></div>
+                </div>
+                <div class="cluster-label">
+                  <div class="eyebrow">Love</div>
+                  <div class="identity">Chosen.</div>
+                  <div class="wins">7 wins</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="col-r">
+              <div class="vision-cluster">
+                <div class="photos pair">
+                  <div class="tile tile-hero" style="background-image: url('assets/health-runner.jpg');"></div>
+                  <div class="tile tile-2" style="background-image: url('assets/health-yoga.jpg');"></div>
+                </div>
+                <div class="cluster-label">
+                  <div class="eyebrow">Health</div>
+                  <div class="identity">Strong &amp; rested.</div>
+                  <div class="wins">9 wins</div>
+                </div>
+                <div class="photo-badge">◫ 2</div>
+              </div>
+              <div class="vision-cluster">
+                <div class="photos pair">
+                  <div class="tile tile-hero" style="background-image: url('assets/hero-warm-bright.jpg');"></div>
+                  <div class="tile tile-2" style="background-image: url('assets/work-beach.jpg');"></div>
+                </div>
+                <div class="cluster-label">
+                  <div class="eyebrow">Joy</div>
+                  <div class="identity">Lit up.</div>
+                  <div class="wins">11 wins</div>
+                </div>
+                <div class="photo-badge">◫ 2</div>
+              </div>
+              <div class="vision-cluster">
+                <div class="photos solo">
+                  <div class="tile tile-hero" style="background-image: url('assets/work-plant.jpg');"></div>
+                </div>
+                <div class="cluster-label">
+                  <div class="eyebrow">Finance</div>
+                  <div class="identity">Free.</div>
+                  <div class="wins">5 wins</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="tabbar">
+          <div class="tab">Today</div>
+          <div class="tab active">Vision</div>
+          <div class="tab">Wins</div>
+        </div>
+      </div>
+      <p class="note"><strong>Feel:</strong> Closer to your "My Vision Board" / "Vision Board" reference images — cream paper background with photos as the visual focus. Could differ from the rest of the app though.</p>
+      <p class="tradeoff">Trade-off: breaks the cosmic-dark consistency. Today + Wins tabs are cosmic; Vision in Daylit would be a register switch. Could work, could feel jarring.</p>
+    </div>
+
+  </div>
+
+  <p class="page-sub" style="margin-top: 48px;">
+    Both keep: the top-right <code>+</code>, the conditional archive chip, the empty state, and the "Who you're becoming." header. Both lose: brass pins, individual rotations, the polaroid-board metaphor (replaced by a tighter mood-board feel).
+  </p>
+
+  <p class="page-sub" style="margin-top: 12px; color: rgba(250,246,239,0.75);">
+    Pick a palette + tell me anything that feels off (label placement, photo grid layouts for 2/3/4/5 photos, badge style, etc.) and I'll lock it in.
+  </p>
+
+</body>
+</html>

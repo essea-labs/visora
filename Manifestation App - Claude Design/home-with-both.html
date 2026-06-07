@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Home tab — affirmations + quotes, visually differentiated</title>
+<style>
+  :root {
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cosmic-c: #7A4530;
+    --cream: #FAF6EF;
+    --paper: #FCF5E8;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --ink: #3E2F22;
+    --ink-soft: #6B5847;
+    --muted: #9A8D7E;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #14100C;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+    color: var(--cream);
+    padding: 40px 24px 60px;
+  }
+  .page-title { text-align: center; font-size: 22px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .page-sub { text-align: center; color: rgba(250,246,239,0.55); font-size: 13px; max-width: 760px; margin: 0 auto 40px; line-height: 1.55; }
+
+  .compare-row { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 380px; }
+  .col h4 { color: var(--cream); font-size: 14px; font-weight: 600; }
+  .col .badge {
+    display: inline-block; padding: 4px 10px; border-radius: 999px;
+    background: rgba(216,154,90,0.15); color: var(--amber);
+    font-size: 9.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase;
+  }
+  .col .note { color: rgba(250,246,239,0.6); font-size: 11.5px; max-width: 360px; text-align: center; line-height: 1.55; }
+
+  .phone {
+    width: 360px; height: 780px;
+    border-radius: 44px;
+    position: relative; overflow: hidden;
+    background: var(--cosmic-a);
+    box-shadow: 0 30px 70px -10px rgba(0,0,0,0.65);
+  }
+  .phone::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(80% 50% at 50% 100%, rgba(122,69,48,0.50) 0%, rgba(75,46,30,0.30) 35%, transparent 70%),
+      radial-gradient(60% 40% at 50% 0%, rgba(158,79,50,0.28) 0%, transparent 60%);
+  }
+  .notch { width: 116px; height: 28px; border-radius: 0 0 14px 14px; background: #000; position: absolute; left: 50%; transform: translateX(-50%); top: 0; z-index: 20; }
+  .status { position: relative; z-index: 5; display: flex; justify-content: space-between; padding: 14px 24px 0; color: var(--cream); font-size: 13px; font-weight: 600; }
+  .tabbar {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 30; height: 72px;
+    background: rgba(20,12,6,0.92); border-top: 1px solid rgba(250,246,239,0.08);
+    display: flex; align-items: center; justify-content: space-around; padding: 8px 24px 22px;
+  }
+  .tab { font-size: 9px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(250,246,239,0.55); }
+  .tab.active { color: var(--amber); }
+  .tab .renamed {
+    display: inline-block; padding: 1px 4px; margin-left: 4px;
+    background: rgba(216,154,90,0.95); color: var(--ink);
+    font-size: 7px; border-radius: 3px; letter-spacing: 0.6px;
+  }
+
+  .home-content { position: relative; z-index: 5; padding: 6px 24px; }
+  .greeting-row { display: flex; justify-content: space-between; align-items: flex-start; padding-top: 6px; margin-bottom: 14px; }
+  .greeting-title { font-size: 22px; font-weight: 500; color: var(--cream); letter-spacing: -0.5px; line-height: 26px; }
+  .greeting-title em { font-style: italic; font-weight: 400; color: var(--terra-light); }
+  .greeting-eyebrow { font-size: 9.5px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: var(--amber); margin-bottom: 4px; }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 999px;
+    background: linear-gradient(135deg, var(--terra-light), var(--terra));
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 13px; font-weight: 600;
+  }
+  .ritual-card {
+    height: 160px; border-radius: 22px; overflow: hidden;
+    position: relative;
+    margin-bottom: 16px;
+    background-image: url('assets/hero-warm-bright.jpg');
+    background-size: cover; background-position: center;
+  }
+  .ritual-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(20,12,6,0.7) 100%);
+  }
+  .ritual-content { position: absolute; left: 18px; right: 18px; bottom: 14px; z-index: 2; }
+  .ritual-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: var(--amber); margin-bottom: 4px; }
+  .ritual-title { font-size: 18px; font-weight: 500; color: var(--cream); letter-spacing: -0.3px; line-height: 22px; margin-bottom: 6px; }
+  .ritual-cta {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 999px;
+    background: rgba(250,246,239,0.18); backdrop-filter: blur(6px);
+    color: var(--cream); font-size: 10.5px; font-weight: 600;
+  }
+
+  .section-heading {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 10px;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .see-all { color: rgba(250,246,239,0.5); font-size: 9px; letter-spacing: 0.4px; text-transform: none; font-weight: 600; }
+
+  /* ── AFFIRMATION cards — photographic, italic, identity ── */
+  .affirm-strip {
+    display: flex; gap: 9px;
+    overflow-x: auto;
+    margin: 0 -24px 18px;
+    padding: 0 24px 4px;
+  }
+  .affirm-card {
+    flex-shrink: 0;
+    width: 175px; height: 195px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background-size: cover; background-position: center;
+    box-shadow: 0 12px 24px -6px rgba(0,0,0,0.5);
+  }
+  .affirm-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(20,12,6,0.1) 0%, rgba(20,12,6,0.5) 55%, rgba(20,12,6,0.92) 100%);
+  }
+  .affirm-card .content { position: absolute; left: 14px; right: 14px; bottom: 12px; z-index: 2; }
+  .affirm-card .eyebrow {
+    font-size: 8px; font-weight: 700; letter-spacing: 1.4px;
+    text-transform: uppercase; color: var(--terra-light); margin-bottom: 4px;
+  }
+  .affirm-card .text {
+    font-size: 13.5px; font-weight: 500; font-style: italic; color: var(--cream);
+    line-height: 17px; letter-spacing: -0.2px;
+  }
+  .affirm-card .heart {
+    position: absolute; top: 9px; right: 9px; z-index: 3;
+    width: 26px; height: 26px; border-radius: 99px;
+    background: rgba(20,12,6,0.45); backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(250,246,239,0.85); font-size: 11px;
+  }
+  .affirm-card.featured { border: 1px solid rgba(216,154,90,0.4); }
+
+  /* ── QUOTE card — paper feel, serif, wisdom ── */
+  .quote-card {
+    margin-top: 4px;
+    padding: 22px 24px 20px;
+    border-radius: 18px;
+    background:
+      linear-gradient(135deg, var(--paper) 0%, #F5E4CF 100%);
+    position: relative;
+    box-shadow: 0 12px 24px -6px rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+  .quote-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(216,154,90,0.5) 30%, rgba(216,154,90,0.5) 70%, transparent);
+  }
+  .quote-card .qmark {
+    position: absolute; top: 8px; left: 16px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 56px; line-height: 1;
+    color: rgba(192,104,72,0.35);
+  }
+  .quote-card .qeyebrow {
+    font-size: 9px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--terra-deep); margin-bottom: 14px;
+    padding-left: 28px;
+  }
+  .quote-card .qtext {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 17px; line-height: 24px;
+    color: var(--ink); letter-spacing: -0.1px;
+    padding-left: 28px; padding-right: 8px;
+    margin-bottom: 12px;
+  }
+  .quote-card .qauthor {
+    font-size: 11px; font-weight: 600; color: var(--ink-soft);
+    letter-spacing: 0.4px;
+    padding-left: 28px;
+    font-style: italic;
+  }
+  .quote-card .qheart {
+    position: absolute; top: 14px; right: 16px; z-index: 3;
+    width: 28px; height: 28px; border-radius: 99px;
+    background: rgba(192,104,72,0.10); border: 1px solid rgba(192,104,72,0.18);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--terra-deep); font-size: 12px;
+  }
+  .quote-card .dots {
+    display: flex; gap: 4px; justify-content: center; margin-top: 14px;
+  }
+  .quote-card .dot {
+    width: 4px; height: 4px; border-radius: 99px;
+    background: rgba(62,47,34,0.2);
+  }
+  .quote-card .dot.active { background: var(--terra-deep); width: 14px; }
+
+  /* Mini quote variant (small daily moment) */
+  .quote-mini {
+    margin-top: 4px;
+    padding: 14px 16px 12px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--paper) 0%, #F5E4CF 100%);
+    position: relative;
+    box-shadow: 0 8px 16px -4px rgba(0,0,0,0.3);
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .quote-mini .qm-mark {
+    font-family: Georgia, serif; font-size: 36px;
+    color: rgba(192,104,72,0.35); line-height: 0.8;
+    flex-shrink: 0;
+  }
+  .quote-mini .qm-body { flex: 1; }
+  .quote-mini .qm-text {
+    font-family: Georgia, serif;
+    font-size: 13.5px; line-height: 18px;
+    color: var(--ink); margin-bottom: 4px;
+  }
+  .quote-mini .qm-author {
+    font-size: 9.5px; color: var(--ink-soft);
+    font-style: italic; letter-spacing: 0.3px;
+  }
+</style>
+</head>
+<body>
+
+  <h1 class="page-title">Home tab — affirmations + quotes, visually differentiated</h1>
+  <p class="page-sub">Both kept, each with a clearly different visual identity. Affirmations = photographic, italic, photographic cards (identity to embody). Quotes = paper-feel, serif font, postcard aesthetic (wisdom to reflect on). They don't fight because they don't LOOK alike.</p>
+
+  <div class="compare-row">
+
+    <!-- ─── Recommended: affirmations strip + quote card below ─── -->
+    <div class="col">
+      <span class="badge">Recommended</span>
+      <h4>Affirmations primary, Quote postcard secondary</h4>
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="status"><span>9:14</span><span>● ● ●</span></div>
+        <div class="home-content">
+          <div class="greeting-row">
+            <div>
+              <div class="greeting-eyebrow">Wed, May 29</div>
+              <div class="greeting-title">Good morning,<br/><em>Shellena.</em></div>
+            </div>
+            <div class="avatar">S</div>
+          </div>
+          <div class="ritual-card">
+            <div class="ritual-content">
+              <div class="ritual-eyebrow">Your ritual · 90s</div>
+              <div class="ritual-title">Visualise what<br/>you're becoming.</div>
+              <div class="ritual-cta">Begin →</div>
+            </div>
+          </div>
+
+          <div class="section-heading">
+            <span>Affirmations</span>
+            <span class="see-all">See all →</span>
+          </div>
+          <div class="affirm-strip">
+            <div class="affirm-card featured" style="background-image: url('assets/work-paris.jpg');">
+              <div class="heart">♡</div>
+              <div class="content">
+                <div class="eyebrow">↳ Career</div>
+                <div class="text">I am the person who finishes what I start.</div>
+              </div>
+            </div>
+            <div class="affirm-card" style="background-image: url('assets/health-runner.jpg');">
+              <div class="heart">♡</div>
+              <div class="content">
+                <div class="eyebrow">↳ Health</div>
+                <div class="text">My body is becoming what I ask of it.</div>
+              </div>
+            </div>
+            <div class="affirm-card" style="background-image: url('assets/love-hero.jpg');">
+              <div class="heart">♡</div>
+              <div class="content">
+                <div class="eyebrow">↳ Love</div>
+                <div class="text">I am chosen, and I choose.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-heading">
+            <span>Today's Wisdom</span>
+            <span class="see-all">See all →</span>
+          </div>
+          <div class="quote-card">
+            <div class="qmark">"</div>
+            <div class="qheart">♡</div>
+            <div class="qeyebrow">Mahatma Gandhi</div>
+            <div class="qtext">Be the change you wish to see in the world.</div>
+            <div class="dots">
+              <span class="dot active"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar">
+          <div class="tab active">Home<span class="renamed">new</span></div>
+          <div class="tab">Vision</div>
+          <div class="tab">Wins</div>
+        </div>
+      </div>
+      <p class="note">
+        <strong>Affirmations</strong> = photographic cards, italic typography, ↳ category eyebrow, heart-to-save (right). Photo-backed = embody.<br/>
+        <strong>Quote</strong> = cream paper card, serif Georgia font, big serif quote mark, author top-as-eyebrow, paper-look heart (right), dots for swiping. Paper-look = reflect.<br/>
+        Visually they read as <em>two different objects</em> — no risk of confusion.
+      </p>
+    </div>
+
+    <!-- ─── Alternative: quote first, smaller ─── -->
+    <div class="col">
+      <span class="badge">Alternative</span>
+      <h4>Mini quote postcard on top, then affirmations</h4>
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="status"><span>9:14</span><span>● ● ●</span></div>
+        <div class="home-content">
+          <div class="greeting-row">
+            <div>
+              <div class="greeting-eyebrow">Wed, May 29</div>
+              <div class="greeting-title">Good morning,<br/><em>Shellena.</em></div>
+            </div>
+            <div class="avatar">S</div>
+          </div>
+
+          <div class="quote-mini">
+            <span class="qm-mark">"</span>
+            <div class="qm-body">
+              <div class="qm-text">Be the change you wish to see in the world.</div>
+              <div class="qm-author">— Mahatma Gandhi</div>
+            </div>
+          </div>
+
+          <div class="ritual-card" style="margin-top: 14px;">
+            <div class="ritual-content">
+              <div class="ritual-eyebrow">Your ritual · 90s</div>
+              <div class="ritual-title">Visualise what<br/>you're becoming.</div>
+              <div class="ritual-cta">Begin →</div>
+            </div>
+          </div>
+
+          <div class="section-heading">
+            <span>Affirmations</span>
+            <span class="see-all">See all →</span>
+          </div>
+          <div class="affirm-strip">
+            <div class="affirm-card featured" style="background-image: url('assets/work-paris.jpg');">
+              <div class="heart">♡</div>
+              <div class="content">
+                <div class="eyebrow">↳ Career</div>
+                <div class="text">I am the person who finishes what I start.</div>
+              </div>
+            </div>
+            <div class="affirm-card" style="background-image: url('assets/health-runner.jpg');">
+              <div class="heart">♡</div>
+              <div class="content">
+                <div class="eyebrow">↳ Health</div>
+                <div class="text">My body is becoming what I ask of it.</div>
+              </div>
+            </div>
+            <div class="affirm-card" style="background-image: url('assets/love-hero.jpg');">
+              <div class="heart">♡</div>
+              <div class="content">
+                <div class="eyebrow">↳ Love</div>
+                <div class="text">I am chosen, and I choose.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar">
+          <div class="tab active">Home<span class="renamed">new</span></div>
+          <div class="tab">Vision</div>
+          <div class="tab">Wins</div>
+        </div>
+      </div>
+      <p class="note">
+        Quote becomes a small daily "thought" greeting the user right at the top — opening epigraph for the day. Affirmations strip stays as the main feature below the ritual.<br/>
+        <strong>Sequence:</strong> Wisdom (read) → Practice (ritual) → Identity (affirmations to embody).
+      </p>
+    </div>
+
+  </div>
+
+  <p class="page-sub" style="margin-top: 50px; font-size: 12.5px;">
+    Both options also include: tab "Today" → <strong>"Home"</strong> rename.
+  </p>
+
+</body>
+</html>

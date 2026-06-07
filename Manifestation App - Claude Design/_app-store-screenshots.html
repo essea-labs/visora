@@ -1,0 +1,488 @@
+<!doctype html>
+<!--
+  App Store screenshots — iPhone 16 Pro Max sized (1320 × 2868 logical pts)
+  Renders each marketing screenshot at the exact dimensions Apple requires.
+  Open in a browser and screenshot each `.shot` element separately
+  (or zoom + crop).
+
+  Apple required sizes (as of 2026):
+    6.9": 1320 × 2868  (16 Pro Max / 15 Pro Max — REQUIRED, 3-10 screenshots)
+    6.5": 1242 × 2688  (11 Pro Max — recommended as fallback)
+
+  This file renders 6.9". Use macOS screen capture (Cmd-Shift-4 then
+  Space, click the screenshot div). Or use the helper script:
+    cd "Manifestation App - Claude Design" && open _app-store-screenshots.html
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cream: #FAF6EF;
+    --paper: #FCF5E8;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --ink: #3E2F22;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1d1814;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+    padding: 40px;
+    color: var(--cream);
+  }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 6px; }
+  .hint { font-size: 12px; color: rgba(250,246,239,0.5); margin-bottom: 30px; }
+  .stage { display: flex; gap: 28px; flex-wrap: wrap; }
+
+  /* 6.9" iPhone — exact App Store dimensions */
+  .shot {
+    width: 660px;          /* 1320pt @ 2x */
+    height: 1434px;        /* 2868pt @ 2x — half-scale for screen viewability */
+    background: var(--cosmic-a);
+    border-radius: 64px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+  /* When you screenshot, you'll get the 660×1434 = which is HALF-RES of the
+     final 1320×2868 Apple wants. Either:
+       (a) Use 2× display (Retina captures auto-double the pixels), OR
+       (b) Add `transform: scale(2)` and capture, OR
+       (c) Use a tool like Puppeteer with deviceScaleFactor: 2. */
+
+  /* Marketing copy overlay — sits above the phone preview */
+  .copy {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: 48px 44px 0;
+    text-align: center;
+    z-index: 5;
+  }
+  .copy .eyebrow {
+    font-size: 13px; font-weight: 700; letter-spacing: 2.4px;
+    text-transform: uppercase; color: var(--amber);
+    margin-bottom: 14px;
+  }
+  .copy .hero-line {
+    font-size: 44px; font-weight: 500; color: var(--cream);
+    letter-spacing: -0.8px; line-height: 50px; max-width: 540px; margin: 0 auto;
+  }
+  .copy .hero-line i { color: var(--terra-light); font-weight: 400; }
+
+  /* Mini phone preview (sized so it fits below copy in each shot) */
+  .preview {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 540px; height: 1100px;
+    background: var(--cosmic-a);
+    border-radius: 50px 50px 0 0;
+    border: 4px solid #000;
+    border-bottom: none;
+    overflow: hidden;
+    padding: 50px 28px 0;
+  }
+  .preview::after {
+    content: ''; position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+    width: 110px; height: 32px; background: #000; border-radius: 22px;
+  }
+
+  /* ─── Generic content patterns reused across shots ─── */
+  .greeting { display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 22px; }
+  .greeting .eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 5px;
+  }
+  .greeting .name { font-size: 25px; font-weight: 500; line-height: 30px; letter-spacing: -0.5px; }
+  .greeting .name i { font-style: italic; font-weight: 400; color: var(--terra-light); }
+  .greeting .avatar {
+    width: 44px; height: 44px; border-radius: 999px;
+    background: linear-gradient(135deg, var(--terra-light), var(--terra));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 600;
+  }
+  .ritual {
+    background: linear-gradient(135deg, #5b4029, #2c1d0f);
+    border-radius: 24px; padding: 22px; position: relative; overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .ritual::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(20,12,6,0.3), rgba(20,12,6,0.92));
+  }
+  .ritual > * { position: relative; z-index: 2; }
+  .ritual h2 { font-size: 26px; font-weight: 500; line-height: 30px; letter-spacing: -0.5px; margin-bottom: 10px; }
+  .ritual h2 i { font-style: italic; font-weight: 400; color: var(--terra-light); }
+  .ritual p { font-size: 14px; line-height: 21px; color: rgba(250,246,239,0.85); margin-bottom: 18px; }
+  .ritual .cta-wrap { display: flex; justify-content: center; }
+  .ritual .cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--terra), var(--terra-deep));
+    padding: 9px 18px; border-radius: 999px;
+    font-size: 15px; font-weight: 600; color: var(--cream);
+  }
+  .h-amber {
+    font-size: 22px; font-weight: 500; color: var(--amber);
+    letter-spacing: -0.4px; margin-bottom: 12px; margin-top: 16px;
+  }
+  .aff-row { display: flex; gap: 10px; overflow: hidden; padding: 4px 0 8px; }
+  .aff-card {
+    flex: 0 0 188px; height: 120px; border-radius: 16px;
+    background: linear-gradient(135deg, #8d4f30, #401b0e); position: relative; overflow: hidden;
+  }
+  .aff-card .glass {
+    position: absolute; inset: 10px;
+    border-radius: 12px;
+    background: rgba(20,12,6,0.45);
+    backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px;
+  }
+  .aff-card .text {
+    font-size: 13px; font-style: italic; line-height: 17px;
+    color: var(--cream); text-align: center;
+  }
+  .wisdom {
+    padding: 18px; border-radius: 16px;
+    background: rgba(250,246,239,0.05);
+    border: 1px solid rgba(216,154,90,0.22);
+    margin-top: 14px;
+  }
+  .wisdom .body {
+    font-family: Georgia, serif; font-size: 19px; font-style: italic;
+    line-height: 26px; color: var(--cream); margin-bottom: 12px;
+  }
+  .wisdom .byline {
+    font-size: 10px; font-weight: 700; letter-spacing: 2.2px;
+    text-transform: uppercase; color: var(--amber);
+  }
+
+  /* ─── Shot 1: Hero / Home ─── */
+  .shot-home .copy .hero-line { line-height: 48px; }
+
+  /* ─── Shot 2: Ritual ─── */
+  .ritual-fs {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #5b4029, #2c1d0f);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 60px 32px;
+  }
+  .ritual-fs .orb {
+    width: 220px; height: 220px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,160,122,0.6), rgba(192,104,72,0.2));
+    margin-bottom: 50px;
+    box-shadow: 0 0 100px rgba(216,154,90,0.4);
+  }
+  .ritual-fs .label {
+    font-size: 13px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--amber); margin-bottom: 12px;
+  }
+  .ritual-fs .now { font-size: 26px; font-style: italic; line-height: 32px; text-align: center; max-width: 360px; }
+  .ritual-fs .controls {
+    display: flex; align-items: center; gap: 30px; margin-top: 60px;
+  }
+  .ritual-fs .play {
+    width: 84px; height: 84px; border-radius: 50%;
+    background: var(--cream); color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+  }
+
+  /* ─── Shot 3: Vision board ─── */
+  .vision-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; margin-top: 4px; }
+  .vision-header h1 { font-size: 28px; font-weight: 500; letter-spacing: -0.6px; }
+  .vision-header .add {
+    width: 42px; height: 42px; border-radius: 999px;
+    background: rgba(250,246,239,0.08); border: 1px solid rgba(250,246,239,0.18);
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .v-grid { display: flex; gap: 8px; }
+  .v-col { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .v-cluster {
+    border-radius: 14px; overflow: hidden;
+    background: rgba(250,246,239,0.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  }
+  .v-photo {
+    background: linear-gradient(135deg, #8d4f30, #401b0e);
+    width: 100%;
+    aspect-ratio: 1;
+  }
+  .v-photo.b { background: linear-gradient(135deg, #b06b4e, #4a2614); }
+  .v-photo.c { background: linear-gradient(135deg, #5e4a82, #281a3e); aspect-ratio: 1.2; }
+  .v-photo.d { background: linear-gradient(135deg, #6b8d5a, #2e4520); }
+  .v-label {
+    background: rgba(20,12,6,0.6);
+    padding: 10px 12px 12px;
+  }
+  .v-label .cat { font-size: 9px; letter-spacing: 1.6px; color: var(--terra-light); text-transform: uppercase; font-weight: 700; margin-bottom: 3px; }
+  .v-label .name { font-size: 14px; font-style: italic; line-height: 17px; }
+  .v-label .wins { font-size: 9px; color: rgba(250,246,239,0.55); margin-top: 4px; }
+
+  /* ─── Shot 4: Capture win ─── */
+  .win-sheet {
+    background: var(--cosmic-a);
+    width: 100%; height: 100%;
+    padding: 50px 28px 0;
+    display: flex; flex-direction: column;
+  }
+  .win-sheet .handle {
+    width: 36px; height: 4px; border-radius: 2px;
+    background: rgba(250,246,239,0.2);
+    align-self: center;
+    margin-bottom: 30px;
+  }
+  .win-sheet h2 {
+    font-size: 24px; font-weight: 500; margin-bottom: 18px;
+  }
+  .win-chip-row {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+  }
+  .win-chip {
+    padding: 8px 14px; border-radius: 99px;
+    background: rgba(250,246,239,0.06);
+    border: 1px solid rgba(250,246,239,0.12);
+    font-size: 12.5px; font-weight: 500;
+  }
+  .win-chip.active {
+    background: rgba(216,154,90,0.18);
+    border-color: rgba(216,154,90,0.55);
+    color: var(--amber);
+  }
+  .win-body {
+    background: var(--paper);
+    color: var(--ink);
+    padding: 18px;
+    border-radius: 14px;
+    font-size: 16px;
+    line-height: 22px;
+    min-height: 120px;
+    font-style: italic;
+    margin-bottom: 16px;
+  }
+  .win-photo-add {
+    border: 1.5px dashed rgba(216,154,90,0.4);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+    color: rgba(216,154,90,0.7);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ─── Shot 5: Vision detail ─── */
+  .vd-hero {
+    width: 100%; aspect-ratio: 0.85;
+    background: linear-gradient(135deg, #8d4f30, #401b0e);
+    position: relative;
+    margin: -50px -28px 0;
+    margin-right: -28px;
+    margin-left: -28px;
+    width: calc(100% + 56px);
+  }
+  .vd-hero::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(20,12,6,0.4), rgba(20,12,6,0.96));
+  }
+  .vd-hero-text {
+    position: absolute; bottom: 70px; left: 28px; right: 28px; z-index: 2;
+  }
+  .vd-hero-text .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--amber); margin-bottom: 12px; }
+  .vd-hero-text .title { font-size: 32px; font-weight: 500; letter-spacing: -0.7px; line-height: 36px; margin-bottom: 14px; }
+  .vd-hero-text .ident {
+    font-size: 16px; line-height: 22px; font-style: italic;
+    border-left: 2px solid rgba(216,154,90,0.6); padding-left: 14px;
+    color: rgba(250,246,239,0.92);
+  }
+  .vd-wins-section { padding: 18px 28px 0; margin-top: -20px; position: relative; z-index: 3; }
+  .vd-wins-h { font-size: 12px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; color: var(--cream); margin-bottom: 14px; }
+  .vd-win {
+    padding: 16px; border-radius: 14px;
+    background: rgba(216,154,90,0.10); border: 1px solid rgba(216,154,90,0.3);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .vd-win .dot { width: 8px; height: 8px; border-radius: 99px; background: var(--amber); }
+  .vd-win .body { flex: 1; font-size: 14px; line-height: 18px; }
+  .vd-win .date { font-size: 9.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(250,246,239,0.5); margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<h1>App Store screenshots — iPhone 6.9" (1320 × 2868)</h1>
+<p class="hint">Each .shot below is rendered at half-res (660 × 1434). On a Retina display, screenshot at full pixel density to get the 2× output Apple expects. Headlines: edit the copy block in each shot before exporting.</p>
+
+<div class="stage">
+
+  <!-- ═══ SHOT 1 — Hero / "becoming" ═══ -->
+  <div class="shot shot-home">
+    <div class="copy">
+      <div class="eyebrow">Daily ritual for becoming</div>
+      <div class="hero-line">A 3-minute morning practice<br>for who you're <i>becoming.</i></div>
+    </div>
+    <div class="preview">
+      <div class="greeting">
+        <div>
+          <div class="eyebrow">Saturday · May 31</div>
+          <div class="name">Good morning,<br><i>Shellena.</i></div>
+        </div>
+        <div class="avatar">S</div>
+      </div>
+      <div class="ritual">
+        <h2>Visualise<br><i>what you're becoming.</i></h2>
+        <p>A 3-minute visualisation to set your intentions and bring you closer to your vision.</p>
+        <div class="cta-wrap"><span class="cta">▶ Begin ritual</span></div>
+      </div>
+      <div class="h-amber">Affirmations for today</div>
+      <div class="aff-row">
+        <div class="aff-card"><div class="glass"><div class="text">I am building a body of work I'm proud of.</div></div></div>
+        <div class="aff-card"><div class="glass"><div class="text">My energy is mine to spend.</div></div></div>
+      </div>
+      <div class="h-amber">Daily wisdom</div>
+      <div class="wisdom">
+        <div class="body">Whatever stands in the way, becomes the way.</div>
+        <div class="byline">Marcus Aurelius</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SHOT 2 — Ritual playing ═══ -->
+  <div class="shot">
+    <div class="copy">
+      <div class="eyebrow">Voice-guided ritual</div>
+      <div class="hero-line">Three minutes.<br>One <i>intention.</i></div>
+    </div>
+    <div class="preview" style="padding: 0;">
+      <div class="ritual-fs">
+        <div class="orb"></div>
+        <div class="label">Now playing</div>
+        <div class="now">Picture who you're becoming.</div>
+        <div class="controls">
+          <div style="font-size: 32px; color: rgba(250,246,239,0.75);">↺15</div>
+          <div class="play">▶</div>
+          <div style="font-size: 32px; color: rgba(250,246,239,0.75);">15↻</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SHOT 3 — Vision board ═══ -->
+  <div class="shot">
+    <div class="copy">
+      <div class="eyebrow">Vision board</div>
+      <div class="hero-line">Who you're<br><i>becoming</i>, pinned.</div>
+    </div>
+    <div class="preview">
+      <div class="vision-header">
+        <h1>Who you're becoming.</h1>
+        <div class="add">+</div>
+      </div>
+      <div class="v-grid">
+        <div class="v-col">
+          <div class="v-cluster">
+            <div class="v-photo"></div>
+            <div class="v-label">
+              <div class="cat">CAREER</div>
+              <div class="name">The Studio of My Own.</div>
+              <div class="wins">14 wins</div>
+            </div>
+          </div>
+          <div class="v-cluster">
+            <div class="v-photo c"></div>
+            <div class="v-label">
+              <div class="cat">LOVE</div>
+              <div class="name">Chosen, daily.</div>
+              <div class="wins">7 wins</div>
+            </div>
+          </div>
+        </div>
+        <div class="v-col">
+          <div class="v-cluster">
+            <div class="v-photo b"></div>
+            <div class="v-label">
+              <div class="cat">HEALTH</div>
+              <div class="name">Strong, energised, awake.</div>
+              <div class="wins">9 wins</div>
+            </div>
+          </div>
+          <div class="v-cluster">
+            <div class="v-photo d"></div>
+            <div class="v-label">
+              <div class="cat">JOY</div>
+              <div class="name">Lit up by what I make.</div>
+              <div class="wins">11 wins</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SHOT 4 — Capture a win ═══ -->
+  <div class="shot">
+    <div class="copy">
+      <div class="eyebrow">Capture proof, all day</div>
+      <div class="hero-line">Every small win.<br><i>Evidence</i> of becoming.</div>
+    </div>
+    <div class="preview" style="padding: 0;">
+      <div class="win-sheet">
+        <div class="handle"></div>
+        <h2>Capture a win.</h2>
+        <div style="font-size: 10px; letter-spacing: 1.8px; text-transform: uppercase; color: var(--amber); font-weight: 700; margin-bottom: 10px;">Linked vision</div>
+        <div class="win-chip-row">
+          <div class="win-chip active">↗ The Studio</div>
+          <div class="win-chip">Strong</div>
+          <div class="win-chip">Chosen</div>
+        </div>
+        <div class="win-body">Said no to a meeting that wasn't mine. Felt clear.</div>
+        <div class="win-photo-add">＋ Add a photo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SHOT 5 — Vision detail with wins ═══ -->
+  <div class="shot">
+    <div class="copy">
+      <div class="eyebrow">Every win, attached</div>
+      <div class="hero-line">See the case<br>you're <i>building.</i></div>
+    </div>
+    <div class="preview" style="padding: 0; overflow: hidden;">
+      <div style="padding-top: 50px; height: 100%; overflow: hidden;">
+        <div class="vd-hero">
+          <div class="vd-hero-text">
+            <div class="eyebrow">↳ Career</div>
+            <div class="title">The Studio of My Own.</div>
+            <div class="ident">I am a sought-after designer doing the work I was made for.</div>
+          </div>
+        </div>
+        <div class="vd-wins-section">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <div class="vd-wins-h">Wins</div>
+            <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--amber);">14 wins</div>
+          </div>
+          <div class="vd-win">
+            <div class="dot"></div>
+            <div class="body">
+              <div>Said no to a meeting that wasn't mine. Felt clear.</div>
+              <div class="date">2 hours ago</div>
+            </div>
+          </div>
+          <div class="vd-win">
+            <div class="dot"></div>
+            <div class="body">
+              <div>Shipped the design system. Three months of work.</div>
+              <div class="date">Yesterday</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

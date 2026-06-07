@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>R32 — Daily wisdom variants</title>
+<style>
+  :root {
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cosmic-c: #7A4530;
+    --cream: #FAF6EF;
+    --cream-soft: rgba(250,246,239,0.78);
+    --paper: #FCF5E8;
+    --paper-aged: #EBD9B5;
+    --paper-dark: #D9C39A;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --ink: #3E2F22;
+    --ink-soft: #6B5847;
+    --muted: rgba(250,246,239,0.55);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0F0B07;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+    color: var(--cream);
+    padding: 56px 28px 80px;
+    min-height: 100vh;
+  }
+  h1.page { text-align: center; font-size: 28px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 8px; }
+  h1.page i { color: var(--terra-light); font-weight: 400; }
+  p.sub { text-align: center; color: var(--muted); font-size: 13.5px; max-width: 720px; margin: 0 auto 56px; line-height: 1.6; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(360px, 1fr));
+    gap: 56px 40px;
+    max-width: 1080px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+
+  .v { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .tag {
+    padding: 5px 12px; border-radius: 999px;
+    background: rgba(216,154,90,0.18); color: var(--amber);
+    font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase;
+  }
+  .name { font-size: 16px; font-weight: 600; color: var(--cream); letter-spacing: -0.2px; }
+  .desc { font-size: 11.5px; color: var(--muted); line-height: 1.6; text-align: center; max-width: 380px; margin-bottom: 12px; }
+  .cap { margin-top: 14px; max-width: 380px; text-align: center; font-size: 11.5px; color: var(--muted); line-height: 1.55; }
+  .panel {
+    background: var(--cosmic-a);
+    border-radius: 28px;
+    padding: 26px 24px 26px;
+    width: 100%;
+    max-width: 440px;
+    min-height: 220px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  /* Optional small heading above (same as current pattern) */
+  .heading {
+    font-size: 22px; font-weight: 500;
+    color: var(--amber); letter-spacing: -0.4px;
+    margin-bottom: 16px;
+  }
+
+  /* ════════════ V1 — POSTCARD WITH WAX SEAL ════════════ */
+  .v1 .card {
+    background: linear-gradient(135deg, var(--paper-aged), var(--paper));
+    border-radius: 12px;
+    padding: 18px 20px 16px;
+    position: relative;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+  }
+  .v1 .card::before {
+    content: '';
+    position: absolute; top: 6px; left: 14px; right: 60px; height: 1.5px;
+    background: rgba(192,104,72,0.55);
+  }
+  .v1 .seal {
+    position: absolute; top: 12px; right: 14px;
+    width: 38px; height: 38px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--terra), var(--terra-deep));
+    color: rgba(255,255,255,0.85);
+    font-family: Georgia, serif; font-size: 10px; font-style: italic; font-weight: 700;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transform: rotate(-10deg);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 1px dashed rgba(255,255,255,0.4);
+    text-align: center;
+    line-height: 1.1;
+  }
+  .v1 .body {
+    font-family: Georgia, serif; font-size: 16px; font-style: italic;
+    color: var(--ink); line-height: 1.42; padding-right: 36px; margin-bottom: 10px;
+  }
+  .v1 .byline {
+    font-family: Georgia, serif; font-size: 11px; font-style: italic;
+    color: var(--ink-soft); padding-left: 12px; border-left: 2px solid rgba(192,104,72,0.5);
+  }
+
+  /* ════════════ V2 — EDITORIAL MONUMENT ════════════ */
+  .v2 .body {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 26px; font-style: italic; font-weight: 400;
+    color: var(--cream); line-height: 1.28; letter-spacing: -0.4px;
+    margin-bottom: 18px;
+  }
+  .v2 .byline {
+    font-size: 10px; font-weight: 700; letter-spacing: 2.2px;
+    text-transform: uppercase; color: var(--amber);
+  }
+
+  /* ════════════ V3 — DROP-CAP BOOK PAGE ════════════ */
+  .v3 .body {
+    font-family: Georgia, serif; font-size: 15px; font-style: italic;
+    color: var(--cream); line-height: 1.46;
+  }
+  .v3 .body::first-letter {
+    font-family: Georgia, serif;
+    font-size: 56px; font-style: normal; font-weight: 400;
+    color: var(--terra-light);
+    float: left; margin-right: 8px; margin-top: 2px; line-height: 0.85;
+  }
+  .v3 .byline {
+    margin-top: 12px;
+    font-family: Georgia, serif; font-size: 11.5px; font-style: italic;
+    color: rgba(250,246,239,0.55); letter-spacing: 0.1px;
+  }
+  .v3 .byline::before { content: '— '; }
+
+  /* ════════════ V4 — VINTAGE INDEX CARD ════════════ */
+  .v4 .card {
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 24px,
+        rgba(192,104,72,0.18) 24px,
+        rgba(192,104,72,0.18) 25px
+      ),
+      linear-gradient(135deg, #F5EBD5, #ECDDB8);
+    border-radius: 4px;
+    padding: 16px 20px 14px;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    transform: rotate(-0.6deg);
+  }
+  .v4 .card::before {
+    content: '';
+    position: absolute; top: 0; bottom: 0; left: 32px;
+    width: 1.5px; background: rgba(192,104,72,0.5);
+  }
+  .v4 .body {
+    font-family: 'Courier New', monospace; font-size: 14px;
+    color: var(--ink); line-height: 1.5; padding-left: 14px;
+    margin-bottom: 8px;
+  }
+  .v4 .byline {
+    font-family: 'Courier New', monospace; font-size: 10.5px;
+    color: var(--ink-soft); padding-left: 14px; letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .v4 .stamp {
+    position: absolute; top: 10px; right: 12px;
+    font-family: 'Courier New', monospace; font-size: 9px;
+    color: rgba(158,79,50,0.55); letter-spacing: 1px; text-transform: uppercase;
+    border: 1px solid rgba(158,79,50,0.4); padding: 2px 6px; border-radius: 2px;
+    transform: rotate(4deg);
+  }
+
+  /* ════════════ V5 — MINIMAL FRAMED ════════════ */
+  .v5 .frame {
+    border-top: 0.5px solid rgba(216,154,90,0.55);
+    border-bottom: 0.5px solid rgba(216,154,90,0.55);
+    padding: 22px 4px 18px;
+    position: relative;
+  }
+  .v5 .frame::before, .v5 .frame::after {
+    content: '';
+    position: absolute; left: 50%; width: 6px; height: 6px;
+    background: var(--amber); transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .v5 .frame::before { top: 0; }
+  .v5 .frame::after { bottom: 0; transform: translate(-50%, 50%) rotate(45deg); }
+  .v5 .body {
+    font-family: Georgia, serif; font-size: 19px; font-style: italic;
+    color: var(--cream); line-height: 1.32; letter-spacing: -0.3px;
+    text-align: center; margin-bottom: 14px;
+  }
+  .v5 .byline {
+    font-family: Georgia, serif; font-size: 11px; font-style: italic;
+    color: rgba(250,246,239,0.55); text-align: center; letter-spacing: 0.5px;
+  }
+  .v5 .byline::before { content: '— '; }
+</style>
+</head>
+<body>
+
+<h1 class="page">Daily wisdom — <i>five visual treatments.</i></h1>
+<p class="sub">
+  Five distinct presentations for the daily quote. Each preserves the existing amber "Daily wisdom" section heading
+  so the rest of Home stays untouched — only the quote treatment changes. Drawing on print pull-quote tradition,
+  postcard / postage stamp design, and minimalist editorial layouts.
+</p>
+
+<div class="grid">
+
+  <!-- V1 — POSTCARD WITH WAX SEAL -->
+  <div class="v">
+    <span class="tag">V1 · Postcard + wax seal</span>
+    <div class="name">Aged paper artefact</div>
+    <p class="desc">
+      Cream paper card with a thin terra rule along the top edge and a tiny circular wax-seal "stamp" in the corner showing today's day number. Feels like something arrived in your mail.
+      Inspired by handwritten postcards / vintage correspondence.
+    </p>
+    <div class="panel v1">
+      <div class="heading">Daily wisdom</div>
+      <div class="card">
+        <div class="seal">Day<br>152</div>
+        <div class="body">Whatever stands in the way, becomes the way.</div>
+        <div class="byline">Marcus Aurelius</div>
+      </div>
+    </div>
+    <p class="cap">Warm, collectible feel — each day's quote becomes a small artefact. Most card-like option.</p>
+  </div>
+
+  <!-- V2 — EDITORIAL MONUMENT -->
+  <div class="v">
+    <span class="tag">V2 · Editorial monument</span>
+    <div class="name">Large italic, type-only</div>
+    <p class="desc">
+      No card, no decoration. Just the quote rendered LARGE in italic serif, with the byline in a small uppercase
+      amber treatment below. Inspired by NYT opinion-section pull quotes and Hoefler typography blog spreads.
+    </p>
+    <div class="panel v2">
+      <div class="heading">Daily wisdom</div>
+      <div class="body">Whatever stands in the way, becomes the way.</div>
+      <div class="byline">Marcus Aurelius</div>
+    </div>
+    <p class="cap">Most editorial / magazine-feel. Lets the words carry everything — no ornament competing.</p>
+  </div>
+
+  <!-- V3 — DROP-CAP BOOK PAGE -->
+  <div class="v">
+    <span class="tag">V3 · Drop-cap book page</span>
+    <div class="name">Ornate initial</div>
+    <p class="desc">
+      A large terra-coloured first letter floats to the left of the quote — the classical "drop cap"
+      of an illuminated manuscript or first page of a chapter. Quote in italic Georgia, byline as em-dash signature.
+    </p>
+    <div class="panel v3">
+      <div class="heading">Daily wisdom</div>
+      <div class="body">Whatever stands in the way, becomes the way.</div>
+      <div class="byline">Marcus Aurelius</div>
+    </div>
+    <p class="cap">Literary / classical. Says "this is a passage, not a notification." Drop cap rotates per quote so the look stays fresh.</p>
+  </div>
+
+  <!-- V4 — VINTAGE INDEX CARD -->
+  <div class="v">
+    <span class="tag">V4 · Index card</span>
+    <div class="name">Library archive feel</div>
+    <p class="desc">
+      Lined cream paper rotated slightly, with a thin vertical terra rule and a typewriter-style monospaced body.
+      Tiny date stamp in the top-right. Inspired by old library catalog cards and writers' notebooks.
+    </p>
+    <div class="panel v4">
+      <div class="heading">Daily wisdom</div>
+      <div class="card">
+        <div class="stamp">DAY 152</div>
+        <div class="body">Whatever stands in the way, becomes the way.</div>
+        <div class="byline">— Marcus Aurelius</div>
+      </div>
+    </div>
+    <p class="cap">Most "found object" feel. Slight rotation + ruled lines + monospace make it feel collected, not generated.</p>
+  </div>
+
+  <!-- V5 — MINIMAL FRAMED -->
+  <div class="v">
+    <span class="tag">V5 · Minimal frame</span>
+    <div class="name">Twin hairline rules + diamond</div>
+    <p class="desc">
+      Two thin amber rules above and below the quote, with a tiny diamond mark on each. Centered serif italic body, centered byline.
+      Inspired by minimalist book chapter dividers and museum plaque typography.
+    </p>
+    <div class="panel v5">
+      <div class="heading">Daily wisdom</div>
+      <div class="frame">
+        <div class="body">Whatever stands in the way, becomes the way.</div>
+        <div class="byline">Marcus Aurelius</div>
+      </div>
+    </div>
+    <p class="cap">Quiet, ceremonial. The frame makes the quote feel "set apart" without using a card.</p>
+  </div>
+
+</div>
+
+<p style="text-align: center; margin-top: 64px; color: var(--muted); font-size: 13px;">
+  <i>Pick one and I'll ship it. Or mix elements — e.g. "V1 paper but with V3's drop cap" or "V2 type-only without the heading."</i>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>R19 — Home polish, three directions</title>
+<style>
+  :root {
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cosmic-c: #7A4530;
+    --cream: #FAF6EF;
+    --cream-soft: rgba(250,246,239,0.78);
+    --paper: #FCF5E8;
+    --paper-aged: #EBD9B5;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --ink: #3E2F22;
+    --ink-soft: #6B5847;
+    --muted: #9A8D7E;
+    --indigo: #4D4A6E;
+    --indigo-deep: #2C2A4A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0F0B07;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+    color: var(--cream);
+    padding: 56px 28px 80px;
+    min-height: 100vh;
+  }
+  .page-h1 { text-align: center; font-size: 30px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .page-h1 i { color: var(--terra-light); font-weight: 400; }
+  .page-sub { text-align: center; color: rgba(250,246,239,0.55); font-size: 14px; max-width: 720px; margin: 0 auto 56px; line-height: 1.6; }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(320px, 1fr));
+    gap: 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  @media (max-width: 1080px) { .compare-grid { grid-template-columns: 1fr; } }
+
+  .column { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .col-tag {
+    padding: 5px 12px; border-radius: 999px;
+    background: rgba(216,154,90,0.18); color: var(--amber);
+    font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase;
+  }
+  .col-title {
+    font-size: 16px; font-weight: 600; color: var(--cream); letter-spacing: -0.2px;
+    text-align: center;
+  }
+  .col-desc {
+    font-size: 11.5px; color: rgba(250,246,239,0.55); line-height: 1.55;
+    text-align: center; max-width: 320px; margin-bottom: 14px;
+  }
+
+  /* iPhone-ish frame */
+  .phone {
+    width: 360px;
+    height: 760px;
+    border-radius: 46px;
+    background: var(--cosmic-a);
+    overflow: hidden;
+    position: relative;
+    border: 1.5px solid rgba(255,255,255,0.05);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
+  }
+  .phone .notch {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 30px; background: #000; border-radius: 20px; z-index: 50;
+  }
+  .phone .screen {
+    position: absolute; inset: 0;
+    padding: 56px 22px 80px;
+    overflow: hidden;
+  }
+
+  /* Tab bar mock at bottom */
+  .tabbar {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 70px;
+    background: rgba(20,12,6,0.92);
+    border-top: 1px solid rgba(250,246,239,0.14);
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 0 18px 18px;
+    z-index: 40;
+  }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 9.5px; font-weight: 600; letter-spacing: 0.4px; }
+  .tab .dot { width: 22px; height: 4px; border-radius: 999px; background: rgba(250,246,239,0.25); }
+  .tab.active .dot { background: var(--amber); }
+  .tab.active span { color: var(--cream); }
+  .tab span { color: rgba(250,246,239,0.5); }
+
+  /* GREETING (shared) */
+  .greeting {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 22px;
+  }
+  .greeting .left .eyebrow {
+    font-size: 9px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 5px;
+  }
+  .greeting .left .name {
+    font-size: 21px; font-weight: 500; color: var(--cream); letter-spacing: -0.4px; line-height: 1.15;
+  }
+  .greeting .left .name i { color: var(--terra-light); font-weight: 400; }
+  .greeting .avatar {
+    width: 38px; height: 38px; border-radius: 999px;
+    background: linear-gradient(135deg, var(--terra-light), var(--terra));
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 13.5px; font-weight: 600;
+    border: 1px solid rgba(250,246,239,0.14);
+  }
+
+  /* RITUAL CARD (shared base) */
+  .ritual {
+    border-radius: 22px; overflow: hidden; position: relative;
+    height: 188px;
+    background: linear-gradient(135deg, #5b4029, #2c1d0f);
+    margin-bottom: 22px;
+  }
+  .ritual::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(20,12,6,0.3) 0%, rgba(20,12,6,0.55) 55%, rgba(20,12,6,0.92) 100%);
+  }
+  .ritual .glow {
+    position: absolute; right: -50px; top: -50px; width: 180px; height: 180px;
+    border-radius: 50%; background: rgba(192,104,72,0.5); filter: blur(4px);
+  }
+  .ritual .inner {
+    position: relative; z-index: 2; padding: 18px 18px 16px;
+    height: 100%; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .ritual h2 {
+    font-size: 21px; font-weight: 500; color: var(--cream);
+    letter-spacing: -0.4px; line-height: 1.18; margin-bottom: 8px;
+  }
+  .ritual h2 i { color: var(--terra-light); font-weight: 400; }
+  .ritual p {
+    font-size: 11.5px; color: rgba(250,246,239,0.8); line-height: 1.45;
+    margin-bottom: 14px; max-width: 230px;
+  }
+  .ritual .cta-wrap { display: flex; justify-content: center; }
+  .ritual .cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--terra), var(--terra-deep));
+    border: 1px solid rgba(216,154,90,0.5); padding: 8px 16px;
+    border-radius: 999px; font-size: 12px; font-weight: 600; color: var(--cream);
+  }
+  .ritual .cta .play {
+    width: 18px; height: 18px; border-radius: 99px;
+    background: rgba(250,246,239,0.18); border: 1px solid rgba(250,246,239,0.35);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 9px;
+  }
+
+  /* ═══════ DIRECTION A — EDITORIAL CALM ═══════ */
+  .a .greeting .left .eyebrow { color: rgba(250,246,239,0.55); letter-spacing: 2.4px; font-size: 8.5px; }
+  .a .section-heading {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 18px; font-style: italic; color: var(--cream);
+    letter-spacing: -0.2px; font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .a .section-sub {
+    font-size: 9.5px; color: rgba(250,246,239,0.4); letter-spacing: 1.4px;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 16px;
+  }
+  .a .section { margin-top: 24px; }
+  .a .a-affirmations { display: flex; gap: 10px; overflow: hidden; }
+  .a .a-aff-card {
+    flex: 0 0 184px; height: 130px; border-radius: 14px; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #6b3c28, #2a1812);
+  }
+  .a .a-aff-card.featured {
+    flex: 0 0 220px; height: 130px; border: 1px solid rgba(216,154,90,0.5);
+  }
+  .a .a-aff-card .photo {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(216,154,90,0.4), transparent 60%),
+      linear-gradient(135deg, #8d4f30, #401b0e);
+  }
+  .a .a-aff-card.b .photo { background: linear-gradient(135deg, #b06b4e, #4a2614); }
+  .a .a-aff-card.c .photo { background: linear-gradient(135deg, #5e4a82, #281a3e); }
+  .a .a-aff-card .photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 30%, rgba(20,12,6,0.92) 100%);
+  }
+  .a .a-aff-card .text {
+    position: absolute; bottom: 10px; left: 12px; right: 12px; z-index: 2;
+    font-size: 12.5px; font-style: italic; line-height: 1.32; color: var(--cream); font-weight: 500;
+  }
+  .a .a-pager {
+    display: flex; gap: 5px; justify-content: center; margin-top: 12px;
+  }
+  .a .a-pager .dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(250,246,239,0.18); }
+  .a .a-pager .dot.active { background: var(--amber); width: 16px; border-radius: 99px; }
+
+  /* Quote — editorial pullquote */
+  .a .a-quote {
+    background: transparent; padding-top: 10px;
+    border-top: 1px solid rgba(216,154,90,0.35);
+    margin-top: 24px; padding-bottom: 4px;
+  }
+  .a .a-quote .ckey {
+    font-family: Georgia, serif; font-size: 50px; color: rgba(216,154,90,0.45);
+    line-height: 0.7; margin-bottom: -10px;
+  }
+  .a .a-quote .body {
+    font-family: Georgia, serif; font-size: 16px; line-height: 1.42;
+    color: var(--cream); letter-spacing: -0.1px; margin-bottom: 10px;
+  }
+  .a .a-quote .byline {
+    font-family: Georgia, serif; font-size: 11px; font-style: italic;
+    color: rgba(250,246,239,0.6);
+  }
+  .a .a-quote .byline::before { content: '— '; }
+
+  /* ═══════ DIRECTION B — ATMOSPHERIC RITUAL ═══════ */
+  .b .screen {
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(216,154,90,0.25), transparent 50%),
+      linear-gradient(180deg, #3a2818 0%, #1d130a 60%, #14100c 100%);
+  }
+  .b .greeting .left .eyebrow { color: var(--amber); }
+  .b .ritual {
+    box-shadow: 0 0 60px rgba(216,154,90,0.18);
+    border: 1px solid rgba(216,154,90,0.25);
+  }
+  .b .ritual h2::after {
+    content: '✦'; position: absolute; right: 16px; top: 16px;
+    color: rgba(216,154,90,0.7); font-size: 10px;
+  }
+  .b .section { margin-top: 24px; }
+  .b .b-eyebrow {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 2.2px;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .b .b-eyebrow::before, .b .b-eyebrow::after {
+    content: ''; flex: 1; height: 1px; background: rgba(216,154,90,0.25);
+  }
+  .b .b-affirmations { display: flex; gap: 10px; overflow: hidden; }
+  .b .b-aff-card {
+    flex: 0 0 168px; height: 138px; border-radius: 16px; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #6b3c28, #2a1812);
+    box-shadow: 0 0 0 1px rgba(216,154,90,0.3), 0 0 24px rgba(216,154,90,0.18);
+  }
+  .b .b-aff-card.featured {
+    flex: 0 0 200px;
+    box-shadow: 0 0 0 1.5px rgba(216,154,90,0.55), 0 0 40px rgba(216,154,90,0.35);
+  }
+  .b .b-aff-card .photo {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(216,154,90,0.4), transparent 60%),
+      linear-gradient(135deg, #8d4f30, #401b0e);
+  }
+  .b .b-aff-card.cc .photo { background: linear-gradient(135deg, #b06b4e, #4a2614); }
+  .b .b-aff-card.dd .photo { background: linear-gradient(135deg, #5e4a82, #281a3e); }
+  .b .b-aff-card .photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 30%, rgba(20,12,6,0.85) 100%);
+  }
+  .b .b-aff-card .text {
+    position: absolute; bottom: 12px; left: 12px; right: 12px; z-index: 2;
+    font-size: 12.5px; font-style: italic; line-height: 1.32; color: var(--cream); font-weight: 500;
+  }
+  /* Quote — aged paper artefact */
+  .b .b-quote-wrap { margin-top: 24px; position: relative; }
+  .b .b-quote {
+    position: relative; border-radius: 14px;
+    background:
+      radial-gradient(circle at 10% 20%, rgba(216,154,90,0.18), transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(155,107,47,0.18), transparent 40%),
+      linear-gradient(135deg, var(--paper-aged), var(--paper));
+    padding: 22px 20px 18px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.4);
+    overflow: hidden;
+  }
+  .b .b-quote::before {
+    content: ''; position: absolute; top: 0; left: 16px; right: 16px; height: 4px;
+    background: linear-gradient(90deg, transparent 0, var(--terra-deep) 30%, var(--terra) 70%, transparent 100%);
+    opacity: 0.85;
+  }
+  .b .b-quote .stamp {
+    position: absolute; top: 12px; right: 12px; width: 36px; height: 36px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--terra-deep), var(--terra));
+    color: rgba(250,246,239,0.85);
+    font-family: Georgia, serif; font-size: 11px; font-style: italic; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    transform: rotate(-12deg);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    border: 1px dashed rgba(250,246,239,0.4);
+  }
+  .b .b-quote .author {
+    font-size: 9px; font-weight: 700; letter-spacing: 1.8px;
+    text-transform: uppercase; color: var(--terra-deep); margin-bottom: 8px;
+  }
+  .b .b-quote .body {
+    font-family: Georgia, serif; font-size: 14.5px; line-height: 1.4;
+    color: var(--ink); padding-right: 36px;
+  }
+
+  /* ═══════ DIRECTION C — LIVING / TACTILE ═══════ */
+  .c .greeting .left .eyebrow { color: var(--amber); }
+  .c .section { margin-top: 22px; }
+  .c .c-eyebrow {
+    font-size: 13px; font-weight: 700; letter-spacing: 1.6px;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .c .c-eyebrow .pill {
+    font-size: 8.5px; padding: 3px 8px; border-radius: 99px;
+    background: rgba(216,154,90,0.18); border: 1px solid rgba(216,154,90,0.4);
+    color: var(--amber); letter-spacing: 1px;
+  }
+  .c .c-affirmations { display: flex; gap: 11px; overflow: hidden; padding: 4px 0 8px; }
+  .c .c-aff-card {
+    flex: 0 0 158px; height: 138px; border-radius: 16px; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #6b3c28, #2a1812);
+    transform: rotate(-1.5deg);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .c .c-aff-card:nth-child(2) { transform: rotate(1deg); }
+  .c .c-aff-card:nth-child(3) { transform: rotate(-0.5deg); }
+  .c .c-aff-card.featured {
+    flex: 0 0 198px; transform: rotate(-2deg);
+    border: 1px solid rgba(216,154,90,0.55);
+  }
+  .c .c-aff-card .photo {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(216,154,90,0.4), transparent 60%),
+      linear-gradient(135deg, #8d4f30, #401b0e);
+  }
+  .c .c-aff-card.cc .photo { background: linear-gradient(135deg, #b06b4e, #4a2614); }
+  .c .c-aff-card.dd .photo { background: linear-gradient(135deg, #5e4a82, #281a3e); }
+  .c .c-aff-card .photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 30%, rgba(20,12,6,0.85) 100%);
+  }
+  .c .c-aff-card .text {
+    position: absolute; bottom: 28px; left: 12px; right: 12px; z-index: 2;
+    font-size: 12px; font-style: italic; line-height: 1.32; color: var(--cream); font-weight: 500;
+  }
+  .c .c-aff-card .read-aloud {
+    position: absolute; bottom: 10px; left: 12px;
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 8.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--amber);
+    background: rgba(20,12,6,0.45);
+    padding: 4px 8px; border-radius: 99px;
+    border: 1px solid rgba(216,154,90,0.45);
+  }
+  .c .c-aff-card .read-aloud::before { content: '🔊'; font-size: 8px; }
+
+  /* Quote — flippable postcard */
+  .c .c-quote-wrap {
+    margin-top: 26px; position: relative;
+    transform: rotate(-0.8deg);
+  }
+  .c .c-quote {
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--paper), #F5E4CF);
+    padding: 18px 18px 16px 22px;
+    box-shadow: 0 14px 36px rgba(0,0,0,0.45);
+    position: relative;
+    overflow: hidden;
+  }
+  .c .c-quote::before {
+    content: ''; position: absolute; top: 0; left: 18px; right: 18px; height: 2px;
+    background: rgba(216,154,90,0.5);
+  }
+  .c .c-quote .ckey {
+    position: absolute; top: 4px; left: 8px;
+    font-family: Georgia, serif; font-size: 48px; line-height: 1; color: rgba(192,104,72,0.3);
+  }
+  .c .c-quote .author {
+    font-size: 9px; font-weight: 700; letter-spacing: 1.8px;
+    text-transform: uppercase; color: var(--terra-deep); margin-bottom: 8px; margin-left: 30px;
+  }
+  .c .c-quote .body {
+    font-family: Georgia, serif; font-size: 14.5px; line-height: 1.4;
+    color: var(--ink); margin-left: 30px;
+  }
+  .c .c-quote .flip-hint {
+    margin-top: 12px; text-align: right;
+    font-size: 9.5px; font-style: italic; color: rgba(62,47,34,0.5);
+  }
+
+  /* Caption row at bottom of each phone */
+  .caption {
+    margin-top: 18px;
+    max-width: 320px; text-align: center;
+    font-size: 11.5px; color: rgba(250,246,239,0.55); line-height: 1.55;
+  }
+</style>
+</head>
+<body>
+
+<h1 class="page-h1">Home polish — <i>three directions.</i></h1>
+<p class="page-sub">
+  Each phone preview shows what the Home tab would feel like under that polish direction. Look at the affirmations section and the wisdom quote especially — those are the two that feel stale today. The ritual card stays similar across all three (it already does its job).
+</p>
+
+<div class="compare-grid">
+
+  <!-- ════════════ A — EDITORIAL CALM ════════════ -->
+  <div class="column">
+    <span class="col-tag">A · Editorial calm</span>
+    <h3 class="col-title">Magazine spread</h3>
+    <p class="col-desc">
+      Drop the matching amber eyebrows. Affirmations get a snap carousel + paginator. Quote becomes a pulled excerpt with hairline accent + signed byline. Reads quiet, considered, never busy.
+    </p>
+    <div class="phone a">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="greeting">
+          <div class="left">
+            <div class="eyebrow">Saturday · May 31</div>
+            <div class="name">Good morning,<br><i>Shellena.</i></div>
+          </div>
+          <div class="avatar">S</div>
+        </div>
+        <div class="ritual">
+          <div class="glow"></div>
+          <div class="inner">
+            <div>
+              <h2>Visualise<br><i>what you're becoming.</i></h2>
+              <p>A 90-second visualisation to set your intentions for the day.</p>
+            </div>
+            <div class="cta-wrap"><span class="cta"><span class="play">▶</span> Begin ritual</span></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-heading">Affirmations for today</div>
+          <div class="section-sub">five · to embody</div>
+          <div class="a-affirmations">
+            <div class="a-aff-card featured">
+              <div class="photo"></div>
+              <div class="text">I am building a body of work I'm proud of.</div>
+            </div>
+            <div class="a-aff-card b">
+              <div class="photo"></div>
+              <div class="text">My energy is mine to spend.</div>
+            </div>
+            <div class="a-aff-card c">
+              <div class="photo"></div>
+              <div class="text">Love finds me ready.</div>
+            </div>
+          </div>
+          <div class="a-pager">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+
+        <div class="a-quote">
+          <div class="ckey">"</div>
+          <div class="body">Whatever stands in the way, becomes the way.</div>
+          <div class="byline">Marcus Aurelius</div>
+        </div>
+      </div>
+      <div class="tabbar">
+        <div class="tab active"><div class="dot"></div><span>HOME</span></div>
+        <div class="tab"><div class="dot"></div><span>VISION</span></div>
+        <div class="tab"><div class="dot"></div><span>WINS</span></div>
+      </div>
+    </div>
+    <p class="caption">
+      Italic-serif section headings differentiate from sans-cap eyebrows. Quote feels like a literary pullquote, not a "today's wisdom" widget.
+    </p>
+  </div>
+
+  <!-- ════════════ B — ATMOSPHERIC RITUAL ════════════ -->
+  <div class="column">
+    <span class="col-tag">B · Atmospheric ritual</span>
+    <h3 class="col-title">Cosmic warmth</h3>
+    <p class="col-desc">
+      Time-tinted background washes the page in warm amber (morning) or cool indigo (evening). Affirmation cards glow at the edges. Quote is an aged-paper artefact with a wax-seal stamp. Feels like ritual artefacts, not UI sections.
+    </p>
+    <div class="phone b">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="greeting">
+          <div class="left">
+            <div class="eyebrow">Saturday morning</div>
+            <div class="name">Good morning,<br><i>Shellena.</i></div>
+          </div>
+          <div class="avatar">S</div>
+        </div>
+        <div class="ritual">
+          <div class="glow"></div>
+          <div class="inner">
+            <div>
+              <h2>Visualise<br><i>what you're becoming.</i></h2>
+              <p>A 90-second visualisation to set your intentions.</p>
+            </div>
+            <div class="cta-wrap"><span class="cta"><span class="play">▶</span> Begin ritual</span></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="b-eyebrow">Affirmations</div>
+          <div class="b-affirmations">
+            <div class="b-aff-card featured">
+              <div class="photo"></div>
+              <div class="text">I am building a body of work I'm proud of.</div>
+            </div>
+            <div class="b-aff-card cc">
+              <div class="photo"></div>
+              <div class="text">My energy is mine to spend.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="b-quote-wrap">
+          <div class="b-eyebrow">Wisdom for today</div>
+          <div class="b-quote">
+            <div class="stamp">Day<br>152</div>
+            <div class="author">Marcus Aurelius</div>
+            <div class="body">Whatever stands in the way, becomes the way.</div>
+          </div>
+        </div>
+      </div>
+      <div class="tabbar">
+        <div class="tab active"><div class="dot"></div><span>HOME</span></div>
+        <div class="tab"><div class="dot"></div><span>VISION</span></div>
+        <div class="tab"><div class="dot"></div><span>WINS</span></div>
+      </div>
+    </div>
+    <p class="caption">
+      Amber glow on cards, hairline-rule dividers around eyebrows. Wax-seal stamp on the quote makes it feel collectible — a daily artefact rather than a slot you read.
+    </p>
+  </div>
+
+  <!-- ════════════ C — LIVING / TACTILE ════════════ -->
+  <div class="column">
+    <span class="col-tag">C · Living &amp; tactile</span>
+    <h3 class="col-title">Cards that breathe</h3>
+    <p class="col-desc">
+      Affirmation cards tilt 1-2°, like scattered keepsakes. Featured card gets a "🔊 Read aloud" pill (same voice as the ritual). Quote postcard is slightly rotated with a "Tap to reflect" hint that flips to reveal a journaling prompt.
+    </p>
+    <div class="phone c">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="greeting">
+          <div class="left">
+            <div class="eyebrow">Saturday · May 31</div>
+            <div class="name">Good morning,<br><i>Shellena.</i></div>
+          </div>
+          <div class="avatar">S</div>
+        </div>
+        <div class="ritual">
+          <div class="glow"></div>
+          <div class="inner">
+            <div>
+              <h2>Visualise<br><i>what you're becoming.</i></h2>
+              <p>A 90-second visualisation to set your intentions.</p>
+            </div>
+            <div class="cta-wrap"><span class="cta"><span class="play">▶</span> Begin ritual</span></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="c-eyebrow"><span>Today's affirmations</span><span class="pill">5</span></div>
+          <div class="c-affirmations">
+            <div class="c-aff-card featured">
+              <div class="photo"></div>
+              <div class="text">I am building a body of work I'm proud of.</div>
+              <div class="read-aloud">Read aloud</div>
+            </div>
+            <div class="c-aff-card cc">
+              <div class="photo"></div>
+              <div class="text">My energy is mine to spend.</div>
+            </div>
+            <div class="c-aff-card dd">
+              <div class="photo"></div>
+              <div class="text">Love finds me ready.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="c-quote-wrap">
+          <div class="c-quote">
+            <div class="ckey">"</div>
+            <div class="author">Marcus Aurelius</div>
+            <div class="body">Whatever stands in the way, becomes the way.</div>
+            <div class="flip-hint">Tap to reflect →</div>
+          </div>
+        </div>
+      </div>
+      <div class="tabbar">
+        <div class="tab active"><div class="dot"></div><span>HOME</span></div>
+        <div class="tab"><div class="dot"></div><span>VISION</span></div>
+        <div class="tab"><div class="dot"></div><span>WINS</span></div>
+      </div>
+    </div>
+    <p class="caption">
+      Subtle tilts read as physical keepsakes. Read-aloud pill makes the daily affirmation interactive. Quote flips to a journaling prompt — turns passive consumption into a small ritual.
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>

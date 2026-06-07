@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mobile render mock · Vision + Capture sheet</title>
+<style>
+  :root {
+    --bg: #FAF6EF;
+    --bg-soft: #F4EEE2;
+    --surface: #FFFFFF;
+    --paper: #FCF5E8;
+    --hairline: rgba(62,47,34,0.08);
+    --ink: #3E2F22;
+    --ink-soft: #6B5847;
+    --muted: #9A8D7E;
+    --muted-soft: #C9BEB0;
+    --terra: #C06848;
+    --terra-deep: #9E4F32;
+    --terra-light: #E8A07A;
+    --terra-pale: #F5DBC9;
+    --sage: #7A9470;
+    --sage-deep: #556B4F;
+    --sage-pale: #D8E4D2;
+    --amber: #D89A5A;
+    --amber-deep: #9B6B2F;
+    --amber-pale: #F5E4CF;
+    --cream: #FAF6EF;
+    --cream-muted: rgba(250,246,239,0.55);
+    --cosmic-a: #2A1F15;
+    --cosmic-b: #4B2E1E;
+    --cosmic-c: #7A4530;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1410;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+    color: var(--ink);
+    padding: 32px 24px;
+    display: flex; gap: 40px; flex-wrap: wrap; justify-content: center;
+  }
+  .phone {
+    width: 390px; height: 844px;
+    border-radius: 48px;
+    position: relative; overflow: hidden;
+    background: var(--bg);
+    box-shadow: 0 30px 70px -10px rgba(0,0,0,0.55);
+    flex-shrink: 0;
+  }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .col h2 {
+    color: #FAF6EF; font-size: 14px; font-weight: 600; letter-spacing: 0.4px;
+    text-align: center;
+  }
+  .col .note {
+    color: rgba(250,246,239,0.6); font-size: 11px; max-width: 360px; text-align: center;
+    line-height: 1.4;
+  }
+
+  /* ─── Vision tab ─── */
+  .vision-bg { background: var(--cosmic-a); }
+  .vision-bg::before {
+    /* gradient 1: top terra glow */
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 320px;
+    background: linear-gradient(180deg, rgba(158,79,50,0.33) 0%, transparent 100%);
+    z-index: 1;
+  }
+  .vision-bg::after {
+    /* gradient 2: bottom cosmic */
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      transparent 0%, transparent 50%,
+      rgba(75,46,30,0.47) 75%, rgba(122,69,48,0.67) 100%);
+    z-index: 1;
+  }
+  .status {
+    position: relative; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 26px 8px; color: var(--cream);
+    font-size: 15px; font-weight: 600;
+  }
+  .notch {
+    position: absolute; left: 50%; top: 11px; transform: translateX(-50%);
+    width: 122px; height: 32px; border-radius: 999px; background: #000; z-index: 10;
+  }
+  .vision-head {
+    position: relative; z-index: 5;
+    padding: 18px 24px 4px; text-align: center;
+  }
+  .vision-head h1 {
+    color: var(--cream); font-size: 30px; font-weight: 500;
+    letter-spacing: -0.6px; line-height: 33px;
+  }
+  .vision-grid {
+    position: relative; z-index: 5;
+    padding: 24px 20px; display: flex; flex-wrap: wrap; gap: 14px;
+  }
+  .v-card {
+    width: calc((100% - 14px) / 2);
+    aspect-ratio: 0.78;
+    border-radius: 16px; overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(250,246,239,0.10);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.45);
+    background-size: cover; background-position: center;
+  }
+  .v-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 38%, rgba(20,12,6,0.82) 100%);
+  }
+  .v-card-text { position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 2; }
+  .v-card-eyebrow {
+    font-size: 9px; font-weight: 700; letter-spacing: 1.6px;
+    text-transform: uppercase; color: var(--terra-light); margin-bottom: 4px;
+  }
+  .v-card-id {
+    font-size: 16px; font-weight: 600; color: var(--cream);
+    letter-spacing: -0.3px; font-style: italic; line-height: 18px;
+    margin-bottom: 6px;
+  }
+  .v-card-proofs {
+    font-size: 9.5px; font-weight: 600; color: rgba(250,246,239,0.62);
+    letter-spacing: 0.2px;
+  }
+
+  /* tab bar */
+  .tabbar {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 86px;
+    background: rgba(20,12,6,0.92);
+    border-top: 1px solid rgba(250,246,239,0.08);
+    padding: 8px 16px 28px;
+    display: flex; align-items: center; z-index: 10;
+  }
+  .tabbar .t {
+    flex: 1; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    color: rgba(250,246,239,0.55);
+    font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px;
+    text-transform: uppercase;
+  }
+  .tabbar .t.on { color: var(--amber); }
+
+  /* ─── Capture sheet ─── */
+  .cap-bg { background: var(--bg); }
+  .cap-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px 20px;
+  }
+  .cap-x {
+    width: 40px; height: 40px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--ink);
+  }
+  .cap-del {
+    height: 40px; padding: 0 14px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--hairline);
+    color: var(--terra-deep); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.3px; display: flex; align-items: center;
+  }
+  .cap-title-wrap { padding: 0 22px 22px; }
+  .cap-eyebrow {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 2.2px;
+    text-transform: uppercase; color: var(--amber-deep); margin-bottom: 8px;
+  }
+  .cap-title {
+    font-size: 28px; font-weight: 500; color: var(--ink);
+    letter-spacing: -0.7px; line-height: 32px;
+  }
+  .cap-scroll {
+    padding: 4px 22px 160px;
+    height: calc(844px - 200px - 86px);
+    overflow: hidden;
+    position: relative;
+  }
+  .cap-body {
+    padding: 18px;
+    border-radius: 18px;
+    background: var(--paper);
+    border: 1px solid rgba(216,154,90,0.27);
+    min-height: 120px; font-size: 17px; color: var(--ink); line-height: 26px;
+    font-style: italic;
+    font-style: italic; letter-spacing: -0.2px;
+  }
+  .cap-body .placeholder { color: var(--muted-soft); }
+  .cap-charcount {
+    text-align: right; font-size: 11px; color: var(--muted-soft);
+    margin: 8px 0 18px;
+  }
+  .cap-section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.8px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+  }
+  .cap-chips {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 18px;
+  }
+  .chip {
+    padding: 8px 14px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--hairline);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.2px; color: var(--ink);
+    white-space: nowrap;
+  }
+  .chip.on {
+    background: var(--terra); border-color: var(--terra-deep); color: var(--cream);
+  }
+  .cap-photo-prompt {
+    padding: 14px 16px; border-radius: 12px;
+    background: var(--surface); border: 1px dashed var(--hairline);
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13.5px; color: var(--ink-soft);
+  }
+  .cap-cta {
+    position: absolute; left: 22px; right: 22px; bottom: 24px;
+    height: 60px; border-radius: 30px;
+    background: linear-gradient(135deg, var(--terra), var(--terra-deep));
+    color: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 600; letter-spacing: 0.1px;
+    box-shadow: 0 18px 38px rgba(192,104,72,0.4);
+  }
+
+  /* Annotation overlay */
+  .ann {
+    position: absolute; z-index: 100;
+    background: rgba(20,12,6,0.92);
+    color: #FAF6EF; padding: 8px 12px; border-radius: 8px;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.2px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+    border: 1px solid rgba(216,154,90,0.4);
+    max-width: 220px; line-height: 1.4;
+  }
+  .ann::before {
+    content: ''; position: absolute;
+    width: 0; height: 0;
+    border: 5px solid transparent;
+  }
+  .ann.right::before { left: -10px; top: 12px; border-right-color: rgba(216,154,90,0.4); }
+  .ann.left::before  { right: -10px; top: 12px; border-left-color: rgba(216,154,90,0.4); }
+</style>
+</head>
+<body>
+
+<!-- ─── VISION TAB ─── -->
+<div class="col">
+  <h2>Vision tab — what mobile renders</h2>
+  <div class="phone vision-bg">
+    <div class="notch"></div>
+    <div class="status">
+      <span>9:41</span><span style="opacity:0.7;">·····</span>
+    </div>
+    <div class="vision-head">
+      <h1>Who you're becoming.</h1>
+    </div>
+    <div class="vision-grid">
+      <div class="v-card" style="background-image: url('assets/work-paris.jpg');">
+        <div class="v-card-text">
+          <div class="v-card-eyebrow">Career</div>
+          <div class="v-card-id">Sought-after</div>
+          <div class="v-card-proofs">14 proofs</div>
+        </div>
+      </div>
+      <div class="v-card" style="background-image: url('assets/health-runner.jpg');">
+        <div class="v-card-text">
+          <div class="v-card-eyebrow">Health</div>
+          <div class="v-card-id">Strong</div>
+          <div class="v-card-proofs">9 proofs</div>
+        </div>
+      </div>
+      <div class="v-card" style="background-image: url('assets/love-hero.jpg');">
+        <div class="v-card-text">
+          <div class="v-card-eyebrow">Love</div>
+          <div class="v-card-id">Chosen</div>
+          <div class="v-card-proofs">7 proofs</div>
+        </div>
+      </div>
+      <div class="v-card" style="background-image: url('assets/work-window.jpg');">
+        <div class="v-card-text">
+          <div class="v-card-eyebrow">Finance</div>
+          <div class="v-card-id">Free</div>
+          <div class="v-card-proofs">5 proofs</div>
+        </div>
+      </div>
+      <div class="v-card" style="background-image: url('assets/work-coffee.jpg');">
+        <div class="v-card-text">
+          <div class="v-card-eyebrow">Joy</div>
+          <div class="v-card-id">Lit up</div>
+          <div class="v-card-proofs">11 proofs</div>
+        </div>
+      </div>
+    </div>
+    <div class="tabbar">
+      <div class="t">☼<br/>Today</div>
+      <div class="t on">◯<br/>Vision</div>
+      <div class="t">⚓<br/>Wins</div>
+    </div>
+  </div>
+  <div class="note">This is what vision.tsx <em>should</em> render after my round-4 store v3 migrate. If your phone still shows blank, it's not the layout — it's something else (stale bundle? store hydration timing?).</div>
+</div>
+
+<!-- ─── CAPTURE SHEET — current state ─── -->
+<div class="col">
+  <h2>Capture sheet — current state</h2>
+  <div class="phone cap-bg">
+    <div class="notch"></div>
+    <div class="status" style="color:var(--ink);">
+      <span>9:41</span><span style="opacity:0.5;">·····</span>
+    </div>
+    <div class="cap-head">
+      <div class="cap-x">×</div>
+    </div>
+    <div class="cap-title-wrap">
+      <div class="cap-eyebrow">A new proof</div>
+      <div class="cap-title">Capture a win.</div>
+    </div>
+    <div class="cap-scroll">
+      <!-- ROUND 4 FIX-3: chips moved to TOP, above body -->
+      <div class="cap-section-label">Linked to</div>
+      <div class="cap-chips">
+        <div class="chip on">None</div>
+        <div class="chip">Career</div>
+        <div class="chip">Health</div>
+        <div class="chip">Love</div>
+        <div class="chip">Finance</div>
+      </div>
+      <div class="cap-body" style="margin-top: 18px;">
+        <span class="placeholder">What happened? Just one thing — small counts.</span>
+      </div>
+      <div class="cap-charcount">0 / 500</div>
+      <div class="cap-photo-prompt">
+        <span>📷</span><span>Add a photo (optional)</span>
+      </div>
+    </div>
+    <div class="cap-cta">Save</div>
+    <div class="ann right" style="top: 410px; left: 60px;">
+      ✅ CHIPS now at TOP — when keyboard opens and lifts the Save CTA, the chips stay anchored above body and never get hidden.
+    </div>
+  </div>
+  <div class="note">Chips moved above body (round 4 fix-3). paddingBottom bumped to 220 for safety. Chips never overlap Save now — they're above the body input, far from the bottom CTA.</div>
+</div>
+
+</body>
+</html>
