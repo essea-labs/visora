@@ -35,7 +35,7 @@ export default function NameStep() {
     if (!isReady) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
     setName(trimmed);
-    router.push('/(onboarding)/why');
+    router.push('/(onboarding)/pick-areas');
   };
 
   return (

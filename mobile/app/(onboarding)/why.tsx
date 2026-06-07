@@ -17,7 +17,7 @@ export default function WhyIntro() {
       // v2: skip the old per-vision setup (visualization → small-wins → behavior
       // → photos → describe → reveal). The new flow is pick-areas → build-board,
       // then back to the original witness + morning-time tail.
-      onContinue={() => router.push('/(onboarding)/pick-areas')}
+      onContinue={() => router.push('/(onboarding)/name')}
     />
   );
 }
