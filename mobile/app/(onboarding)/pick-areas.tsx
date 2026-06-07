@@ -48,7 +48,7 @@ export default function PickAreas() {
       step={3}
       eyebrow={`Vision setup · 1 of 2 · ${count} picked`}
       title={'Pick what matters\nmost to you.'}
-      body={`Pick as many or as few as you want — up to ${MAX_AREAS}. You can add your own.`}
+      body={`Pick as many or as few as you want, up to ${MAX_AREAS}. You can add your own.`}
       ctaLabel="Continue"
       ctaDisabled={!isReady}
       onContinue={() => router.push('/(onboarding)/build-board')}

@@ -15,7 +15,7 @@ export default function Welcome() {
 
   const handleBegin = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-    router.push('/(onboarding)/why');
+    router.push('/(onboarding)/name');
   };
 
   return (

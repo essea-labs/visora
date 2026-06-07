@@ -20,10 +20,11 @@ import Feather from '@expo/vector-icons/Feather';
 
 import { useWinsStore } from '@/core/stores/useWinsStore';
 import { useVisionAreasStore } from '@/core/stores/useVisionAreasStore';
+import { useProfileStore } from '@/core/stores/useProfileStore';
 import { colors } from '@/ui/tokens';
 
-const NAME = 'Shellena';
-const EMAIL = 'shellena@example.com';
+// Email stays a placeholder until Sign in with Apple lands (Phase B.7).
+const EMAIL = '';
 
 export default function Profile() {
   const router = useRouter();
@@ -31,6 +32,8 @@ export default function Profile() {
 
   const wins = useWinsStore((s) => s.wins);
   const visions = useVisionAreasStore((s) => s.visions);
+  const profileName = useProfileStore((s) => s.name);
+  const NAME = profileName || 'Friend';
 
   const stats = useMemo(() => {
     const winsCount = wins.filter((w) => !w.deletedAt).length;

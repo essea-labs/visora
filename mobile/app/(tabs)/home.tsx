@@ -51,6 +51,7 @@ import * as Haptics from 'expo-haptics';
 
 import { useDailyStore } from '@/core/stores/useDailyStore';
 import { useVisionAreasStore } from '@/core/stores/useVisionAreasStore';
+import { useProfileStore } from '@/core/stores/useProfileStore';
 import { colors } from '@/ui/tokens';
 import { todaysWisdomSet } from '@/core/constants/wisdomItems';
 import { todaysReading } from '@/core/constants/dailyReadings';
@@ -82,6 +83,7 @@ export default function Home() {
   const router = useRouter();
   const intention = useDailyStore((s) => s.todaysIntention());
   const ritualDone = useDailyStore((s) => s.isRitualCompletedToday());
+  const userName = useProfileStore((s) => s.name);
 
   // R52: wisdom redesign — single unified set replaces the separate
   // affirmations strip + daily quote. Categories filter the
@@ -178,10 +180,12 @@ export default function Home() {
                   lineHeight: 28,
                 }}
               >
-                {greetingForHour()}{' '}
-                <Text style={{ fontStyle: 'italic', fontWeight: '400', color: colors.terraLight }}>
-                  Shellena.
-                </Text>
+                {greetingForHour()}{userName ? ' ' : ''}
+                {userName ? (
+                  <Text style={{ fontStyle: 'italic', fontWeight: '400', color: colors.terraLight }}>
+                    {userName}.
+                  </Text>
+                ) : null}
               </Text>
             </View>
             {/* Round 13: avatar is now tappable → opens Profile screen. */}
