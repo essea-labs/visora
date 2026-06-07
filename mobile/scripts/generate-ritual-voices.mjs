@@ -104,19 +104,16 @@ const SCRIPT_CHUNKS = [
 
 // ── voice mapping ──────────────────────────────────────────
 // R55: switched off Daniel ("Steady Broadcaster" — too newsreader-y for
-// meditation) to a softer, warmer voice picked from the ElevenLabs
-// Voice Library. Each VARIANT can specify EITHER `voiceId` (direct,
-// no name lookup — required for Voice Library voices not in default
-// account voices) OR `voiceName` (looked up via the /voices API —
-// works for voices already added to the account).
+// meditation) to Lily — warm British female from the default catalog.
+// (Originally we tried a Voice Library voice but ElevenLabs free plans
+// can't use those via API. Lily is a default voice, no plan upgrade
+// needed, and was in the pre-R46 voice rotation.)
+//
+// Each VARIANT can specify EITHER `voiceId` (direct, no name lookup —
+// required for Voice Library voices) OR `voiceName` (looked up via the
+// /voices API — works for default voices in any account).
 const VARIANTS = [
-  {
-    index: 1,
-    day: 'Daily',
-    voiceId: 'GUDYcgRAONiI1nXDcNQQ',
-    voiceLabel: 'soothing meditation voice',
-    outFile: 'ritual.m4a',
-  },
+  { index: 1, day: 'Daily', voiceName: 'Lily', outFile: 'ritual.m4a' },
 ];
 
 // ── ElevenLabs helpers ─────────────────────────────────────
