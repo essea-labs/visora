@@ -66,10 +66,28 @@ h1 em, h2 em, h3 em { color: var(--terra); font-style: italic; }
   border-bottom: 1px solid var(--rule-faint);
 }
 .topnav .brand {
+  display: flex; flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+  max-width: 360px;
+  line-height: 1.2;
+}
+.topnav .brand-mark {
   font-family: Georgia, serif;
   font-size: 22px; font-style: italic;
-  color: var(--ink); text-decoration: none;
+  color: var(--ink);
   letter-spacing: -0.4px;
+}
+.topnav .brand-tagline {
+  font-family: Georgia, serif;
+  font-size: 11.5px; font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  letter-spacing: -0.05px;
+}
+@media (max-width: 640px) {
+  .topnav .brand { max-width: 240px; }
+  .topnav .brand-tagline { font-size: 11px; }
 }
 .topnav .nav-links {
   list-style: none; display: flex; gap: 24px; margin-left: auto;
@@ -345,35 +363,6 @@ h1 em, h2 em, h3 em { color: var(--terra); font-style: italic; }
   padding: 18px; text-align: center;
   color: rgba(216,154,90,0.7);
   font-size: 11.5px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase;
-}
-
-/* ═════════ The name ═════════ */
-/* Mirrors .loop-intro's editorial register exactly — Georgia italic at
-   22px / 1.5 in --ink-soft, "Visora" mark in --terra-deep at the same
-   weight (no bold heaviness). Drops the bottom border so it flows into
-   .loop's top border instead of stacking two rules between the
-   sections. Inherits 64/88px section padding from main > section. */
-.name-block {
-  border-top: 1px solid var(--rule-faint);
-  background: rgba(216,154,90,0.04);
-  text-align: center;
-}
-.name-block-tag {
-  font-family: Georgia, "Times New Roman", serif;
-  font-style: italic;
-  font-size: 22px;
-  line-height: 1.5;
-  color: var(--ink-soft);
-  max-width: 640px;
-  margin: 0 auto;
-  letter-spacing: -0.2px;
-}
-.name-block-mark {
-  font-style: normal;
-  color: var(--terra-deep);
-}
-@media (max-width: 720px) {
-  .name-block-tag { font-size: 19px; }
 }
 
 /* ═════════ Daily loop ═════════ */
