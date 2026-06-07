@@ -355,14 +355,6 @@ h1 em, h2 em, h3 em { color: var(--terra); font-style: italic; }
   padding: 56px 24px;
   text-align: center;
 }
-.name-block-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2.4px;
-  text-transform: uppercase;
-  color: var(--amber, #C06848);
-  margin-bottom: 14px;
-}
 .name-block-tag {
   font-family: 'Spectral', Georgia, serif;
   font-style: italic;
