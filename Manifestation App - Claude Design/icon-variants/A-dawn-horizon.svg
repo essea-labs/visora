@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Variant A — Dawn Horizon
+  ──────────────────────────
+  A rising sun above a horizon line. Reads as the morning ritual itself.
+  Warmest of the four, most overtly "daybreak" symbolism. Strong
+  silhouette at small sizes because the sun-on-horizon shape is bold.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <radialGradient id="bgDawn" cx="50%" cy="100%" r="100%">
+      <stop offset="0%"  stop-color="#E8A878" />
+      <stop offset="35%" stop-color="#C06848" />
+      <stop offset="70%" stop-color="#4d2f1c" />
+      <stop offset="100%" stop-color="#2A1F15" />
+    </radialGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#FFE5C8" />
+      <stop offset="55%" stop-color="#F5B584" />
+      <stop offset="100%" stop-color="#C06848" />
+    </radialGradient>
+    <radialGradient id="sunHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#FFD3A0" stop-opacity="0.55" />
+      <stop offset="60%" stop-color="#FFD3A0" stop-opacity="0.10" />
+      <stop offset="100%" stop-color="#FFD3A0" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#bgDawn)" />
+
+  <!-- Subtle warm halo behind the sun -->
+  <circle cx="512" cy="600" r="450" fill="url(#sunHalo)" />
+
+  <!-- Horizon line — cream, faint -->
+  <rect x="80" y="606" width="864" height="3" fill="#FAF6EF" opacity="0.35" />
+
+  <!-- Sun (semicircle sitting on horizon) -->
+  <path
+    d="M 232 606
+       A 280 280 0 0 1 792 606
+       Z"
+    fill="url(#sunGlow)"
+  />
+</svg>

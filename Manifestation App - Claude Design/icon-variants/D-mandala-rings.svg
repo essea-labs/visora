@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Variant D — Mandala Rings
+  ────────────────────────────
+  Three rings emanating from a luminous center. Reads as ripples of
+  daily practice, or a mandala — meditation/yoga-coded. Center dot is
+  the "you" and the rings are the becoming spreading outward.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <radialGradient id="bgMandala" cx="50%" cy="50%" r="70%">
+      <stop offset="0%"  stop-color="#3a2418" />
+      <stop offset="100%" stop-color="#1f1409" />
+    </radialGradient>
+    <radialGradient id="centerDot" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#FFE5C8" />
+      <stop offset="55%" stop-color="#D89A5A" />
+      <stop offset="100%" stop-color="#C06848" />
+    </radialGradient>
+    <radialGradient id="centerHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#FFD3A0" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#FFD3A0" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#bgMandala)" />
+
+  <!-- Outer ring (cream, faintest) -->
+  <circle cx="512" cy="512" r="400" fill="none" stroke="#FAF6EF" stroke-width="12" opacity="0.22" />
+
+  <!-- Middle ring (terra, medium) -->
+  <circle cx="512" cy="512" r="300" fill="none" stroke="#C06848" stroke-width="20" opacity="0.60" />
+
+  <!-- Inner ring (amber, strongest) -->
+  <circle cx="512" cy="512" r="200" fill="none" stroke="#D89A5A" stroke-width="28" opacity="0.95" />
+
+  <!-- Center halo -->
+  <circle cx="512" cy="512" r="120" fill="url(#centerHalo)" />
+
+  <!-- Center luminous dot -->
+  <circle cx="512" cy="512" r="68" fill="url(#centerDot)" />
+</svg>

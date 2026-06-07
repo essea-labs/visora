@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Variant C — Mountain Peak
+  ────────────────────────────
+  A triangular peak with a luminous bloom at the summit. Reads as
+  aspiration / the vision you're climbing toward. Strongest vertical
+  composition of the four, most "ambition-coded."
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <radialGradient id="bgPeak" cx="50%" cy="20%" r="110%">
+      <stop offset="0%"  stop-color="#5e3a24" />
+      <stop offset="35%" stop-color="#3a2418" />
+      <stop offset="100%" stop-color="#2A1F15" />
+    </radialGradient>
+    <linearGradient id="mountain" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%"  stop-color="#1a0f08" />
+      <stop offset="60%" stop-color="#4d2f1c" />
+      <stop offset="100%" stop-color="#C06848" />
+    </linearGradient>
+    <radialGradient id="apexGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#FFE5C8" stop-opacity="0.95" />
+      <stop offset="40%" stop-color="#D89A5A" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#D89A5A" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#bgPeak)" />
+
+  <!-- Soft amber halo at the apex -->
+  <circle cx="512" cy="260" r="340" fill="url(#apexGlow)" />
+
+  <!-- Mountain silhouette -->
+  <path
+    d="M 130 850
+       L 512 220
+       L 894 850
+       Z"
+    fill="url(#mountain)"
+  />
+
+  <!-- Subtle ridge highlight (right side, catching the dawn) -->
+  <path
+    d="M 512 220
+       L 894 850
+       L 770 850
+       L 512 360
+       Z"
+    fill="#D89A5A"
+    opacity="0.18"
+  />
+
+  <!-- Bright apex pinpoint -->
+  <circle cx="512" cy="220" r="24" fill="#FAF6EF" />
+  <circle cx="512" cy="220" r="40" fill="#FAF6EF" opacity="0.35" />
+</svg>

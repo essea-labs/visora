@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Visora — App icon variants</title>
+  <style>
+    :root {
+      --cosmicA: #2A1F15;
+      --cosmicB: #1F1409;
+      --terra: #C06848;
+      --amber: #D89A5A;
+      --cream: #FAF6EF;
+      --creamSoft: rgba(250,246,239,0.65);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 48px 32px 80px;
+      background: linear-gradient(180deg, #1a120a 0%, var(--cosmicA) 60%, var(--cosmicB) 100%);
+      color: var(--cream);
+      font: 14px/1.55 -apple-system, BlinkMacSystemFont, 'SF Pro', sans-serif;
+      min-height: 100vh;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin: 0 0 6px;
+    }
+    p.lede {
+      color: var(--creamSoft);
+      max-width: 720px;
+      margin: 0 0 36px;
+    }
+    .legend {
+      display: flex;
+      gap: 22px;
+      color: var(--creamSoft);
+      font-size: 12px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      display: inline-block;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+      max-width: 1200px;
+    }
+    .card {
+      background: rgba(250,246,239,0.03);
+      border: 1px solid rgba(216,154,90,0.15);
+      border-radius: 22px;
+      padding: 26px;
+    }
+    .card h2 {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.2px;
+      margin: 0 0 4px;
+      color: var(--cream);
+    }
+    .card .sub {
+      color: var(--creamSoft);
+      font-size: 13px;
+      margin: 0 0 22px;
+    }
+    .sizes {
+      display: flex;
+      align-items: flex-end;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .size {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .size .label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: rgba(250,246,239,0.45);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .icon {
+      display: block;
+      border-radius: 22.4%;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+    }
+    .icon img { display: block; width: 100%; height: 100%; }
+    .compare {
+      margin-top: 56px;
+      padding: 28px;
+      background: rgba(250,246,239,0.02);
+      border: 1px dashed rgba(216,154,90,0.25);
+      border-radius: 18px;
+    }
+    .compare h3 {
+      font-size: 15px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin: 0 0 18px;
+    }
+    .compare .row {
+      display: flex;
+      gap: 32px;
+      align-items: flex-end;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .compare .item { text-align: center; }
+    .compare .label {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--creamSoft);
+    }
+    .home-row {
+      margin-top: 16px;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, #4a8fb3 0%, #6ba8c8 50%, #8fc1d8 100%);
+      border-radius: 18px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      max-width: 480px;
+    }
+    .home-row .icon { box-shadow: 0 8px 18px rgba(0,0,0,0.3); }
+    .home-row .name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>Visora — App icon variants</h1>
+  <p class="lede">
+    Four distinct concepts, each rendered at three sizes: 60pt (smallest iOS rendering — the in-app spotlight / notification icon), 120pt (typical home screen), 180pt (iPhone Pro home screen) and 1024pt (App Store). Pick the one that holds up best at the smallest size.
+  </p>
+  <div class="legend">
+    <span><span class="dot" style="background: var(--cosmicA); outline: 1px solid #555;"></span> cosmicA #2A1F15</span>
+    <span><span class="dot" style="background: var(--terra);"></span> terra #C06848</span>
+    <span><span class="dot" style="background: var(--amber);"></span> amber #D89A5A</span>
+    <span><span class="dot" style="background: var(--cream); outline: 1px solid #555;"></span> cream #FAF6EF</span>
+  </div>
+
+  <div class="grid">
+    <!-- A -->
+    <div class="card">
+      <h2>A · Dawn Horizon</h2>
+      <p class="sub">Rising sun above the horizon. Most overtly "morning ritual."</p>
+      <div class="sizes">
+        <div class="size"><div class="icon" style="width:60px;height:60px"><img src="A-dawn-horizon.svg" /></div><span class="label">60pt</span></div>
+        <div class="size"><div class="icon" style="width:120px;height:120px"><img src="A-dawn-horizon.svg" /></div><span class="label">120pt</span></div>
+        <div class="size"><div class="icon" style="width:180px;height:180px"><img src="A-dawn-horizon.svg" /></div><span class="label">180pt</span></div>
+      </div>
+    </div>
+
+    <!-- B -->
+    <div class="card">
+      <h2>B · Inner Eye</h2>
+      <p class="sub">Concentric iris with a luminous pupil. Most meditative.</p>
+      <div class="sizes">
+        <div class="size"><div class="icon" style="width:60px;height:60px"><img src="B-inner-eye.svg" /></div><span class="label">60pt</span></div>
+        <div class="size"><div class="icon" style="width:120px;height:120px"><img src="B-inner-eye.svg" /></div><span class="label">120pt</span></div>
+        <div class="size"><div class="icon" style="width:180px;height:180px"><img src="B-inner-eye.svg" /></div><span class="label">180pt</span></div>
+      </div>
+    </div>
+
+    <!-- C -->
+    <div class="card">
+      <h2>C · Mountain Peak</h2>
+      <p class="sub">Triangular peak with a luminous summit. Most aspirational.</p>
+      <div class="sizes">
+        <div class="size"><div class="icon" style="width:60px;height:60px"><img src="C-mountain-peak.svg" /></div><span class="label">60pt</span></div>
+        <div class="size"><div class="icon" style="width:120px;height:120px"><img src="C-mountain-peak.svg" /></div><span class="label">120pt</span></div>
+        <div class="size"><div class="icon" style="width:180px;height:180px"><img src="C-mountain-peak.svg" /></div><span class="label">180pt</span></div>
+      </div>
+    </div>
+
+    <!-- D -->
+    <div class="card">
+      <h2>D · Mandala Rings</h2>
+      <p class="sub">Three rings around a center dot. Ripples of practice.</p>
+      <div class="sizes">
+        <div class="size"><div class="icon" style="width:60px;height:60px"><img src="D-mandala-rings.svg" /></div><span class="label">60pt</span></div>
+        <div class="size"><div class="icon" style="width:120px;height:120px"><img src="D-mandala-rings.svg" /></div><span class="label">120pt</span></div>
+        <div class="size"><div class="icon" style="width:180px;height:180px"><img src="D-mandala-rings.svg" /></div><span class="label">180pt</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="compare">
+    <h3>Side by side at 60pt (smallest iOS size)</h3>
+    <div class="row">
+      <div class="item">
+        <div class="icon" style="width:60px;height:60px"><img src="A-dawn-horizon.svg" /></div>
+        <div class="label">A · Dawn</div>
+      </div>
+      <div class="item">
+        <div class="icon" style="width:60px;height:60px"><img src="B-inner-eye.svg" /></div>
+        <div class="label">B · Eye</div>
+      </div>
+      <div class="item">
+        <div class="icon" style="width:60px;height:60px"><img src="C-mountain-peak.svg" /></div>
+        <div class="label">C · Peak</div>
+      </div>
+      <div class="item">
+        <div class="icon" style="width:60px;height:60px"><img src="D-mandala-rings.svg" /></div>
+        <div class="label">D · Mandala</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:32px;">In a faux iOS home screen row</h3>
+    <div class="home-row">
+      <div class="icon" style="width:60px;height:60px"><img src="A-dawn-horizon.svg" /></div>
+      <div class="icon" style="width:60px;height:60px"><img src="B-inner-eye.svg" /></div>
+      <div class="icon" style="width:60px;height:60px"><img src="C-mountain-peak.svg" /></div>
+      <div class="icon" style="width:60px;height:60px"><img src="D-mandala-rings.svg" /></div>
+      <div class="name">Visora</div>
+    </div>
+  </div>
+</body>
+</html>

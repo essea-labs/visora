@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Variant B — Inner Eye / Iris
+  ──────────────────────────────
+  Concentric rings reading as an iris with a luminous pupil. Conveys
+  vision, seeing inward. Most "meditative" of the four. Reads strong
+  at small sizes because the bullseye geometry is universal.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <radialGradient id="bgEye" cx="50%" cy="50%" r="70%">
+      <stop offset="0%"  stop-color="#3a2418" />
+      <stop offset="100%" stop-color="#2A1F15" />
+    </radialGradient>
+    <radialGradient id="pupil" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#FFE5C8" />
+      <stop offset="60%" stop-color="#D89A5A" />
+      <stop offset="100%" stop-color="#C06848" />
+    </radialGradient>
+    <radialGradient id="pupilGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#FFD3A0" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#FFD3A0" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#bgEye)" />
+
+  <!-- Outer ring (faintest, cream) -->
+  <circle cx="512" cy="512" r="400" fill="none" stroke="#FAF6EF" stroke-width="10" opacity="0.18" />
+
+  <!-- Middle ring (amber, medium) -->
+  <circle cx="512" cy="512" r="310" fill="none" stroke="#D89A5A" stroke-width="16" opacity="0.45" />
+
+  <!-- Inner ring (terra, strongest) -->
+  <circle cx="512" cy="512" r="220" fill="none" stroke="#C06848" stroke-width="24" opacity="0.80" />
+
+  <!-- Outer pupil halo -->
+  <circle cx="512" cy="512" r="160" fill="url(#pupilGlow)" />
+
+  <!-- Pupil (luminous amber center) -->
+  <circle cx="512" cy="512" r="110" fill="url(#pupil)" />
+</svg>
