@@ -348,31 +348,32 @@ h1 em, h2 em, h3 em { color: var(--terra); font-style: italic; }
 }
 
 /* ═════════ The name ═════════ */
+/* Mirrors .loop-intro's editorial register exactly — Georgia italic at
+   22px / 1.5 in --ink-soft, "Visora" mark in --terra-deep at the same
+   weight (no bold heaviness). Drops the bottom border so it flows into
+   .loop's top border instead of stacking two rules between the
+   sections. Inherits 64/88px section padding from main > section. */
 .name-block {
   border-top: 1px solid var(--rule-faint);
-  border-bottom: 1px solid var(--rule-faint);
-  background: rgba(216,154,90,0.06);
-  padding: 56px 24px;
+  background: rgba(216,154,90,0.04);
   text-align: center;
 }
 .name-block-tag {
-  font-family: 'Spectral', Georgia, serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
   font-size: 22px;
-  line-height: 32px;
-  color: var(--cosmic-a);
-  max-width: 560px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 640px;
   margin: 0 auto;
   letter-spacing: -0.2px;
 }
 .name-block-mark {
   font-style: normal;
-  font-weight: 500;
-  color: var(--terra, #C06848);
+  color: var(--terra-deep);
 }
 @media (max-width: 720px) {
-  .name-block { padding: 44px 22px; }
-  .name-block-tag { font-size: 19px; line-height: 28px; }
+  .name-block-tag { font-size: 19px; }
 }
 
 /* ═════════ Daily loop ═════════ */
