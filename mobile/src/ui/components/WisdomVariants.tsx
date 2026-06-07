@@ -61,23 +61,35 @@ function PhotoBackedCard({
   borderColor?: string;
   children: React.ReactNode;
 }) {
+  // R60: expanded cards are FULL BLEED — photo fills the entire sheet,
+  // BlurView panel centered on it (text-legibility panel, like Apple
+  // Photos info overlay). No outer border, no radius, no shadow because
+  // there's no "card" any more — it IS the sheet.
   return (
     <View
-      style={{
-        width: expanded ? '100%' : 150,
-        height: expanded ? undefined : 110,
-        minHeight: expanded ? 96 : undefined,
-        borderRadius: 14,
-        overflow: 'hidden',
-        backgroundColor: colors.cosmicB,
-        borderWidth: 1,
-        borderStyle,
-        borderColor,
-        shadowColor: '#000',
-        shadowOpacity: 0.4,
-        shadowRadius: 14,
-        shadowOffset: { width: 0, height: 6 },
-      }}
+      style={
+        expanded
+          ? {
+              width: '100%',
+              height: '100%',
+              backgroundColor: colors.cosmicB,
+              overflow: 'hidden',
+            }
+          : {
+              width: 150,
+              height: 110,
+              borderRadius: 14,
+              overflow: 'hidden',
+              backgroundColor: colors.cosmicB,
+              borderWidth: 1,
+              borderStyle,
+              borderColor,
+              shadowColor: '#000',
+              shadowOpacity: 0.4,
+              shadowRadius: 14,
+              shadowOffset: { width: 0, height: 6 },
+            }
+      }
     >
       {photoSource && (
         <Image
@@ -91,20 +103,40 @@ function PhotoBackedCard({
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
       />
       <BlurView
-        intensity={expanded ? 50 : 65}
+        intensity={expanded ? 60 : 65}
         tint="dark"
-        style={{
-          position: 'absolute',
-          top: expanded ? 12 : 6,
-          left: expanded ? 12 : 6,
-          right: expanded ? 12 : 6,
-          bottom: expanded ? 12 : 6,
-          borderRadius: 10,
-          overflow: 'hidden',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: expanded ? 16 : 8,
-        }}
+        style={
+          expanded
+            ? {
+                // Full-bleed: centered glass panel with comfortable
+                // breathing room from screen edges, never touches the
+                // top bar (counter + close) or bottom paginator.
+                position: 'absolute',
+                top: '22%',
+                left: 28,
+                right: 28,
+                bottom: '22%',
+                borderRadius: 18,
+                overflow: 'hidden',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 28,
+                borderWidth: 1,
+                borderColor: 'rgba(250,246,239,0.12)',
+              }
+            : {
+                position: 'absolute',
+                top: 6,
+                left: 6,
+                right: 6,
+                bottom: 6,
+                borderRadius: 10,
+                overflow: 'hidden',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 8,
+              }
+        }
       >
         {children}
       </BlurView>
@@ -127,11 +159,12 @@ export function AffirmationVariant({
         style={{
           fontFamily: 'Georgia',
           fontStyle: 'italic',
-          fontSize: expanded ? 18 : 13,
-          lineHeight: expanded ? 24 : 17,
+          fontSize: expanded ? 26 : 13,
+          lineHeight: expanded ? 34 : 17,
           color: colors.cream,
           fontWeight: '500',
           textAlign: 'center',
+          letterSpacing: expanded ? -0.4 : 0,
           textShadowColor: 'rgba(0,0,0,0.55)',
           textShadowOffset: { width: 0, height: 1 },
           textShadowRadius: 3,
@@ -160,11 +193,12 @@ export function QuoteVariant({
         style={{
           fontFamily: 'Georgia',
           fontStyle: 'italic',
-          fontSize: expanded ? 17 : 12,
-          lineHeight: expanded ? 23 : 15,
+          fontSize: expanded ? 22 : 12,
+          lineHeight: expanded ? 30 : 15,
           color: colors.cream,
           textAlign: 'center',
-          marginBottom: expanded ? 10 : 6,
+          letterSpacing: expanded ? -0.3 : 0,
+          marginBottom: expanded ? 18 : 6,
           textShadowColor: 'rgba(0,0,0,0.55)',
           textShadowOffset: { width: 0, height: 1 },
           textShadowRadius: 3,
@@ -175,16 +209,16 @@ export function QuoteVariant({
       </Text>
       <Text
         style={{
-          fontSize: expanded ? 9 : 7,
+          fontSize: expanded ? 11 : 7,
           fontWeight: '700',
-          letterSpacing: expanded ? 1.6 : 1.2,
+          letterSpacing: expanded ? 2 : 1.2,
           color: colors.amber,
           textAlign: 'center',
           textShadowColor: 'rgba(0,0,0,0.65)',
           textShadowOffset: { width: 0, height: 1 },
           textShadowRadius: 2,
         }}
-        numberOfLines={1}
+        numberOfLines={expanded ? 2 : 1}
       >
         {quote.author.toUpperCase()}
       </Text>
@@ -208,11 +242,11 @@ export function PromptVariant({
     >
       <Text
         style={{
-          fontSize: expanded ? 9 : 7,
+          fontSize: expanded ? 11 : 7,
           fontWeight: '700',
-          letterSpacing: expanded ? 1.8 : 1.5,
+          letterSpacing: expanded ? 2.4 : 1.5,
           color: 'rgba(250,246,239,0.85)',
-          marginBottom: expanded ? 8 : 5,
+          marginBottom: expanded ? 16 : 5,
           textShadowColor: 'rgba(0,0,0,0.65)',
           textShadowOffset: { width: 0, height: 1 },
           textShadowRadius: 2,
@@ -224,11 +258,12 @@ export function PromptVariant({
         style={{
           fontFamily: 'Georgia',
           fontStyle: 'italic',
-          fontSize: expanded ? 17 : 12,
-          lineHeight: expanded ? 23 : 15,
+          fontSize: expanded ? 24 : 12,
+          lineHeight: expanded ? 32 : 15,
           color: colors.cream,
           fontWeight: '500',
           textAlign: 'center',
+          letterSpacing: expanded ? -0.3 : 0,
           textShadowColor: 'rgba(0,0,0,0.55)',
           textShadowOffset: { width: 0, height: 1 },
           textShadowRadius: 3,

@@ -95,6 +95,9 @@ export default function WisdomScreen() {
               fontWeight: '700',
               letterSpacing: 1.8,
               color: colors.amber,
+              textShadowColor: 'rgba(0,0,0,0.6)',
+              textShadowOffset: { width: 0, height: 1 },
+              textShadowRadius: 3,
             }}
           >
             {currentIndex + 1} OF {items.length}
@@ -133,14 +136,13 @@ export default function WisdomScreen() {
               key={`${item.kind}-${i}`}
               style={{
                 width: screenWidth,
-                paddingHorizontal: 28,
-                alignItems: 'center',
-                justifyContent: 'center',
+                // R60: full-bleed pager — no padding around the card.
+                // The card IS the sheet; the BlurView panel inside it
+                // floats centered on top of the photo background.
+                flex: 1,
               }}
             >
-              <View style={{ width: '100%' }}>
-                <ExpandedWisdomCard item={item} />
-              </View>
+              <ExpandedWisdomCard item={item} />
             </View>
           ))}
         </ScrollView>
