@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Visora — Name explanation placement</title>
+  <style>
+    :root {
+      --cosmicA: #2A1F15;
+      --cosmicB: #1F1409;
+      --cosmicC: #3a2418;
+      --terra: #C06848;
+      --terraLight: #d68466;
+      --terraDeep: #8a4530;
+      --amber: #D89A5A;
+      --cream: #FAF6EF;
+      --creamSoft: rgba(250,246,239,0.75);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 48px 32px 80px;
+      background: linear-gradient(180deg, #1a120a 0%, var(--cosmicA) 60%, var(--cosmicB) 100%);
+      color: var(--cream);
+      font: 14px/1.55 -apple-system, BlinkMacSystemFont, 'SF Pro', sans-serif;
+      min-height: 100vh;
+    }
+    h1 { font-size: 28px; font-weight: 500; letter-spacing: -0.5px; margin: 0 0 6px; }
+    p.lede { color: var(--creamSoft); max-width: 760px; margin: 0 0 36px; }
+
+    .section {
+      margin-bottom: 56px;
+      padding: 28px;
+      background: rgba(250,246,239,0.03);
+      border-radius: 18px;
+      border: 1px solid rgba(216,154,90,0.12);
+    }
+    .section h2 {
+      font-size: 20px; font-weight: 500; letter-spacing: -0.3px;
+      margin: 0 0 4px; color: var(--cream);
+    }
+    .section .sub { color: var(--creamSoft); font-size: 13px; margin: 0 0 22px; max-width: 700px; }
+
+    /* iPhone-ish frame */
+    .phone {
+      width: 340px;
+      height: 720px;
+      background: linear-gradient(180deg, var(--cosmicC) 0%, var(--cosmicA) 60%, var(--cosmicB) 100%);
+      border-radius: 38px;
+      padding: 50px 22px 40px;
+      position: relative;
+      border: 8px solid #0a0606;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      overflow: hidden;
+    }
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 28px;
+      background: #0a0606;
+      border-radius: 18px;
+    }
+
+    .eyebrow {
+      font-size: 10.5px; font-weight: 700; letter-spacing: 2.4px;
+      text-transform: uppercase; color: var(--amber);
+      margin-bottom: 14px;
+    }
+    .h-title {
+      font-size: 28px; line-height: 33px; font-weight: 500;
+      color: var(--cream); letter-spacing: -0.6px; margin: 0 0 14px;
+    }
+    .h-body {
+      font-size: 14px; line-height: 21px; color: var(--creamSoft);
+      margin-bottom: 28px;
+    }
+    .input {
+      font-size: 22px; font-weight: 500; color: var(--cream);
+      padding: 14px 16px; border-radius: 14px;
+      background: rgba(250,246,239,0.06);
+      border: 1px solid rgba(250,246,239,0.15);
+      letter-spacing: -0.3px;
+    }
+    .input.placeholder { color: rgba(250,246,239,0.30); font-weight: 400; }
+    .cta {
+      margin-top: 22px;
+      height: 52px;
+      border-radius: 999px;
+      background: var(--cream);
+      color: var(--terraDeep);
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* The new bottom tagline */
+    .name-tagline {
+      position: absolute;
+      bottom: 24px;
+      left: 22px;
+      right: 22px;
+      text-align: center;
+    }
+    .name-tagline .tag-amber {
+      font-size: 9px; font-weight: 700; letter-spacing: 2.2px;
+      color: var(--amber); text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .name-tagline .tag-line {
+      font-family: Georgia, serif; font-style: italic;
+      font-size: 12.5px; line-height: 18px;
+      color: rgba(250,246,239,0.55);
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    .annot {
+      max-width: 360px;
+      padding: 16px 18px;
+      background: rgba(216,154,90,0.06);
+      border-left: 3px solid var(--amber);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--creamSoft);
+    }
+    .annot strong { color: var(--amber); }
+
+    .row {
+      display: flex; gap: 36px; align-items: flex-start; flex-wrap: wrap;
+    }
+
+    /* Website mockup */
+    .site {
+      width: 100%;
+      max-width: 880px;
+      background: var(--cosmicA);
+      border: 1px solid rgba(216,154,90,0.15);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .site .browser-bar {
+      background: #1a120a;
+      padding: 10px 14px;
+      display: flex; gap: 6px; align-items: center;
+      border-bottom: 1px solid rgba(216,154,90,0.1);
+    }
+    .site .browser-bar .dot {
+      width: 11px; height: 11px; border-radius: 999px;
+      background: rgba(250,246,239,0.18);
+    }
+    .site .browser-bar .url {
+      margin-left: 14px;
+      font-size: 11px;
+      color: rgba(250,246,239,0.45);
+      font-family: ui-monospace, monospace;
+    }
+    .site-body { padding: 32px 28px; }
+    .site-hero h3 {
+      font-size: 26px; line-height: 30px; font-weight: 500;
+      letter-spacing: -0.4px; margin: 0 0 12px; color: var(--cream);
+    }
+    .site-hero p {
+      color: var(--creamSoft); margin: 0 0 24px;
+      font-size: 13.5px; max-width: 540px; line-height: 1.55;
+    }
+
+    .name-block {
+      margin: 36px -28px; padding: 36px 28px;
+      background: rgba(216,154,90,0.06);
+      border-top: 1px solid rgba(216,154,90,0.18);
+      border-bottom: 1px solid rgba(216,154,90,0.18);
+      position: relative;
+    }
+    .name-block .label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2.4px;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 8px;
+    }
+    .name-block .tag {
+      font-family: Georgia, serif; font-style: italic;
+      font-size: 18px; line-height: 28px; color: var(--cream);
+      max-width: 480px; margin: 0;
+    }
+    .name-block .tag .name { font-style: normal; color: var(--amber); font-weight: 500; }
+
+    .site-pillars {
+      margin-top: 8px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;
+    }
+    .pillar {
+      padding: 14px;
+      background: rgba(250,246,239,0.03);
+      border: 1px solid rgba(216,154,90,0.12);
+      border-radius: 12px;
+      font-size: 12px; line-height: 1.4;
+    }
+    .pillar h4 {
+      margin: 0 0 6px; font-size: 13px; color: var(--amber);
+    }
+    .pillar p { margin: 0; color: var(--creamSoft); }
+  </style>
+</head>
+<body>
+
+<h1>Where the name explanation lives</h1>
+<p class="lede">
+  Two placements for the locked one-liner: <em>"Visora — vision and aura. The vision you walk toward, the aura you walk in."</em>
+</p>
+
+<!-- ────────────────────────────────────────── -->
+<!-- IN-APP PLACEMENT -->
+<!-- ────────────────────────────────────────── -->
+<div class="section">
+  <h2>1 · In-app — bottom of the name screen</h2>
+  <p class="sub">Onboarding step where the user enters their first name. The app's name explanation sits as a small italic line at the very bottom — quiet, discoverable, not in the way. Nice rhyme: user types their name, app explains its own.</p>
+  <div class="row">
+    <div class="phone">
+      <div class="eyebrow">First, your name</div>
+      <div class="h-title">What should we call you?</div>
+      <div class="h-body">Just so Visora can greet you. Lives on this device only.</div>
+      <div class="input placeholder">Your first name</div>
+      <div class="cta">Continue</div>
+
+      <!-- The new tagline at the bottom -->
+      <div class="name-tagline">
+        <div class="tag-amber">Visora — vision &amp; aura</div>
+        <div class="tag-line">The vision you walk toward,<br/>the aura you walk in.</div>
+      </div>
+    </div>
+    <div class="annot">
+      <strong>Placement:</strong> bottom-anchored, ~24pt above the safe-area bottom. Two-line break for rhythm. Cream at 55% opacity so it doesn't compete with the input above.<br/><br/>
+      <strong>Why here:</strong> the user is naming themselves. The app names itself back. The two acts mirror, and the explanation lands when the user is in the most receptive frame of the whole flow.
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────── -->
+<!-- WEBSITE PLACEMENT -->
+<!-- ────────────────────────────────────────── -->
+<div class="section">
+  <h2>2 · Website — "The name" block, between hero and "Why Visora"</h2>
+  <p class="sub">Stand-alone block on tryvisora.com. Sits as a small, contemplative pause between the marketing hero and the three "Why Visora" pillars below. Reads as an aside the curious visitor catches.</p>
+  <div class="row" style="flex-direction: column;">
+    <div class="site">
+      <div class="browser-bar">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="url">tryvisora.com</div>
+      </div>
+      <div class="site-body">
+        <div class="site-hero">
+          <h3>Become who you envision.</h3>
+          <p>A 2 minute daily practice for becoming who you envision. One quiet ritual, and the evidence that you're getting there.</p>
+        </div>
+
+        <!-- The new "The name" block -->
+        <div class="name-block">
+          <div class="label">The name</div>
+          <p class="tag">
+            <span class="name">Visora</span> — vision and aura. The vision you walk toward, the aura you walk in.
+          </p>
+        </div>
+
+        <div class="site-pillars">
+          <div class="pillar"><h4>Picture it</h4><p>A vision board of who you want to become — the literal image of your becoming.</p></div>
+          <div class="pillar"><h4>Practice it</h4><p>A quiet 2 minute ritual that walks you into the version of you you're growing toward.</p></div>
+          <div class="pillar"><h4>Prove it</h4><p>Capture small wins as evidence. Watch the timeline of becoming fill in.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="annot">
+      <strong>Placement:</strong> full-width band between hero (above) and the three pillars (below). Amber tint background (rgba(216,154,90,0.06)) with subtle border lines top + bottom — visually distinct without shouting.<br/><br/>
+      <strong>Why here:</strong> the hero sells the practice; the pillars explain HOW. The name block sits in the gap between — a beat of meaning before the explanation gets concrete.
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

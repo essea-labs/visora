@@ -91,19 +91,19 @@ function PhotoBackedCard({
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
       />
       <BlurView
-        intensity={28}
+        intensity={expanded ? 50 : 65}
         tint="dark"
         style={{
           position: 'absolute',
-          top: expanded ? 14 : 10,
-          left: expanded ? 14 : 10,
-          right: expanded ? 14 : 10,
-          bottom: expanded ? 14 : 10,
+          top: expanded ? 12 : 6,
+          left: expanded ? 12 : 6,
+          right: expanded ? 12 : 6,
+          bottom: expanded ? 12 : 6,
           borderRadius: 10,
           overflow: 'hidden',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: expanded ? 16 : 10,
+          padding: expanded ? 16 : 8,
         }}
       >
         {children}
