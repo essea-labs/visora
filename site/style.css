@@ -347,6 +347,42 @@ h1 em, h2 em, h3 em { color: var(--terra); font-style: italic; }
   font-size: 11.5px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase;
 }
 
+/* ═════════ The name ═════════ */
+.name-block {
+  border-top: 1px solid var(--rule-faint);
+  border-bottom: 1px solid var(--rule-faint);
+  background: rgba(216,154,90,0.06);
+  padding: 56px 24px;
+  text-align: center;
+}
+.name-block-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--amber, #C06848);
+  margin-bottom: 14px;
+}
+.name-block-tag {
+  font-family: 'Spectral', Georgia, serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 32px;
+  color: var(--cosmic-a);
+  max-width: 560px;
+  margin: 0 auto;
+  letter-spacing: -0.2px;
+}
+.name-block-mark {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--terra, #C06848);
+}
+@media (max-width: 720px) {
+  .name-block { padding: 44px 22px; }
+  .name-block-tag { font-size: 19px; line-height: 28px; }
+}
+
 /* ═════════ Daily loop ═════════ */
 .loop {
   border-top: 1px solid var(--rule-faint);
