@@ -48,6 +48,14 @@ function atmosphericPhotoSource(seed: string) {
 }
 
 // ── shared photo-backed card chrome ────────────────────────
+const absoluteFill = {
+  position: 'absolute' as const,
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+};
+
 function PhotoBackedCard({
   photoSource,
   expanded,
@@ -61,82 +69,91 @@ function PhotoBackedCard({
   borderColor?: string;
   children: React.ReactNode;
 }) {
-  // R60: expanded cards are FULL BLEED — photo fills the entire sheet,
-  // BlurView panel centered on it (text-legibility panel, like Apple
-  // Photos info overlay). No outer border, no radius, no shadow because
-  // there's no "card" any more — it IS the sheet.
+  // R62: expanded cards are full-bleed photo with a COMPACT glass panel
+  // floating centered on top. Panel auto-sizes to its content (the
+  // earlier R60 version had a fixed 56%-of-screen panel that dominated
+  // the picture). Now the photo IS the sheet visually — the panel is
+  // just a text-legibility wrapper around the content.
+  if (expanded) {
+    return (
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: colors.cosmicB,
+          overflow: 'hidden',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {photoSource && (
+          <Image source={photoSource} style={absoluteFill} resizeMode="cover" />
+        )}
+        <LinearGradient
+          colors={['rgba(20,12,6,0.30)', 'rgba(20,12,6,0.78)']}
+          style={absoluteFill}
+        />
+        <BlurView
+          intensity={60}
+          tint="dark"
+          style={{
+            maxWidth: '88%',
+            borderRadius: 18,
+            overflow: 'hidden',
+            paddingVertical: 32,
+            paddingHorizontal: 28,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderWidth: 1,
+            borderColor: 'rgba(250,246,239,0.12)',
+          }}
+        >
+          {children}
+        </BlurView>
+      </View>
+    );
+  }
+
+  // Compact: 150×110pt card for the Home strip, glass overlay fills card.
   return (
     <View
-      style={
-        expanded
-          ? {
-              width: '100%',
-              height: '100%',
-              backgroundColor: colors.cosmicB,
-              overflow: 'hidden',
-            }
-          : {
-              width: 150,
-              height: 110,
-              borderRadius: 14,
-              overflow: 'hidden',
-              backgroundColor: colors.cosmicB,
-              borderWidth: 1,
-              borderStyle,
-              borderColor,
-              shadowColor: '#000',
-              shadowOpacity: 0.4,
-              shadowRadius: 14,
-              shadowOffset: { width: 0, height: 6 },
-            }
-      }
+      style={{
+        width: 150,
+        height: 110,
+        borderRadius: 14,
+        overflow: 'hidden',
+        backgroundColor: colors.cosmicB,
+        borderWidth: 1,
+        borderStyle,
+        borderColor,
+        shadowColor: '#000',
+        shadowOpacity: 0.4,
+        shadowRadius: 14,
+        shadowOffset: { width: 0, height: 6 },
+      }}
     >
       {photoSource && (
-        <Image
-          source={photoSource}
-          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
-          resizeMode="cover"
-        />
+        <Image source={photoSource} style={absoluteFill} resizeMode="cover" />
       )}
       <LinearGradient
         colors={['rgba(20,12,6,0.30)', 'rgba(20,12,6,0.78)']}
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+        style={absoluteFill}
       />
       <BlurView
-        intensity={expanded ? 60 : 65}
+        intensity={65}
         tint="dark"
-        style={
-          expanded
-            ? {
-                // Full-bleed: centered glass panel with comfortable
-                // breathing room from screen edges, never touches the
-                // top bar (counter + close) or bottom paginator.
-                position: 'absolute',
-                top: '22%',
-                left: 28,
-                right: 28,
-                bottom: '22%',
-                borderRadius: 18,
-                overflow: 'hidden',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 28,
-                borderWidth: 1,
-                borderColor: 'rgba(250,246,239,0.12)',
-              }
-            : {
-                position: 'absolute',
-                top: 6,
-                left: 6,
-                right: 6,
-                bottom: 6,
-                borderRadius: 10,
-                overflow: 'hidden',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 8,
-              }
-        }
+        style={{
+          position: 'absolute',
+          top: 6,
+          left: 6,
+          right: 6,
+          bottom: 6,
+          borderRadius: 10,
+          overflow: 'hidden',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 8,
+        }}
       >
         {children}
       </BlurView>
