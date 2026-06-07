@@ -114,7 +114,13 @@ function PhotoBackedCard({
     );
   }
 
-  // Compact: 150×110pt card for the Home strip, glass overlay fills card.
+  // R63 compact card polish: mirrors the expanded design's spirit at
+  // small scale. The photo IS the card (no double-frame outer border),
+  // a much lighter BlurView lets the photo show through, a richer 3-stop
+  // scrim guarantees text legibility regardless of photo brightness,
+  // and a tighter inset fills the card cleanly. Prompt variant's dashed
+  // treatment moves to the inner panel only.
+  const promptDashed = borderStyle === 'dashed';
   return (
     <View
       style={{
@@ -123,36 +129,43 @@ function PhotoBackedCard({
         borderRadius: 14,
         overflow: 'hidden',
         backgroundColor: colors.cosmicB,
-        borderWidth: 1,
-        borderStyle,
-        borderColor,
         shadowColor: '#000',
-        shadowOpacity: 0.4,
-        shadowRadius: 14,
-        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.45,
+        shadowRadius: 16,
+        shadowOffset: { width: 0, height: 8 },
       }}
     >
       {photoSource && (
         <Image source={photoSource} style={absoluteFill} resizeMode="cover" />
       )}
       <LinearGradient
-        colors={['rgba(20,12,6,0.30)', 'rgba(20,12,6,0.78)']}
+        colors={[
+          'rgba(20,12,6,0.42)',
+          'rgba(20,12,6,0.60)',
+          'rgba(20,12,6,0.88)',
+        ]}
+        locations={[0, 0.45, 1]}
         style={absoluteFill}
       />
       <BlurView
-        intensity={65}
+        intensity={28}
         tint="dark"
         style={{
           position: 'absolute',
-          top: 6,
-          left: 6,
-          right: 6,
-          bottom: 6,
+          top: 5,
+          left: 5,
+          right: 5,
+          bottom: 5,
           borderRadius: 10,
           overflow: 'hidden',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: 8,
+          padding: 10,
+          borderWidth: promptDashed ? 1 : 0.5,
+          borderStyle: promptDashed ? 'dashed' : 'solid',
+          borderColor: promptDashed
+            ? 'rgba(216,154,90,0.55)'
+            : 'rgba(250,246,239,0.18)',
         }}
       >
         {children}
