@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Visora — Wisdom card variants</title>
+  <style>
+    :root {
+      --cosmicA: #2A1F15;
+      --cosmicB: #1F1409;
+      --cosmicC: #3a2418;
+      --terra: #C06848;
+      --terraLight: #d68466;
+      --terraDeep: #8a4530;
+      --amber: #D89A5A;
+      --cream: #FAF6EF;
+      --creamSoft: rgba(250,246,239,0.78);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 48px 32px 80px;
+      background: linear-gradient(180deg, #1a120a 0%, var(--cosmicA) 60%, var(--cosmicB) 100%);
+      color: var(--cream);
+      font: 14px/1.55 -apple-system, BlinkMacSystemFont, 'SF Pro', sans-serif;
+      min-height: 100vh;
+    }
+    h1 { font-size: 28px; font-weight: 500; letter-spacing: -0.5px; margin: 0 0 6px; }
+    p.lede { color: var(--creamSoft); max-width: 760px; margin: 0 0 36px; }
+
+    .section {
+      margin-bottom: 56px;
+      padding: 28px;
+      background: rgba(250,246,239,0.025);
+      border-radius: 18px;
+      border: 1px solid rgba(216,154,90,0.12);
+    }
+    .section h2 {
+      font-size: 20px; font-weight: 500; letter-spacing: -0.3px;
+      margin: 0 0 4px; color: var(--cream);
+    }
+    .section .sub { color: var(--creamSoft); font-size: 13px; margin: 0 0 22px; max-width: 700px; }
+    .row {
+      display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;
+    }
+    .stage {
+      background: linear-gradient(180deg, #3a2418 0%, var(--cosmicA) 100%);
+      padding: 22px;
+      border-radius: 18px;
+      width: 360px;
+      flex-shrink: 0;
+    }
+    .stage .label {
+      font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+      color: var(--creamSoft); text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    /* ── shared building blocks ───────────────── */
+    .heading {
+      font-size: 22px; font-weight: 500; color: var(--amber);
+      letter-spacing: -0.4px; margin: 0 0 10px;
+    }
+    .strip { display: flex; gap: 10px; overflow: hidden; }
+    .reading {
+      margin-top: 14px; padding: 14px; border-radius: 14px;
+      background: rgba(216,154,90,0.05);
+      border: 1px solid rgba(216,154,90,0.22);
+    }
+    .reading .eyebrow { display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .reading .tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--amber);
+    }
+    .reading .min { font-size: 10px; color: rgba(250,246,239,0.5); }
+    .reading .title {
+      font-family: Georgia, serif; font-size: 19px; font-weight: 500;
+      color: var(--cream); letter-spacing: -0.3px; margin: 0 0 6px;
+    }
+    .reading .body {
+      font-family: Georgia, serif; font-style: italic; font-size: 14px;
+      line-height: 19px; color: rgba(250,246,239,0.82);
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .reading .cont {
+      margin-top: 10px; font-size: 11px; font-weight: 700;
+      letter-spacing: 1.2px; color: var(--amber);
+    }
+
+    /* ── CURRENT wisdom (Georgia italic, amber-warm) ─── */
+    .wcard {
+      flex-shrink: 0; width: 150px; height: 110px;
+      border-radius: 14px; padding: 12px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+    }
+    .wcard.aff {
+      background: linear-gradient(135deg, rgba(192,104,72,0.4), rgba(192,104,72,0.18));
+      border: 1px solid rgba(216,154,90,0.35);
+    }
+    .wcard.quo {
+      background: rgba(216,154,90,0.08);
+      border: 1px solid rgba(216,154,90,0.22);
+    }
+    .wcard.pro {
+      background: rgba(250,246,239,0.03);
+      border: 1px dashed rgba(216,154,90,0.4);
+    }
+    .wcard .text {
+      font-family: Georgia, serif; font-style: italic;
+      font-size: 13px; line-height: 17px; color: var(--cream); font-weight: 500;
+    }
+    .wcard .quote-text {
+      font-family: Georgia, serif; font-style: italic;
+      font-size: 12px; line-height: 15px; color: var(--cream); margin-bottom: 6px;
+    }
+    .wcard .byline {
+      font-size: 7px; font-weight: 700; letter-spacing: 1.2px; color: var(--amber);
+    }
+    .wcard .tag-sm {
+      font-size: 7px; font-weight: 700; letter-spacing: 1.5px;
+      color: rgba(250,246,239,0.55); margin-bottom: 5px;
+    }
+    .wcard .prompt-text {
+      font-size: 12px; line-height: 15px; color: var(--cream); font-weight: 500;
+    }
+
+    /* ── VARIANT A — Sans-serif body ───────────── */
+    .wA .text, .wA .quote-text, .wA .prompt-text {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', sans-serif;
+      font-style: normal !important; font-weight: 500;
+      letter-spacing: -0.1px;
+    }
+    .wA .text { font-size: 14px; line-height: 18px; }
+    .wA .quote-text { font-size: 13px; line-height: 16px; }
+    .wA .prompt-text { font-size: 13px; line-height: 16px; }
+
+    /* ── VARIANT B — Polaroid / framed ─────────── */
+    .wB.wcard {
+      padding: 6px;
+      background: rgba(250,246,239,0.06) !important;
+      border: 1px solid rgba(250,246,239,0.18) !important;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+    .wB .inner {
+      flex: 1; width: 100%;
+      border: 1px solid rgba(216,154,90,0.25);
+      border-radius: 8px;
+      padding: 10px 8px 8px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 4px;
+    }
+    .wB.aff .inner { background: linear-gradient(135deg, rgba(192,104,72,0.35), rgba(192,104,72,0.12)); }
+    .wB.quo .inner { background: rgba(216,154,90,0.06); }
+    .wB.pro .inner { background: rgba(250,246,239,0.03); border-style: dashed; }
+    .wB .text, .wB .quote-text, .wB .prompt-text {
+      font-family: Georgia, serif; font-style: italic;
+      font-size: 12px; line-height: 15px;
+    }
+    .wB .stamp {
+      font-size: 6px; letter-spacing: 1.6px; font-weight: 700;
+      color: rgba(216,154,90,0.7); text-transform: uppercase;
+    }
+
+    /* ── VARIANT C — Iconographic ─────────────── */
+    .wC .icon {
+      width: 22px; height: 22px; margin-bottom: 6px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 999px;
+    }
+    .wC.aff .icon { background: rgba(216,154,90,0.25); color: var(--amber); }
+    .wC.quo .icon { background: rgba(192,104,72,0.20); color: var(--terraLight); }
+    .wC.pro .icon { background: rgba(250,246,239,0.10); color: var(--cream); }
+    .wC .icon svg { width: 14px; height: 14px; }
+    .wC .text, .wC .quote-text, .wC .prompt-text {
+      font-family: -apple-system, sans-serif;
+      font-weight: 500; font-style: normal;
+      font-size: 12px; line-height: 15px;
+    }
+    .wC .byline { color: var(--terraLight); }
+
+    /* ── VARIANT D — Pill / badge shape ────────── */
+    .wD.wcard {
+      width: 160px; height: 96px;
+      border-radius: 999px;
+      padding: 16px;
+    }
+    .wD .text, .wD .quote-text, .wD .prompt-text {
+      font-family: Georgia, serif; font-style: italic;
+      font-size: 12px; line-height: 15px;
+    }
+
+    .note {
+      margin-top: 14px; padding: 12px 14px;
+      background: rgba(216,154,90,0.06);
+      border-left: 3px solid var(--amber);
+      border-radius: 8px;
+      font-size: 12px; color: var(--creamSoft);
+    }
+  </style>
+</head>
+<body>
+
+<h1>Wisdom card variants</h1>
+<p class="lede">
+  Today's wisdom cards and Today's reading currently look similar — both use Georgia serif italic on amber-warm cards. Four directions for differentiating them. The reading preview is shown on the right of each panel for direct comparison.
+</p>
+
+<!-- ────────────────────────────────────────────────────── -->
+<!-- CURRENT STATE -->
+<!-- ────────────────────────────────────────────────────── -->
+<div class="section">
+  <h2>Current state (for reference)</h2>
+  <p class="sub">Both surfaces use Georgia italic, amber-warm palette, same border radius. They visually echo each other — which is the problem.</p>
+  <div class="row">
+    <div class="stage">
+      <div class="label">Today's wisdom strip</div>
+      <div class="heading">Today's wisdom</div>
+      <div class="strip">
+        <div class="wcard aff"><div class="text">I am magnetic to the right people.</div></div>
+        <div class="wcard quo"><div class="quote-text">"What we think, we become."</div><div class="byline">— BUDDHA</div></div>
+        <div class="wcard pro"><div class="tag-sm">SIT WITH</div><div class="prompt-text">What are you ready to release?</div></div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="label">Today's reading preview</div>
+      <div class="reading">
+        <div class="eyebrow"><div class="tag">TODAY'S READING</div><div class="min">3 min</div></div>
+        <div class="title">On Becoming Magnetic</div>
+        <div class="body">You don't become magnetic by trying to be wanted. You become magnetic by being undivided. The yogis called this ekagrata.</div>
+        <div class="cont">CONTINUE READING →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────────────────── -->
+<!-- VARIANT A — sans-serif body -->
+<!-- ────────────────────────────────────────────────────── -->
+<div class="section">
+  <h2>A · Sans-serif wisdom</h2>
+  <p class="sub">Wisdom switches to SF Pro sans (medium weight, not italic). Reading stays Georgia serif italic. Creates a sharp type contrast — wisdom reads as present-tense / utility, reading as editorial / literary. Same shapes, same colors. Smallest visual change.</p>
+  <div class="row">
+    <div class="stage">
+      <div class="label">Wisdom (new — sans)</div>
+      <div class="heading">Today's wisdom</div>
+      <div class="strip wA">
+        <div class="wcard aff wA"><div class="text">I am magnetic to the right people.</div></div>
+        <div class="wcard quo wA"><div class="quote-text">"What we think, we become."</div><div class="byline">— BUDDHA</div></div>
+        <div class="wcard pro wA"><div class="tag-sm">SIT WITH</div><div class="prompt-text">What are you ready to release?</div></div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="label">Reading (unchanged — serif)</div>
+      <div class="reading">
+        <div class="eyebrow"><div class="tag">TODAY'S READING</div><div class="min">3 min</div></div>
+        <div class="title">On Becoming Magnetic</div>
+        <div class="body">You don't become magnetic by trying to be wanted. You become magnetic by being undivided.</div>
+        <div class="cont">CONTINUE READING →</div>
+      </div>
+    </div>
+  </div>
+  <div class="note"><strong>Trade-off:</strong> simplest, fastest to ship. But quotes lose some literary weight when stripped of italic Georgia.</div>
+</div>
+
+<!-- ────────────────────────────────────────────────────── -->
+<!-- VARIANT B — Polaroid / framed -->
+<!-- ────────────────────────────────────────────────────── -->
+<div class="section">
+  <h2>B · Framed / polaroid</h2>
+  <p class="sub">Wisdom cards become little framed mini-cards — outer cream-tinted border + inner content frame. Like collectible talismans. Reading stays plain article preview. Most tactile / "object-like" of the four.</p>
+  <div class="row">
+    <div class="stage">
+      <div class="label">Wisdom (framed)</div>
+      <div class="heading">Today's wisdom</div>
+      <div class="strip">
+        <div class="wcard wB aff"><div class="inner"><div class="stamp">No. 1</div><div class="text">I am magnetic to the right people.</div></div></div>
+        <div class="wcard wB quo"><div class="inner"><div class="stamp">No. 2</div><div class="quote-text">"What we think, we become."</div><div class="byline">— BUDDHA</div></div></div>
+        <div class="wcard wB pro"><div class="inner"><div class="stamp">SIT WITH</div><div class="prompt-text">What are you ready to release?</div></div></div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="label">Reading (unchanged)</div>
+      <div class="reading">
+        <div class="eyebrow"><div class="tag">TODAY'S READING</div><div class="min">3 min</div></div>
+        <div class="title">On Becoming Magnetic</div>
+        <div class="body">You don't become magnetic by trying to be wanted. You become magnetic by being undivided.</div>
+        <div class="cont">CONTINUE READING →</div>
+      </div>
+    </div>
+  </div>
+  <div class="note"><strong>Trade-off:</strong> distinctive — wisdom feels collectible / talisman-y. Slightly more visual weight on Home. Less text room inside each card.</div>
+</div>
+
+<!-- ────────────────────────────────────────────────────── -->
+<!-- VARIANT C — Iconographic -->
+<!-- ────────────────────────────────────────────────────── -->
+<div class="section">
+  <h2>C · Iconographic + sans</h2>
+  <p class="sub">Each wisdom card gets a small leading symbol — different glyph per type (spark for affirmation, quote marks for quote, question mark for prompt). Type shifts to sans. Reading stays serif. Quick visual type identification + clean type contrast.</p>
+  <div class="row">
+    <div class="stage">
+      <div class="label">Wisdom (icon + sans)</div>
+      <div class="heading">Today's wisdom</div>
+      <div class="strip">
+        <div class="wcard aff wC">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 16v6M2 12h6M16 12h6M5 5l4 4M15 15l4 4M19 5l-4 4M9 15l-4 4"/></svg></div>
+          <div class="text">I am magnetic to the right people.</div>
+        </div>
+        <div class="wcard quo wC">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17h3l2-4V7H2v6h3zm10 0h3l2-4V7h-6v6h3z"/></svg></div>
+          <div class="quote-text">What we think, we become.</div>
+          <div class="byline">— BUDDHA</div>
+        </div>
+        <div class="wcard pro wC">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9a3 3 0 1 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg></div>
+          <div class="prompt-text">What are you ready to release?</div>
+        </div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="label">Reading (unchanged)</div>
+      <div class="reading">
+        <div class="eyebrow"><div class="tag">TODAY'S READING</div><div class="min">3 min</div></div>
+        <div class="title">On Becoming Magnetic</div>
+        <div class="body">You don't become magnetic by trying to be wanted. You become magnetic by being undivided.</div>
+        <div class="cont">CONTINUE READING →</div>
+      </div>
+    </div>
+  </div>
+  <div class="note"><strong>Trade-off:</strong> highest visual distinction. Icon adds instant type recognition. Risk: icons could feel "design-y" / generic if not done with restraint.</div>
+</div>
+
+<!-- ────────────────────────────────────────────────────── -->
+<!-- VARIANT D — Pill / badge shape -->
+<!-- ────────────────────────────────────────────────────── -->
+<div class="section">
+  <h2>D · Pill-shaped wisdom</h2>
+  <p class="sub">Wisdom cards become oval / pill-shaped (fully rounded ends). Reading stays a rectangle. Different shape language signals different content type. Same fonts and colors.</p>
+  <div class="row">
+    <div class="stage">
+      <div class="label">Wisdom (pill)</div>
+      <div class="heading">Today's wisdom</div>
+      <div class="strip">
+        <div class="wcard aff wD"><div class="text">I am magnetic to the right people.</div></div>
+        <div class="wcard quo wD"><div class="quote-text">"What we think, we become."</div><div class="byline">— BUDDHA</div></div>
+        <div class="wcard pro wD"><div class="tag-sm">SIT WITH</div><div class="prompt-text">What are you ready to release?</div></div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="label">Reading (unchanged)</div>
+      <div class="reading">
+        <div class="eyebrow"><div class="tag">TODAY'S READING</div><div class="min">3 min</div></div>
+        <div class="title">On Becoming Magnetic</div>
+        <div class="body">You don't become magnetic by trying to be wanted. You become magnetic by being undivided.</div>
+        <div class="cont">CONTINUE READING →</div>
+      </div>
+    </div>
+  </div>
+  <div class="note"><strong>Trade-off:</strong> different geometry from reading, but less text room per card and risk of looking like UI buttons/tags.</div>
+</div>
+
+<!-- ────────────────────────────────────────────────────── -->
+<!-- Comparison row -->
+<!-- ────────────────────────────────────────────────────── -->
+<div class="section">
+  <h2>Side-by-side at strip width</h2>
+  <p class="sub">All four variants stacked. Squint and pick the one that's most "obviously wisdom, not reading" at a glance.</p>
+  <div class="row" style="flex-direction: column;">
+    <div class="stage" style="width: 100%;">
+      <div class="label">A · Sans</div>
+      <div class="strip wA">
+        <div class="wcard aff wA"><div class="text">I am magnetic to the right people.</div></div>
+        <div class="wcard quo wA"><div class="quote-text">"What we think, we become."</div><div class="byline">— BUDDHA</div></div>
+        <div class="wcard pro wA"><div class="tag-sm">SIT WITH</div><div class="prompt-text">What are you ready to release?</div></div>
+      </div>
+    </div>
+    <div class="stage" style="width: 100%;">
+      <div class="label">B · Framed</div>
+      <div class="strip">
+        <div class="wcard wB aff"><div class="inner"><div class="stamp">No. 1</div><div class="text">I am magnetic to the right people.</div></div></div>
+        <div class="wcard wB quo"><div class="inner"><div class="stamp">No. 2</div><div class="quote-text">"What we think, we become."</div><div class="byline">— BUDDHA</div></div></div>
+        <div class="wcard wB pro"><div class="inner"><div class="stamp">SIT WITH</div><div class="prompt-text">What are you ready to release?</div></div></div>
+      </div>
+    </div>
+    <div class="stage" style="width: 100%;">
+      <div class="label">C · Icon + sans</div>
+      <div class="strip">
+        <div class="wcard aff wC">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 16v6M2 12h6M16 12h6M5 5l4 4M15 15l4 4M19 5l-4 4M9 15l-4 4"/></svg></div>
+          <div class="text">I am magnetic to the right people.</div>
+        </div>
+        <div class="wcard quo wC">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17h3l2-4V7H2v6h3zm10 0h3l2-4V7h-6v6h3z"/></svg></div>
+          <div class="quote-text">What we think, we become.</div>
+          <div class="byline">— BUDDHA</div>
+        </div>
+        <div class="wcard pro wC">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9a3 3 0 1 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg></div>
+          <div class="prompt-text">What are you ready to release?</div>
+        </div>
+      </div>
+    </div>
+    <div class="stage" style="width: 100%;">
+      <div class="label">D · Pill</div>
+      <div class="strip">
+        <div class="wcard aff wD"><div class="text">I am magnetic to the right people.</div></div>
+        <div class="wcard quo wD"><div class="quote-text">"What we think, we become."</div><div class="byline">— BUDDHA</div></div>
+        <div class="wcard pro wD"><div class="tag-sm">SIT WITH</div><div class="prompt-text">What are you ready to release?</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

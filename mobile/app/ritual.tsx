@@ -313,25 +313,12 @@ export default function Ritual() {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'space-between',
               paddingHorizontal: 20,
               paddingTop: 20,
               paddingBottom: 12,
             }}
           >
             <ChromeIconButton onPress={handleExit} />
-            <Text
-              style={{
-                fontSize: 10.5,
-                fontWeight: '700',
-                letterSpacing: 2.2,
-                textTransform: 'uppercase',
-                color: colors.amber,
-              }}
-            >
-              Anchor it
-            </Text>
-            <View style={{ width: 38 }} />
           </View>
 
           <KeyboardAwareScrollView
