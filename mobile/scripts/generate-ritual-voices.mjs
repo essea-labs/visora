@@ -73,39 +73,50 @@ if (!API_KEY) {
 // Silences sized for meditation pacing — multi-second breathing
 // spaces at every meaningful transition. Total estimated runtime
 // ~180s (3 minutes).
+// R55: silences trimmed ~30-40% after first device test felt draggy.
+// Old durations (2-13s) → new durations (2-8s). Estimated total runtime
+// drops from ~2:49 → ~2:00. Still meditative pacing, less waiting.
 const SCRIPT_CHUNKS = [
-  { text: 'Welcome back.', silenceAfter: 4 },
-  { text: 'Take a moment.', silenceAfter: 3 },
-  { text: 'Let your shoulders fall.', silenceAfter: 3 },
-  { text: 'Let whatever happened before this moment, go quiet.', silenceAfter: 5 },
-  { text: "You don't need to do anything yet.", silenceAfter: 5 },
-  { text: 'Breathe in, slowly.', silenceAfter: 5 },
-  { text: 'And out.', silenceAfter: 5 },
-  { text: 'Again. In.', silenceAfter: 5 },
-  { text: 'And out.', silenceAfter: 6 },
-  { text: 'Each breath, settling you deeper into here.', silenceAfter: 5 },
-  { text: "Now, picture yourself — already living what you're becoming.", silenceAfter: 5 },
-  { text: 'Not someday. See yourself now.', silenceAfter: 5 },
-  { text: 'What are you wearing?', silenceAfter: 5 },
-  { text: 'Where are you standing?', silenceAfter: 5 },
-  { text: 'Who is around you?', silenceAfter: 5 },
-  { text: 'What does the room look like?', silenceAfter: 6 },
-  { text: 'How are you holding yourself?', silenceAfter: 5 },
-  { text: 'What does your face say?', silenceAfter: 6 },
-  { text: "This isn't a fantasy. This is already real.", silenceAfter: 3 },
-  { text: 'This is you. Already.', silenceAfter: 7 },
-  { text: "Now, write today's intention. Use ‘I am’ — like an affirmation.", silenceAfter: 13 },
+  { text: 'Welcome back.', silenceAfter: 3 },
+  { text: 'Take a moment.', silenceAfter: 2 },
+  { text: 'Let your shoulders fall.', silenceAfter: 2 },
+  { text: 'Let whatever happened before this moment, go quiet.', silenceAfter: 3 },
+  { text: "You don't need to do anything yet.", silenceAfter: 3 },
+  { text: 'Breathe in, slowly.', silenceAfter: 3 },
+  { text: 'And out.', silenceAfter: 3 },
+  { text: 'Again. In.', silenceAfter: 3 },
+  { text: 'And out.', silenceAfter: 4 },
+  { text: 'Each breath, settling you deeper into here.', silenceAfter: 3 },
+  { text: "Now, picture yourself — already living what you're becoming.", silenceAfter: 3 },
+  { text: 'Not someday. See yourself now.', silenceAfter: 3 },
+  { text: 'What are you wearing?', silenceAfter: 3 },
+  { text: 'Where are you standing?', silenceAfter: 3 },
+  { text: 'Who is around you?', silenceAfter: 3 },
+  { text: 'What does the room look like?', silenceAfter: 4 },
+  { text: 'How are you holding yourself?', silenceAfter: 3 },
+  { text: 'What does your face say?', silenceAfter: 4 },
+  { text: "This isn't a fantasy. This is already real.", silenceAfter: 2 },
+  { text: 'This is you. Already.', silenceAfter: 5 },
+  { text: "Now, write today's intention. Use 'I am' — like an affirmation.", silenceAfter: 8 },
   { text: 'You are becoming.', silenceAfter: 2 },
   { text: 'Carry this with you.', silenceAfter: 2 },
 ];
 
 // ── voice mapping ──────────────────────────────────────────
-// R46: collapsed to a single voice (Daniel, Steady Broadcaster) for
-// MVP. The other four voices in the rotation are gone — see git for
-// the multi-voice array and `src/core/audio/ritualVoice.ts` for the
-// post-MVP "add more voices later" pattern.
+// R55: switched off Daniel ("Steady Broadcaster" — too newsreader-y for
+// meditation) to a softer, warmer voice picked from the ElevenLabs
+// Voice Library. Each VARIANT can specify EITHER `voiceId` (direct,
+// no name lookup — required for Voice Library voices not in default
+// account voices) OR `voiceName` (looked up via the /voices API —
+// works for voices already added to the account).
 const VARIANTS = [
-  { index: 1, day: 'Daily', voiceName: 'Daniel', outFile: 'ritual.m4a' },
+  {
+    index: 1,
+    day: 'Daily',
+    voiceId: 'GUDYcgRAONiI1nXDcNQQ',
+    voiceLabel: 'soothing meditation voice',
+    outFile: 'ritual.m4a',
+  },
 ];
 
 // ── ElevenLabs helpers ─────────────────────────────────────
@@ -148,13 +159,20 @@ async function generateChunk(voiceId, text, outPath) {
       text,
       model_id: 'eleven_multilingual_v2',
       voice_settings: {
-        // R38: pushed to the floor of ElevenLabs' range for maximum
-        // meditation calmness.
-        stability: 0.85, // very steady, almost monotone — calm
+        // R55 tuning for soothing meditation:
+        //  • stability lowered 0.85 → 0.60 — adds natural emotional
+        //    variation, less monotone-newsreader.
+        //  • style raised 0.0 → 0.35 — adds breathy expressiveness,
+        //    the "speaking close to you" intimacy that meditation apps
+        //    use. Higher style values can make the voice too dramatic;
+        //    0.35 is a gentle nudge.
+        //  • speed stays at 0.7 (ElevenLabs API minimum). Slowness
+        //    comes from pace + the inter-chunk silences below.
+        stability: 0.60,
         similarity_boost: 0.85,
-        style: 0.0,
+        style: 0.35,
         use_speaker_boost: true,
-        speed: 0.7, // minimum allowed by ElevenLabs (~70% of default pace)
+        speed: 0.7,
       },
     }),
   });
@@ -224,14 +242,29 @@ async function generateVariant(variantIndex, voiceId, voiceLabel, finalOutPath) 
     }
     await fs.writeFile(listPath, lines.join('\n'));
 
-    // 4. ffmpeg concat → MP3
+    // 4. ffmpeg concat + post-processing → MP3
+    // R55: added a soothing filter chain. Previously we just did `-c copy`
+    // which preserved the raw ElevenLabs output as-is. Now we re-encode
+    // through these filters:
+    //   • lowpass=f=7000 — softens harsh sibilants (s/sh/t) above 7kHz
+    //   • equalizer 300Hz +2dB — small low-mid warmth boost (vocal body)
+    //   • acompressor 2:1 — gentle dynamic evenness, smooths out peaks
+    //     without flattening; long attack/release keeps it natural
+    //   • volume 0.92 — slight headroom so the final M4A never clips
     const concatMp3 = path.join(workDir, 'concat.mp3');
     execFileSync('ffmpeg', [
       '-y',
       '-f', 'concat',
       '-safe', '0',
       '-i', listPath,
-      '-c', 'copy',
+      '-af', [
+        'lowpass=f=7000',
+        'equalizer=f=300:width_type=h:width=200:g=2',
+        'acompressor=threshold=0.05:ratio=2:attack=200:release=1000',
+        'volume=0.92',
+      ].join(','),
+      '-acodec', 'libmp3lame',
+      '-b:a', '128k',
       concatMp3,
     ], { stdio: ['ignore', 'ignore', 'pipe'] });
 
@@ -285,9 +318,12 @@ async function main() {
   let ok = 0;
   let failed = 0;
   for (const variant of variantsToRun) {
-    const id = findVoiceId(voices, variant.voiceName);
+    // R55: support direct voiceId (for Voice Library voices) OR
+    // voiceName (looked up in account voices via /voices API).
+    const id = variant.voiceId ?? findVoiceId(voices, variant.voiceName);
+    const label = variant.voiceLabel ?? variant.voiceName ?? variant.voiceId;
     if (!id) {
-      console.warn(`  ⚠ variant ${variant.index} (${variant.voiceName}) not found — skipping`);
+      console.warn(`  ⚠ variant ${variant.index} (${label}) not found — skipping`);
       failed++;
       continue;
     }
@@ -296,10 +332,10 @@ async function main() {
     // (e.g. `ritual-evening.m4a`) without touching the engine code.
     const outPath = path.join(audioDir, variant.outFile);
     process.stdout.write(
-      `  → ${variant.outFile} (${variant.day} · ${variant.voiceName})... `,
+      `  → ${variant.outFile} (${variant.day} · ${label})... `,
     );
     try {
-      const size = await generateVariant(variant.index, id, variant.voiceName, outPath);
+      const size = await generateVariant(variant.index, id, label, outPath);
       console.log(`✓ ${(size / 1024).toFixed(1)} KB`);
       ok++;
     } catch (err) {
