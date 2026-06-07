@@ -66,28 +66,10 @@ h1 em, h2 em, h3 em { color: var(--terra); font-style: italic; }
   border-bottom: 1px solid var(--rule-faint);
 }
 .topnav .brand {
-  display: flex; flex-direction: column;
-  gap: 2px;
-  text-decoration: none;
-  max-width: 360px;
-  line-height: 1.2;
-}
-.topnav .brand-mark {
   font-family: Georgia, serif;
-  font-size: 22px; font-style: italic;
-  color: var(--ink);
+  font-size: 26px; font-style: italic;
+  color: var(--ink); text-decoration: none;
   letter-spacing: -0.4px;
-}
-.topnav .brand-tagline {
-  font-family: Georgia, serif;
-  font-size: 11.5px; font-style: italic;
-  color: var(--ink-soft);
-  line-height: 1.4;
-  letter-spacing: -0.05px;
-}
-@media (max-width: 640px) {
-  .topnav .brand { max-width: 240px; }
-  .topnav .brand-tagline { font-size: 11px; }
 }
 .topnav .nav-links {
   list-style: none; display: flex; gap: 24px; margin-left: auto;
