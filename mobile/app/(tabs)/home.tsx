@@ -338,7 +338,7 @@ function RitualFeatureCard({
             maxWidth: 320,
           }}
         >
-          A 3-minute visualisation to set your intentions and bring you closer to your vision. Visualising daily is how you get there.
+          A 2 minute visualisation to set your intentions and bring you closer to your vision. Visualising daily is how you get there.
         </Text>
 
         {/* Round 12: CTA centered horizontally inside the ritual card. */}

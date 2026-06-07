@@ -87,7 +87,7 @@ export default function Welcome() {
               textShadowRadius: 8,
             }}
           >
-            Build a vision board of where you're heading. Each morning, a 3 minute voice guided practice walks you through who you want to become. All day, capture small wins as evidence.
+            Build a vision board of where you're heading. Each morning, a 2 minute voice guided practice walks you through who you want to become. All day, capture small wins as evidence.
           </Text>
 
           <Pressable

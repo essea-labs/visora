@@ -20,10 +20,10 @@ Drafts for everything you paste into App Store Connect. Edit to taste, then copy
 ## Promotional text (170 chars max, editable without resubmission)
 
 **Recommended (147 chars):**
-> A 3 minute morning ritual for who you want to become. Pin a vision board. Capture wins as evidence. Start your 7 day free trial.
+> A 2 minute morning ritual for who you want to become. Pin a vision board. Capture wins as evidence. Start your 7 day free trial.
 
 **Alt, leans into the brand vision (133 chars):**
-> Practice becoming, daily. A 3 minute voice guided ritual, a vision board, and a quiet place to collect the evidence. Free for 7 days.
+> Practice becoming, daily. A 2 minute voice guided ritual, a vision board, and a quiet place to collect the evidence. Free for 7 days.
 
 ---
 
@@ -32,7 +32,7 @@ Drafts for everything you paste into App Store Connect. Edit to taste, then copy
 ```
 Become who you envision.
 
-Visora is a 3 minute daily practice for becoming who you envision. One quiet ritual, and a place to collect the evidence that you're getting there.
+Visora is a 2 minute daily practice for becoming who you envision. One quiet ritual, and a place to collect the evidence that you're getting there.
 
 A 3 MINUTE MORNING RITUAL
 Every morning, a voice guided visualisation walks you through the version of you who's already arrived. You picture them. You write one line of intention. The day starts on purpose.
@@ -102,7 +102,7 @@ Welcome to Visora. Your daily ritual for becoming the version of yourself you en
 This is the very first version. We built it to feel like a quiet space, not another task list.
 
 What's inside:
-• A 3 minute voice guided morning ritual
+• A 2 minute voice guided morning ritual
 • A vision board that grows with you
 • Win capture: collect evidence of becoming, daily
 • 7 day free trial, then $2.99/month or $29.00/year
@@ -221,7 +221,7 @@ To test the app:
    instantly without charge.
 3. Once past the paywall, the main tabs are Home, Vision, and Wins.
 4. The daily ritual is accessed from Home → "Begin ritual". It's a
-   ~3 minute voice guided visualisation. Audio plays through the silent
+   ~2 minute voice guided visualisation. Audio plays through the silent
    switch.
 5. Account management: tap the avatar on Home → Settings → "Manage
    subscription" deep links to the iOS Subscriptions page.

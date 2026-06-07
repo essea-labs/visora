@@ -42,7 +42,7 @@ const PRICES = {
 // Round 17: trimmed from 6 feature-y bullets to 4 outcome-focused value
 // props. Each speaks to a transformation, not a feature list.
 const FEATURES = [
-  'A 3 minute daily ritual to embody your future self',
+  'A 2 minute daily ritual to embody your future self',
   'A vision board that grows with every win you capture',
   'Affirmations tuned to who you want to become',
   'Every win kept as evidence, your timeline of becoming',
