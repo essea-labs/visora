@@ -114,13 +114,13 @@ function PhotoBackedCard({
     );
   }
 
-  // R63 compact card polish: mirrors the expanded design's spirit at
-  // small scale. The photo IS the card (no double-frame outer border),
-  // a much lighter BlurView lets the photo show through, a richer 3-stop
-  // scrim guarantees text legibility regardless of photo brightness,
-  // and a tighter inset fills the card cleanly. Prompt variant's dashed
-  // treatment moves to the inner panel only.
-  const promptDashed = borderStyle === 'dashed';
+  // R63 compact card polish: photo dominates, light BlurView lets it
+  // show through, scrim ensures legibility.
+  // R64: unified inner panel border across all three card types (was
+  // dashed-amber for prompt only). Scrim lightened (0.42→0.28 top,
+  // 0.60→0.45 mid, 0.88→0.78 bottom) so photos don't read as gloomy.
+  // `borderStyle` / `borderColor` props are now unused — kept on the
+  // signature so the per-variant call sites stay unchanged.
   return (
     <View
       style={{
@@ -140,9 +140,9 @@ function PhotoBackedCard({
       )}
       <LinearGradient
         colors={[
-          'rgba(20,12,6,0.42)',
-          'rgba(20,12,6,0.60)',
-          'rgba(20,12,6,0.88)',
+          'rgba(20,12,6,0.28)',
+          'rgba(20,12,6,0.45)',
+          'rgba(20,12,6,0.78)',
         ]}
         locations={[0, 0.45, 1]}
         style={absoluteFill}
@@ -161,11 +161,8 @@ function PhotoBackedCard({
           alignItems: 'center',
           justifyContent: 'center',
           padding: 10,
-          borderWidth: promptDashed ? 1 : 0.5,
-          borderStyle: promptDashed ? 'dashed' : 'solid',
-          borderColor: promptDashed
-            ? 'rgba(216,154,90,0.55)'
-            : 'rgba(250,246,239,0.18)',
+          borderWidth: 0.5,
+          borderColor: 'rgba(250,246,239,0.18)',
         }}
       >
         {children}

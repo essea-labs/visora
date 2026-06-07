@@ -147,12 +147,16 @@ async function main() {
       console.log(`✓ ${oldDim} ${oldSize}KB → ${newDim} ${newSize}KB`);
       ok++;
     } catch (err) {
-      // Fall back to picsum
+      // Fall back to picsum. R64: prefix the seed with 'cheery-' to
+      // re-roll a different picsum photo than the prior 'just-{id}'
+      // seed. Picsum still returns random, but at least we're rolling
+      // a different die.
+      const seed = `cheery-${p.id}`;
       try {
-        downloadPicsumFallback(p.id, outPath);
+        downloadPicsumFallback(seed, outPath);
         const newSize = await fileSizeKB(outPath);
         const newDim = getDimensions(outPath);
-        console.log(`✓ ${oldDim} ${oldSize}KB → ${newDim} ${newSize}KB (picsum fallback)`);
+        console.log(`✓ ${oldDim} ${oldSize}KB → ${newDim} ${newSize}KB (picsum seed: ${seed})`);
         ok++;
       } catch (err2) {
         console.log(`✗ ${err.message} / ${err2.message}`);
