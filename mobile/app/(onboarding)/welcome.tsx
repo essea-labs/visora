@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
-import { colors, spacing, radii } from '@/ui/tokens';
+import { colors, radii } from '@/ui/tokens';
 
 export default function Welcome() {
   const router = useRouter();
@@ -98,7 +98,6 @@ export default function Welcome() {
               backgroundColor: pressed ? '#E8E2D5' : colors.cream,
               justifyContent: 'center',
               alignItems: 'center',
-              marginBottom: spacing.m,
               shadowColor: colors.terra,
               shadowOffset: { width: 0, height: 18 },
               shadowOpacity: 0.45,
@@ -117,23 +116,9 @@ export default function Welcome() {
               Begin
             </Text>
           </Pressable>
-
-          <Pressable
-            onPress={() => {
-              // Sign-in flow — Phase B.3
-            }}
-            style={{ paddingVertical: spacing.m, alignItems: 'center' }}
-          >
-            <Text
-              style={{
-                fontSize: 13,
-                fontWeight: '500',
-                color: 'rgba(250, 246, 239, 0.7)',
-              }}
-            >
-              I already have an account
-            </Text>
-          </Pressable>
+          {/* "I already have an account" link removed in R54: Visora is
+              local-only for v1. No sign-in to navigate to. Restore when
+              Sign in with Apple lands in Phase B.7. */}
         </View>
       </SafeAreaView>
     </View>

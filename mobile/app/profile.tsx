@@ -23,9 +23,6 @@ import { useVisionAreasStore } from '@/core/stores/useVisionAreasStore';
 import { useProfileStore } from '@/core/stores/useProfileStore';
 import { colors } from '@/ui/tokens';
 
-// Email stays a placeholder until Sign in with Apple lands (Phase B.7).
-const EMAIL = '';
-
 export default function Profile() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -64,22 +61,6 @@ export default function Profile() {
       year: 'numeric',
     });
   })();
-
-  const handleSignOut = () => {
-    Alert.alert(
-      'Sign out?',
-      'Your data stays on this device. You can come back any time.',
-      [
-        { text: 'Stay', style: 'cancel' },
-        {
-          text: 'Sign out',
-          style: 'destructive',
-          // No-op until auth lands.
-          onPress: () => router.back(),
-        },
-      ],
-    );
-  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.cosmicA }}>
@@ -255,41 +236,19 @@ export default function Profile() {
             />
           </View>
 
-          {/* Sign out */}
-          <Pressable
-            onPress={handleSignOut}
-            hitSlop={6}
-            style={({ pressed }) => ({
-              marginTop: 26,
-              alignSelf: 'center',
-              paddingHorizontal: 16,
-              paddingVertical: 10,
-              opacity: pressed ? 0.5 : 1,
-            })}
-          >
-            <Text
-              style={{
-                fontSize: 12,
-                fontWeight: '600',
-                letterSpacing: 1.4,
-                textTransform: 'uppercase',
-                color: colors.terraDeep,
-              }}
-            >
-              Sign out
-            </Text>
-          </Pressable>
-
+          {/* R54: Sign out button + email row removed. Visora is local
+              only for v1 — no account to sign out of, no email to show.
+              Restore both when Sign in with Apple lands in Phase B.7. */}
           <Text
             style={{
-              marginTop: 18,
+              marginTop: 26,
               textAlign: 'center',
               fontSize: 10,
               color: 'rgba(250,246,239,0.35)',
               letterSpacing: 0.4,
             }}
           >
-            {EMAIL}
+            Local account · this device only
           </Text>
         </ScrollView>
       </SafeAreaView>
