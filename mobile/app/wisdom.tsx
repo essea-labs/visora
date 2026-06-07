@@ -37,17 +37,11 @@ import { colors } from '@/ui/tokens';
 function ExpandedWisdomCard({ item }: { item: WisdomItem }) {
   switch (item.kind) {
     case 'affirmation':
-      return <AffirmationVariant text={item.item.text} expanded />;
+      return <AffirmationVariant affirmation={item.item} expanded />;
     case 'quote':
-      return (
-        <QuoteVariant
-          text={item.item.text}
-          author={item.item.author}
-          expanded
-        />
-      );
+      return <QuoteVariant quote={item.item} expanded />;
     case 'prompt':
-      return <PromptVariant text={item.item.text} expanded />;
+      return <PromptVariant prompt={item.item} expanded />;
   }
 }
 

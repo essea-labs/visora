@@ -483,11 +483,11 @@ function IntentionDisplay({ text, attached }: { text: string; attached?: boolean
 function WisdomCard({ item }: { item: WisdomItem }) {
   switch (item.kind) {
     case 'affirmation':
-      return <AffirmationVariant text={item.item.text} />;
+      return <AffirmationVariant affirmation={item.item} />;
     case 'quote':
-      return <QuoteVariant text={item.item.text} author={item.item.author} />;
+      return <QuoteVariant quote={item.item} />;
     case 'prompt':
-      return <PromptVariant text={item.item.text} />;
+      return <PromptVariant prompt={item.item} />;
   }
 }
 
