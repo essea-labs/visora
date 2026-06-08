@@ -36,10 +36,10 @@ export default function Welcome() {
       />
       <LinearGradient
         colors={[
-          'rgba(20, 12, 6, 0.20)',
+          'rgba(20, 12, 6, 0.10)',
           'transparent',
-          'rgba(20, 12, 6, 0.55)',
-          'rgba(20, 12, 6, 0.92)',
+          'rgba(20, 12, 6, 0.35)',
+          'rgba(20, 12, 6, 0.70)',
         ]}
         locations={[0, 0.30, 0.62, 1]}
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}

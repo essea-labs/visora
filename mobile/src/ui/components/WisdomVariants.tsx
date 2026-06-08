@@ -90,7 +90,7 @@ function PhotoBackedCard({
           <Image source={photoSource} style={absoluteFill} resizeMode="cover" />
         )}
         <LinearGradient
-          colors={['rgba(20,12,6,0.30)', 'rgba(20,12,6,0.78)']}
+          colors={['rgba(20,12,6,0.18)', 'rgba(20,12,6,0.55)']}
           style={absoluteFill}
         />
         <BlurView
@@ -140,9 +140,9 @@ function PhotoBackedCard({
       )}
       <LinearGradient
         colors={[
-          'rgba(20,12,6,0.28)',
-          'rgba(20,12,6,0.45)',
-          'rgba(20,12,6,0.78)',
+          'rgba(20,12,6,0.15)',
+          'rgba(20,12,6,0.30)',
+          'rgba(20,12,6,0.55)',
         ]}
         locations={[0, 0.45, 1]}
         style={absoluteFill}

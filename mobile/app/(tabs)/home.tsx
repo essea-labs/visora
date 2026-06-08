@@ -289,9 +289,9 @@ function RitualFeatureCard({
       />
       <LinearGradient
         colors={[
+          'rgba(20,12,6,0.20)',
           'rgba(20,12,6,0.35)',
-          'rgba(20,12,6,0.55)',
-          'rgba(20,12,6,0.92)',
+          'rgba(20,12,6,0.65)',
         ]}
         locations={[0, 0.55, 1]}
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}

@@ -136,23 +136,46 @@ export default function Vision() {
           >
             Who you want to become.
           </Text>
+          {/* R65: mirror the wins-tab Fab — terra → terraDeep pill,
+              label only (no icon). Inline in the header row rather than
+              floating bottom-right, since the Vision tab's add-vision
+              affordance has always lived here in the title-row top-right. */}
           <Pressable
             onPress={openCreate}
-            hitSlop={10}
+            hitSlop={8}
             style={({ pressed }) => ({
-              width: 38,
-              height: 38,
-              borderRadius: 999,
-              backgroundColor: pressed
-                ? 'rgba(250,246,239,0.18)'
-                : 'rgba(250,246,239,0.08)',
-              borderWidth: 1,
-              borderColor: 'rgba(250,246,239,0.16)',
-              alignItems: 'center',
-              justifyContent: 'center',
+              opacity: pressed ? 0.92 : 1,
+              shadowColor: colors.terra,
+              shadowOffset: { width: 0, height: 8 },
+              shadowOpacity: 0.4,
+              shadowRadius: 18,
+              elevation: 5,
+              transform: [{ scale: pressed ? 0.97 : 1 }],
             })}
           >
-            <Feather name="plus" size={16} color={colors.cream} />
+            <LinearGradient
+              colors={[colors.terra, colors.terraDeep]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{
+                height: 38,
+                paddingHorizontal: 16,
+                borderRadius: 999,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text
+                style={{
+                  color: colors.cream,
+                  fontSize: 13,
+                  fontWeight: '600',
+                  letterSpacing: 0.1,
+                }}
+              >
+                Add a vision
+              </Text>
+            </LinearGradient>
           </Pressable>
         </View>
 

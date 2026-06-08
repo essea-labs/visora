@@ -171,7 +171,7 @@ function FilledTile({
         />
       )}
       <LinearGradient
-        colors={['transparent', 'rgba(20,12,6,0.85)']}
+        colors={['transparent', 'rgba(20,12,6,0.60)']}
         locations={[0.38, 1]}
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
       />

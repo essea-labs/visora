@@ -335,7 +335,7 @@ export default function Wins() {
           ))}
         </ScrollView>
 
-        <Fab onPress={openCapture} icon="anchor" label="Add a win" />
+        <Fab onPress={openCapture} label="Add a win" />
       </SafeAreaView>
     </View>
   );

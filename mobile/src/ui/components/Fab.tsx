@@ -9,11 +9,12 @@ import { colors, radii } from '@/ui/tokens';
 
 interface Props {
   onPress: () => void;
-  icon?: keyof typeof Feather.glyphMap;
+  /** Pass null (or omit when there's a label) for a label-only pill. */
+  icon?: keyof typeof Feather.glyphMap | null;
   label?: string;
 }
 
-export function Fab({ onPress, icon = 'plus', label }: Props) {
+export function Fab({ onPress, icon, label }: Props) {
   const handlePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
     onPress();
@@ -53,7 +54,7 @@ export function Fab({ onPress, icon = 'plus', label }: Props) {
           gap: isPill ? 8 : 0,
         }}
       >
-        <Feather name={icon} size={22} color={colors.cream} />
+        {icon && <Feather name={icon} size={22} color={colors.cream} />}
         {isPill && (
           <Text
             style={{
