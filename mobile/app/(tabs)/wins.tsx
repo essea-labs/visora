@@ -18,7 +18,6 @@ import {
   Image,
   Pressable,
   TextInput,
-  type ImageSourcePropType,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -353,9 +352,13 @@ function FeaturedWin({
   customAreaLabel: string | null;
   onPress: () => void;
 }) {
-  const source: ImageSourcePropType | undefined = win.photoUri
-    ? { uri: win.photoUri }
-    : require('@/assets/images/library/work-coffee.jpg');
+  // R69: drop the work-coffee.jpg fallback for photo-less wins. The
+  // generic stock photo behind every photo-less win was reading as
+  // 'broken / placeholder' rather than as a deliberate atmosphere.
+  // Now: render the actual photo when present, otherwise a cosmic-warm
+  // gradient that matches the rest of the app — the moment still feels
+  // captured, just without a borrowed image standing in for it.
+  const hasPhoto = !!win.photoUri;
   const lbl = areaLabel(win.areaKind, customAreaLabel) ?? 'Win';
   const accent = areaAccent(win.areaKind);
 
@@ -377,21 +380,31 @@ function FeaturedWin({
         elevation: 12,
       })}
     >
-      <Image
-        source={source}
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
-        resizeMode="cover"
-      />
-      <LinearGradient
-        colors={[
-          'rgba(20,12,6,0.4)',
-          'transparent',
-          'transparent',
-          'rgba(20,12,6,0.92)',
-        ]}
-        locations={[0, 0.3, 0.5, 1]}
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
-      />
+      {hasPhoto ? (
+        <>
+          <Image
+            source={{ uri: win.photoUri! }}
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+            resizeMode="cover"
+          />
+          <LinearGradient
+            colors={[
+              'rgba(20,12,6,0.4)',
+              'transparent',
+              'transparent',
+              'rgba(20,12,6,0.92)',
+            ]}
+            locations={[0, 0.3, 0.5, 1]}
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+          />
+        </>
+      ) : (
+        <LinearGradient
+          colors={[colors.cosmicC, colors.cosmicB, colors.cosmicA]}
+          locations={[0, 0.5, 1]}
+          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+        />
+      )}
 
       <View
         style={{
