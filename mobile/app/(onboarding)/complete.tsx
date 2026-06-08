@@ -29,14 +29,6 @@ export default function OnboardingComplete() {
     router.replace('/(tabs)/home');
   };
 
-  const handleRestart = () => {
-    // R46: useOnboardingStore was removed (along with the deprecated
-    // photos/describe screens). "Restart" now just re-runs the welcome
-    // flow — stores aren't reset because Settings → Replay onboarding
-    // is the canonical full-reset entry point.
-    router.replace('/(onboarding)/welcome');
-  };
-
   return (
     <CosmicBackground variant="terra">
       <SafeAreaView style={{ flex: 1, paddingHorizontal: 22 }}>
@@ -125,18 +117,10 @@ export default function OnboardingComplete() {
                 Begin my practice
               </Text>
             </Pressable>
-
-            <Pressable onPress={handleRestart} style={{ paddingVertical: spacing.s, alignItems: 'center' }}>
-              <Text
-                style={{
-                  fontSize: 13,
-                  fontWeight: '500',
-                  color: 'rgba(250, 246, 239, 0.55)',
-                }}
-              >
-                Reset and restart
-              </Text>
-            </Pressable>
+            {/* R68: 'Reset and restart' removed — Settings → Replay
+                onboarding is the canonical full-reset entry point, and
+                the link here added confusion right at the moment of
+                completing the flow. */}
           </View>
         </FadeIn>
       </SafeAreaView>

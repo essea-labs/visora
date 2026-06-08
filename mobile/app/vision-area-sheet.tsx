@@ -138,13 +138,18 @@ export default function VisionAreaSheet() {
       // vision record, which makes the photo immune to ALL the
       // file-URI failure modes that bit us before (cache eviction,
       // ph:// URIs that <Image> can't render, copy permission errors,
-      // Expo Go container UUID changes, etc). Quality lowered to
-      // 0.4 so a typical phone photo ends up ~80-120KB base64 — well
-      // within AsyncStorage limits even with 5 photos × several
-      // visions.
+      // Expo Go container UUID changes, etc).
+      // R68: quality 0.4 → 0.25 + exif:false to reduce the base64
+      // payload (~50% smaller). Was causing a perceptible UI lag in
+      // the onboarding vision-area sheet when picking multiple photos:
+      // each ~100KB base64 string forces a synchronous Image decode
+      // when the new gallery item renders. Smaller payloads → faster
+      // decode → snappier add. Visual quality at 0.25 is still fine
+      // for the 80×80pt thumbnails and 200pt vision tile.
       mediaTypes: ['images'],
-      quality: 0.4,
+      quality: 0.25,
       base64: true,
+      exif: false,
       allowsMultipleSelection: true,
       selectionLimit: remaining,
     });
