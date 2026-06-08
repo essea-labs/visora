@@ -32,6 +32,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Feather from '@expo/vector-icons/Feather';
+import { Fab } from '@/ui/components/Fab';
 import { useRouter } from 'expo-router';
 
 import { AREA_BY_KEY, type AreaKind } from '@/core/constants/areas';
@@ -113,20 +114,19 @@ export default function Vision() {
             in the same horizontal band across all tabs. Archive chip and
             + button share the row with the title (no separate chrome row
             above). */}
+        {/* R66: 'Add a vision' moved out of this title row to a
+            floating Fab in the bottom-right (see end of SafeAreaView)
+            so it matches the wins-tab Fab in both position and
+            dimensions. The title row is now title-only. */}
         <View
           style={{
             paddingTop: 18,
             paddingHorizontal: 24,
             paddingBottom: 18,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 10,
           }}
         >
           <Text
             style={{
-              flex: 1,
               fontSize: 28,
               fontWeight: '500',
               color: colors.cream,
@@ -136,47 +136,6 @@ export default function Vision() {
           >
             Who you want to become.
           </Text>
-          {/* R65: mirror the wins-tab Fab — terra → terraDeep pill,
-              label only (no icon). Inline in the header row rather than
-              floating bottom-right, since the Vision tab's add-vision
-              affordance has always lived here in the title-row top-right. */}
-          <Pressable
-            onPress={openCreate}
-            hitSlop={8}
-            style={({ pressed }) => ({
-              opacity: pressed ? 0.92 : 1,
-              shadowColor: colors.terra,
-              shadowOffset: { width: 0, height: 8 },
-              shadowOpacity: 0.4,
-              shadowRadius: 18,
-              elevation: 5,
-              transform: [{ scale: pressed ? 0.97 : 1 }],
-            })}
-          >
-            <LinearGradient
-              colors={[colors.terra, colors.terraDeep]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={{
-                height: 38,
-                paddingHorizontal: 16,
-                borderRadius: 999,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  color: colors.cream,
-                  fontSize: 13,
-                  fontWeight: '600',
-                  letterSpacing: 0.1,
-                }}
-              >
-                Add a vision
-              </Text>
-            </LinearGradient>
-          </Pressable>
         </View>
 
         {/* Round 11 (item 4): archive chip moved out of the header row
@@ -258,6 +217,8 @@ export default function Vision() {
         ) : (
           <EmptyState onBegin={openCreate} />
         )}
+
+        <Fab onPress={openCreate} label="Add a vision" />
       </SafeAreaView>
     </View>
   );
